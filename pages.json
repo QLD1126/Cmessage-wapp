@@ -1,0 +1,90 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "问料小程序",
+				"usingComponents": {
+					"van-action-sheet": "/wxcomponents/vant/dist/action-sheet/index",
+					"van-uploader": "/wxcomponents/vant/dist/uploader/index",
+					"van-popup": "/wxcomponents/vant/dist/popup/index",
+					"van-datetime-picker": "/wxcomponents/vant/dist/datetime-picker/index"
+				}
+			}
+		}
+	    ,{
+            "path" : "pages/login/login",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "登录界面",
+                "enablePullDownRefresh": false
+				
+            }
+            
+        }
+        ,{
+            "path" : "pages/record/record",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "记录",
+                "enablePullDownRefresh": false,
+				"usingComponents":{
+					"van-action-sheet": "/wxcomponents/vant/dist/action-sheet/index",
+					"van-tab": "/wxcomponents/vant/dist/tab/index",
+					"van-tabs": "/wxcomponents/vant/dist/tabs/index"
+				}
+            }
+            
+        },
+		{
+		    "path" : "pages/record/detail",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "详情页",
+		        "enablePullDownRefresh": false,
+				"usingComponents":{
+					"van-action-sheet": "/wxcomponents/vant/dist/action-sheet/index"
+				}
+		    }
+		    
+		}
+        ,{
+            "path" : "pages/me/me",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "我的",
+				"navigationBarBackgroundColor":"#FF3D3B",
+				"navigationBarTextStyle":"#fff",
+                "enablePullDownRefresh": false
+            }
+        }
+    ],
+	"tabBar":{
+		"color":"#000000",
+		"selectedColor":"#FE4543",
+		"list":[{
+			"pagePath":"pages/index/index",
+			"text":"发布",
+			"selectedIconPath":"static/fabu.png",
+			"iconPath":"static/fabu_1.png"
+		},
+		{
+			"pagePath":"pages/record/record",
+			"text":"记录",
+			"selectedIconPath":"static/jilu_1.png",
+			"iconPath":"static/jilu.png"
+		},
+		{
+			"pagePath":"pages/me/me",
+			"text":"我的",
+			"selectedIconPath":"static/wode_1.png",
+			"iconPath":"static/wode.png"
+		}]
+	},
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "C信息",
+		"navigationBarBackgroundColor": "#FFFFFF",
+		"backgroundColor": "#F0AD4E"
+	}
+}

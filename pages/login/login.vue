@@ -1,0 +1,141 @@
+<template>
+	<view>
+		<view class="login">
+			<!-- <image :src="logo" mode=""></image> -->
+			<view class="">
+
+				<image src="../../static/WechatIMG884.jpg" mode=""></image>
+				信息发布
+			</view>
+			<view class="t_32_333">
+				登录后该应用将获得以下权限
+			</view>
+			<text class="t_24_9 iconfont icon-circle">
+				获得你的公开信息（昵称、头像等）
+			</text>
+			<view class="flex-between">
+
+				<button type="primary" open-type="getUserInfo" lang="zh_CN" @getuserinfo="getUserInfoclick">确认登录</button>
+				<button type="default">取消</button>
+			</view>
+		</view>
+	</view>
+</template>
+<script>
+	// import {
+	// 	mapActions
+	// } from 'vuex'
+	export default {
+		data() {
+			return {
+				loginData: {},
+				logo: '',
+			};
+		},
+		onLoad() {
+			// if (info.length !== 0) {
+			// 	this.info = info
+			// } else {
+			// 	this.$apis.INDEX().then(res => {
+			// 		this.info = res
+			// 		uni.setStorageSync('INDEX', res)
+			// 	})
+			// }
+			// this.$apis.LOGO().then(res => {
+			// 	this.logo = res.logo_url
+			// })
+		},
+		methods: {
+			// ...mapActions(['login','getuserInfo']),
+			//微信授权登录
+			getUserInfoclick(e) {
+				// let that = this;
+				uni.getSetting({
+					success: (isAuth) => {
+						if (isAuth.authSetting['scope.userInfo']) {
+							uni.showLoading({
+								title: '登录中...'
+							})
+							let res = e.detail
+							Object.assign(this.loginData, {
+								iv: res.iv,
+								encryptedData: res.encryptedData,
+							})
+							this.goLogin(this.loginData)
+						} else {
+							uni.showModal({
+								title: '提示',
+								content: '授权失败，请确认授权已开启',
+								success: (res) => {
+									if (res.confirm) {
+										uni.openSetting({})
+									}
+								}
+							})
+						}
+					}
+				})
+			},
+			goLogin(data) {
+				uni.login({
+					provider: 'weixin',
+					success: (res) => {
+						Object.assign(data, {
+							jsCode: res.code,
+						})
+						this.login(data).then(res => {
+							if (res.cache_key !== '') {
+								Object.assign(this.loginData, {
+									cache_key: res.cache_key
+								})
+							}
+							getApp().globalData.hasLogin = true
+							this.getuserInfo()
+							uni.hideLoading()
+						}).catch(err => {
+							console.log('登录失败', err)
+						})
+					}
+				});
+			},
+			onClickLeft() {
+				uni.navigateBack({
+					delta: 1
+				})
+			}
+		}
+	}
+</script>
+
+<style lang="scss">
+	.login {
+		padding: 20rpx;
+		>view:first-child {
+			text-align: center;
+			margin: 101rpx auto 150rpx;
+
+			>image {
+				width: 160rpx;
+				height: 160rpx;
+				border-radius: 20rpx;
+				display: block;
+				margin: 1rpx auto;
+			}
+		}
+
+		.pro_title {
+			margin-bottom: 10rpx;
+		}
+		>view:last-child {
+			button {
+				margin-top: 70rpx;
+				width: 702rpx;
+				color: #fff;
+				flex: 0 0 45%;
+			}
+			>button:last-child{
+				color: #333;
+			}
+		}
+	}
+</style>

@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "记录",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "van-action-sheet": "/wxcomponents/vant/dist/action-sheet/index",
+    "van-tab": "/wxcomponents/vant/dist/tab/index",
+    "van-tabs": "/wxcomponents/vant/dist/tabs/index"
+  }
+}
