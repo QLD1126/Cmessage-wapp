@@ -38,9 +38,6 @@
   display: block;
   margin: 1rpx auto;
 }
-.login .pro_title {
-  margin-bottom: 10rpx;
-}
 .login > view:last-child button {
   margin-top: 70rpx;
   width: 702rpx;

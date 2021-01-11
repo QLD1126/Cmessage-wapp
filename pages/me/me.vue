@@ -1,5 +1,5 @@
 <template>
-	<view class="container">
+	<view class="container_0">
 		<view>
 			<view>
 				<image src="../../static/WechatIMG884.jpg" mode="widthFix"></image>
@@ -24,20 +24,11 @@
 				</view>
 			</view>
 		</view>
-		<view>
-			<view>
-				<image src="../../static/fabu1.png" mode=""></image>
-					我的发布
+		<view >
+			<view v-for="item in meArr" :key='item.title' @click="toPage(item.url)">
+				<image :src="item.image"></image>
+				{{item.title}}
 			</view>
-			<view>
-				<image src="../../static/goumai.png" mode=""></image>
-				我的购买
-			</view>
-			<view>
-				<image src="../../static/qianbao.png" mode=""></image>
-				我的钱包
-			</view>
-
 		</view>
 		<view class="list_between_106">
 			<view v-for="(item,index) in ulArr" :key='index' @click="toPage(item.url)">
@@ -54,105 +45,141 @@
 	export default {
 		data() {
 			return {
-				ulArr:[{
+				meArr: [{
+					title: '我的发布',
+					image: '../../static/fabu1.png',
+					url: '/pages/index/index'
+				}, {
+					title: '我的购买',
+					image: '../../static/goumai.png',
+					url: '/pages/record/record'
+				}, {
+					title: '我的钱包',
+					image: '../../static/qianbao.png',
+					url: '/pages/me/wallet'
+				}],
+				ulArr: [{
 					title: '实名认证',
-					url: './name'
-				},{
+					url: '/pages/me/name'
+				}, {
 					title: '我的关注',
-					url: './follow'
-				},{
+					url: '/pages/me/follow'
+				}, {
 					title: '我的粉丝',
-					url: './fans'
-				},{
+					url: '/pages/me/fans'
+				}, {
 					title: '常见问题',
-					url: './questions'
-				},{
+					url: '/pages/me/questions'
+				}, {
 					title: '联系客服',
-					url: './costomer'
-				},{
+					url: '/pages/me/costomer'
+				}, {
 					title: '关于我们',
-					url: './we'
+					url: '/pages/me/we'
 				}]
 			};
 		},
 		methods: {
-			a() {
-				uni.navigateTo({
-					url: './customer'
-				})
+			aa(e) {
+				console.log('子元素',e)
+			},
+			toPage(url) {
+				let isTab=['/pages/index/index','/pages/record/record'].indexOf(url)
+				if(isTab<0){
+					console.log(1111)
+					uni.navigateTo({
+						url:url
+					})
+				}else{
+					uni.switchTab({
+						url:url
+					})
+				}
 			}
 		}
 	}
 </script>
 
 <style lang="scss">
-.container{
-	>view{
-		background: #fff;
-	}
-	>view:first-child{
-		background-image: linear-gradient(to bottom,#FF3D3B,#FE4543);
-		height: 370rpx;
-		// 头像部分
-		position: relative;
-		>view{
-			display: flex;
-			align-items: center;
-			color: #fff;
-			>image{
-				width: 130rpx;
-				border: 2rpx solid #fff;	
-				border-radius: 50%;
-				margin-right: 20rpx;
-				+text{
-					font-weight: bold;
-					font-size: 36rpx;
-				}
-			}
+	.container_0 {
+		>view {
+			background: #fff;
 		}
-		>view:last-child{
-			position: absolute;
-			bottom: 0;
-			width: 700rpx;
-			height: 160rpx;
-			border-radius: 10rpx 10rpx 0 0;
-			background-image:linear-gradient(to bottom,#9CBAF7,#6C84B2) ;
-			left: 25rpx;
-			>view{
-				flex:0 0 50%;
-				text-align: center;
-				>view:first-child{
-					font-size: 24rpx;
-					+view{
-						font-size: 48rpx;
+
+		>view:first-child {
+			background-image: linear-gradient(to bottom, #FF3D3B, #FE4543);
+			height: 370rpx;
+			// 头像部分
+			position: relative;
+
+			>view {
+				display: flex;
+				align-items: center;
+				color: #fff;
+				>image {
+					width: 130rpx;
+					border: 2rpx solid #fff;
+					border-radius: 50%;
+					margin-right: 20rpx;
+					+text {
 						font-weight: bold;
+						font-size: 36rpx;
 					}
 				}
 			}
-			>view:first-child{
-				border-right: 1rpx solid #fff;
+
+			>view:last-child {
+				position: absolute;
+				bottom: 0;
+				width: 700rpx;
+				height: 160rpx;
+				border-radius: 10rpx 10rpx 0 0;
+				// background-image: linear-gradient(to bottom, #9CBAF7, #6C84B2);
+				background: #2C3240;
+				left: 25rpx;
+				>view {
+					flex: 0 0 50%;
+					text-align: center;
+					>view:first-child {
+						font-size: 24rpx;
+
+						+view {
+							font-size: 48rpx;
+							font-weight: bold;
+						}
+					}
+				}
+
+				>view:first-child {
+					border-right: 1rpx solid #fff;
+				}
+			}
+
+		}
+
+		>view:nth-child(2) {
+			display: flex;
+			justify-content: space-around;
+			align-items: center;
+			height: 172rpx;
+			>view {
+				flex: 0 0 33%;
+				height: 100%;
+				text-align: center;
+				display: flex;
+				flex-flow: column nowrap;
+				align-items: center;
+				justify-content: center;
+
+				>image {
+					width: 44rpx;
+					height: 44rpx;
+				}
 			}
 		}
-		
-	}
->view:nth-child(2){
-	display: flex;
-	justify-content: space-around;
-	align-items: center;
-	height: 172rpx;
-	>view{
-		text-align: center;
-		display: flex;
-		    flex-flow: column nowrap;
-		    align-items: center;
-		>image{
-			width: 44rpx;
-			height: 44rpx;
+
+		>view:last-child {
+			margin-top: 20rpx;
 		}
 	}
-}
->view:last-child{
-	margin-top: 20rpx;
-}
-}
 </style>

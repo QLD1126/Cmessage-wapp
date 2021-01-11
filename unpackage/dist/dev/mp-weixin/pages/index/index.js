@@ -121,6 +121,18 @@ var render = function() {
     _vm.e3 = function($event) {
       _vm.timeShow = false
     }
+
+    _vm.e4 = function($event) {
+      _vm.loginShow = false
+    }
+
+    _vm.e5 = function($event) {
+      _vm.loginShow = false
+    }
+
+    _vm.e6 = function($event) {
+      _vm.loginShow = false
+    }
   }
 }
 var recyclableRender = false
@@ -153,7 +165,28 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -212,6 +245,8 @@ var dateTimePicker = __webpack_require__(/*! ../../common/dateTimePicker.js */ 1
   data: function data() {
     return {
       // 时间选择器
+      // loginShow:uni.getStorageSync('TOKEN')?false:true,
+      loginShow: true,
       timeShow: false,
       minHour: 10,
       maxHour: 20,
@@ -291,7 +326,11 @@ var dateTimePicker = __webpack_require__(/*! ../../common/dateTimePicker.js */ 1
 
   },
   onLoad: function onLoad() {
-
+    // uni.request({
+    // 	url:'/api/wechat/mp_auth',
+    // 	method:'POST',
+    // 	data:object
+    // })
   },
   // computed: {
   //         startDate() {
@@ -302,6 +341,15 @@ var dateTimePicker = __webpack_require__(/*! ../../common/dateTimePicker.js */ 1
   //         }
   //     },
   methods: {
+    toPage: function toPage() {
+      uni.navigateTo({
+        url: '/pages/login/login' });
+
+    },
+
+    setAnimation: function setAnimation() {
+      console.log(this.$refs);
+    },
     // 上拉价格菜单
     onSelect: function onSelect() {
 
@@ -311,6 +359,7 @@ var dateTimePicker = __webpack_require__(/*! ../../common/dateTimePicker.js */ 1
       this.currentDate = event.detail;
       console.log(event, 999);
     } } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 /* 17 */,

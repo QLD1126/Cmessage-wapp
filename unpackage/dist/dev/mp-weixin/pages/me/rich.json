@@ -1,0 +1,7 @@
+{
+  "navigationStyle": "custom",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "van-nav-bar": "/wxcomponents/vant/dist/nav-bar/index"
+  }
+}

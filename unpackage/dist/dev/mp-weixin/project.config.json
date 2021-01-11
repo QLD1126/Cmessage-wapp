@@ -24,9 +24,9 @@
     "miniprogram": {
       "list": [
         {
-          "name": "pages/me/me",
-          "pathName": "pages/me/me",
-          "query": "",
+          "name": "pages/login/login",
+          "pathName": "pages/login/login",
+          "query": "title=常见问题1",
           "scene": null
         }
       ]

@@ -173,45 +173,60 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
 var _default =
 {
   data: function data() {
     return {
+      meArr: [{
+        title: '我的发布',
+        image: '../../static/fabu1.png',
+        url: '/pages/index/index' },
+      {
+        title: '我的购买',
+        image: '../../static/goumai.png',
+        url: '/pages/record/record' },
+      {
+        title: '我的钱包',
+        image: '../../static/qianbao.png',
+        url: '/pages/me/wallet' }],
+
       ulArr: [{
         title: '实名认证',
-        url: './name' },
+        url: '/pages/me/name' },
       {
         title: '我的关注',
-        url: './follow' },
+        url: '/pages/me/follow' },
       {
         title: '我的粉丝',
-        url: './fans' },
+        url: '/pages/me/fans' },
       {
         title: '常见问题',
-        url: './questions' },
+        url: '/pages/me/questions' },
       {
         title: '联系客服',
-        url: './costomer' },
+        url: '/pages/me/costomer' },
       {
         title: '关于我们',
-        url: './we' }] };
+        url: '/pages/me/we' }] };
 
 
   },
   methods: {
-    a: function a() {
-      uni.navigateTo({
-        url: './customer' });
+    aa: function aa(e) {
+      console.log('子元素', e);
+    },
+    toPage: function toPage(url) {
+      var isTab = ['/pages/index/index', '/pages/record/record'].indexOf(url);
+      if (isTab < 0) {
+        console.log(1111);
+        uni.navigateTo({
+          url: url });
 
+      } else {
+        uni.switchTab({
+          url: url });
+
+      }
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

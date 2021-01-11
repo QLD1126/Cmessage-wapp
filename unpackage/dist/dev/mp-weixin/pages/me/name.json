@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "实名认证",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "van-notice-bar": "/wxcomponents/vant/dist/notice-bar/index"
+  }
+}

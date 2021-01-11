@@ -4,6 +4,7 @@
     "van-action-sheet": "/wxcomponents/vant/dist/action-sheet/index",
     "van-uploader": "/wxcomponents/vant/dist/uploader/index",
     "van-popup": "/wxcomponents/vant/dist/popup/index",
-    "van-datetime-picker": "/wxcomponents/vant/dist/datetime-picker/index"
+    "van-datetime-picker": "/wxcomponents/vant/dist/datetime-picker/index",
+    "van-transition": "/wxcomponents/vant/dist/transition/index"
   }
 }

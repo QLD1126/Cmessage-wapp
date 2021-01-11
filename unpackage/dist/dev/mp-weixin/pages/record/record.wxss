@@ -109,6 +109,35 @@
   font-size: 24rpx;
   color: #333;
 }
+.pop {
+  width: 486rpx;
+  height: 658rpx;
+  text-align: center;
+}
+.pop > view {
+  padding: 30rpx 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-flow: column wrap;
+          flex-flow: column wrap;
+  -webkit-justify-content: space-around;
+          justify-content: space-around;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  background: #fff;
+  border-radius: 10rpx;
+}
+.pop > view > image {
+  width: 294rpx;
+}
+.pop > image {
+  margin-top: 40rpx;
+  width: 64rpx;
+}
 .red {
   color: #fff;
   background: red;

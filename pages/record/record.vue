@@ -40,7 +40,7 @@
 
 					</view>
 					<view class="flex-between">
-							<view class="t_24_9">2020-10-20 15:25:00 拷贝</view>
+						<view class="t_24_9">2020-10-20 15:25:00 拷贝</view>
 						<text>
 							¥ 88.00
 						</text>
@@ -49,6 +49,19 @@
 			</van-tab>
 		</van-tabs>
 		<van-action-sheet :show="show" :actions=" actions" @close="show=false" @select="onSelect" cancel-text="取消" />
+		<!-- 二维码弹窗 -->
+		<van-popup :show="ewmShow" @close="ewmShow=false">
+			<view class="pop">
+				<view class="">
+
+					<text class="t_32_333">必须红</text>
+					<image src="../../static/denglutishi.png" mode="widthFix"></image>
+					<text class="t_24_9">信息发布小程序</text>
+					<button class="btn_round_line">保存</button>
+				</view>
+				<image src="../../static/indexclose.png" mode="widthFix" @click="ewmShow=false"></image>
+			</view>
+		</van-popup>
 	</view>
 </template>
 
@@ -56,6 +69,7 @@
 	export default {
 		data() {
 			return {
+				ewmShow: true,
 				a: 1,
 				show: false,
 				fromdata: {
@@ -83,9 +97,9 @@
 		methods: {
 			tabchange(e) {
 				// detail: {index: 1, name: 1, title: "我买的料"}
-					Object.assign(this.fromdata, {
-						name: e.detail.name
-					})
+				Object.assign(this.fromdata, {
+					name: e.detail.name
+				})
 				console.log(e.detail)
 			},
 			openPop(type) {
@@ -145,19 +159,23 @@
 			background: #fff;
 			margin: 20rpx 0;
 			padding: 0 25rpx;
+
 			>view,
 			text {
 				margin: 17rpx 0;
 			}
+
 			>view:first-child {
 				position: relative;
 				display: flex;
 				align-items: center;
 				height: 88rpx;
+
 				>view {
 					display: flex;
 					align-items: center;
 					justify-content: space-between;
+
 					>image {
 						margin-right: 10rpx;
 					}
@@ -172,12 +190,14 @@
 					text-align: center;
 				}
 			}
+
 			>.flex-between {
 				>text:first-child {
 					color: #f00;
 					font-size: 24rpx;
 				}
-				.t_24_9+text{
+
+				.t_24_9+text {
 					color: #999;
 				}
 			}
@@ -187,6 +207,7 @@
 				height: 104rpx;
 				line-height: 104rpx;
 				margin-left: -25rpx;
+
 				>text {
 					flex: 0 0 50%;
 					border: 1rpx solid #f8f8f8;
@@ -196,6 +217,34 @@
 				}
 			}
 		}
+	}
+
+	.pop {
+		width: 486rpx;
+		height: 658rpx;
+		text-align: center;
+		>view {
+			padding: 30rpx 0;
+			display: flex;
+			flex-flow: column wrap;
+			justify-content: space-around;
+			align-items: center;
+			background: #fff;
+			border-radius: 10rpx;
+
+			>text:first-child {
+				// margin-top: 40rpx;
+			}
+			>image {
+				width: 294rpx;
+			}
+		}
+
+		>image {
+			margin-top: 40rpx;
+			width: 64rpx;
+		}
+
 	}
 
 	// 按钮
@@ -208,7 +257,8 @@
 	.hui {
 		background: #666;
 	}
-	.fff{
+
+	.fff {
 		border: 1rpx solid #666;
 	}
 </style>

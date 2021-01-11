@@ -1,0 +1,10 @@
+{
+  "navigationStyle": "custom",
+  "navigationBarBackgroundColor": "#FF3D3B",
+  "navigationBarTextStyle": "white",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "van-nav-bar": "/wxcomponents/vant/dist/nav-bar/index",
+    "van-switch": "/wxcomponents/vant/dist/switch/index"
+  }
+}

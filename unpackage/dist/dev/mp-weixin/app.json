@@ -4,7 +4,16 @@
     "pages/login/login",
     "pages/record/record",
     "pages/record/detail",
-    "pages/me/me"
+    "pages/me/me",
+    "pages/me/wallet",
+    "pages/me/wallet_list",
+    "pages/me/name",
+    "pages/me/follow",
+    "pages/me/fans",
+    "pages/me/questions",
+    "pages/me/customer",
+    "pages/me/we",
+    "pages/me/rich"
   ],
   "subPackages": [],
   "window": {

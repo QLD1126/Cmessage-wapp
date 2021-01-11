@@ -1,5 +1,10 @@
 <script>
 	export default {
+		data() {
+			return {
+				hasLogin: false
+			}
+		},
 		onLaunch: function() {
 			console.log('App Launch')
 		},
@@ -15,15 +20,25 @@
 <style lang="scss">
 	@import url("./static/iconfont.css");
 	@import "/wxcomponents/vant/dist/common/index.wxss";
+
 	page {
 		width: 750rpx;
 		font-size: 28rpx;
 		color: #333;
 		background: #F8F8F8;
 	}
-.container{
-	overflow: hidden;
-}
+.van-popup{
+		background-color: transparent !important;
+	}
+	.container {
+		overflow: hidden;
+		margin-top: 20rpx;
+	}
+
+	.container_0 {
+		overflow: hidden;
+	}
+
 	button {
 		background-color: #FE4543;
 	}
@@ -37,7 +52,35 @@
 		font-size: 32rpx;
 		font-weight: bold;
 	}
+	.input {
+		>view {
+			padding: 20rpx;
+			position: relative;
 
+			>view {
+				font-size: 30rpx;
+				font-weight: bold;
+				margin-bottom: 30rpx;
+
+				>text {
+					color: #FE4543;
+				}
+			}
+			>input,
+			textarea {
+				background: #fff;
+				width: 95%;
+				font-size: 26rpx;
+				border-radius: 10rpx;
+				margin-top: 20rpx;
+			}
+
+			>input {
+				height: 68rpx;
+				padding: 0 22rpx;
+			}
+		}
+	}
 	.flex-between {
 		display: flex;
 		justify-content: space-between;
@@ -45,6 +88,7 @@
 		font-size: 28rpx;
 		font-weight: 400;
 	}
+
 	.flex-around {
 		display: flex;
 		justify-content: space-around;
@@ -52,35 +96,54 @@
 	}
 
 	.li_106 {
-		width: 660rpx;
+		width: 710rpx;
 		padding: 0 20rpx;
 		background: #fff;
 		border-bottom: 1rpx solid #F3F3F3;
 		height: 106rpx;
 		line-height: 106rpx;
 	}
-	.btn_round{
+
+	.btn_round {
 		width: 700rpx;
 		border-radius: 44rpx;
 		margin: 40rpx auto;
 	}
-.li_109{
-	height: 109rpx;
-	line-height: 109rpx;
-}
-.list_between_106{
-	width: 700rpx;
-	padding: 0 25rpx;
-	background: #fff;
-	>view{
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		height: 106rpx;
-		// line-height: 106rpx;
-		border-bottom: 1rpx solid #f8f8f8;
+	.btn_round_line{
+		color: #fff;
+		width: 262rpx;
+		height: 64rpx;
+		line-height: 64rpx;
+		border-radius: 32rpx;
+		background: linear-gradient(to right,#FF4F4D,#F03A3A);
+		font-size: 32rpx;
 	}
+.btn_squre{
+		position: fixed;
+		bottom: 30rpx;
+		width: 700rpx;
+		left: 25rpx;
 }
+	.li_109 {
+		height: 109rpx;
+		line-height: 109rpx;
+	}
+
+	.list_between_106 {
+		width: 700rpx;
+		padding: 0 25rpx;
+		background: #fff;
+
+		>view {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			height: 106rpx;
+			// line-height: 106rpx;
+			border-bottom: 1rpx solid #f8f8f8;
+		}
+	}
+
 	/* .flex-between_list{
 		
 	} */

@@ -130,70 +130,64 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
 
-// import {
-// 	mapActions
-// } from 'vuex'
-var _default = {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var _vuex = __webpack_require__(/*! vuex */ 69);function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var _default =
+
+
+{
   data: function data() {
     return {
       loginData: {},
       logo: '' };
 
   },
-  onLoad: function onLoad() {
-    // if (info.length !== 0) {
-    // 	this.info = info
-    // } else {
-    // 	this.$apis.INDEX().then(res => {
-    // 		this.info = res
-    // 		uni.setStorageSync('INDEX', res)
-    // 	})
-    // }
-    // this.$apis.LOGO().then(res => {
-    // 	this.logo = res.logo_url
-    // })
+  onShow: function onShow() {var _this = this;
+    // console.log(this.$apis)
+    this.$apis.LOGO().then(function (res) {
+      _this.logo = res.logo_url;
+      console.log('show');
+    }).catch(function (err) {
+      console.log(err, '失败');
+    });
   },
-  methods: {
-    // ...mapActions(['login','getuserInfo']),
+  methods: _objectSpread(_objectSpread({},
+  (0, _vuex.mapActions)(['login', 'getuserInfo'])), {}, {
     //微信授权登录
-    getUserInfoclick: function getUserInfoclick(e) {var _this = this;
+    getUserInfoclick: function getUserInfoclick(e) {var _this2 = this;
       // let that = this;
       uni.getSetting({
         success: function success(isAuth) {
           if (isAuth.authSetting['scope.userInfo']) {
-            uni.showLoading({
-              title: '登录中...' });
-
+            uni.showLoading({ title: '登录中...' });
             var res = e.detail;
-            Object.assign(_this.loginData, {
+            Object.assign(_this2.loginData, {
               iv: res.iv,
               encryptedData: res.encryptedData });
 
-            _this.goLogin(_this.loginData);
+            _this2.goLogin(_this2.loginData);
           } else {
             uni.showModal({
               title: '提示',
@@ -208,21 +202,22 @@ var _default = {
         } });
 
     },
-    goLogin: function goLogin(data) {var _this2 = this;
+    goLogin: function goLogin(data) {var _this3 = this;
       uni.login({
         provider: 'weixin',
         success: function success(res) {
           Object.assign(data, {
             jsCode: res.code });
 
-          _this2.login(data).then(function (res) {
+          // this.login(data)
+          _this3.login(data).then(function (res) {
             if (res.cache_key !== '') {
-              Object.assign(_this2.loginData, {
+              Object.assign(_this3.loginData, {
                 cache_key: res.cache_key });
 
             }
             getApp().globalData.hasLogin = true;
-            _this2.getuserInfo();
+            _this3.getuserInfo();
             uni.hideLoading();
           }).catch(function (err) {
             console.log('登录失败', err);
@@ -234,7 +229,7 @@ var _default = {
       uni.navigateBack({
         delta: 1 });
 
-    } } };exports.default = _default;
+    } }) };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),

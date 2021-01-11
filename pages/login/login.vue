@@ -4,7 +4,7 @@
 			<!-- <image :src="logo" mode=""></image> -->
 			<view class="">
 
-				<image src="../../static/WechatIMG884.jpg" mode=""></image>
+				<image :src="logo" mode=""></image>
 				信息发布
 			</view>
 			<view class="t_32_333">
@@ -22,9 +22,9 @@
 	</view>
 </template>
 <script>
-	// import {
-	// 	mapActions
-	// } from 'vuex'
+import {
+		mapActions
+	} from 'vuex'
 	export default {
 		data() {
 			return {
@@ -32,30 +32,24 @@
 				logo: '',
 			};
 		},
-		onLoad() {
-			// if (info.length !== 0) {
-			// 	this.info = info
-			// } else {
-			// 	this.$apis.INDEX().then(res => {
-			// 		this.info = res
-			// 		uni.setStorageSync('INDEX', res)
-			// 	})
-			// }
-			// this.$apis.LOGO().then(res => {
-			// 	this.logo = res.logo_url
-			// })
+		onShow() {
+			// console.log(this.$apis)
+			this.$apis.LOGO().then(res=>{
+				this.logo=res.logo_url
+				console.log('show')
+			}).catch(err=>{
+				console.log(err,'失败')
+			})
 		},
 		methods: {
-			// ...mapActions(['login','getuserInfo']),
+			...mapActions(['login','getuserInfo']),
 			//微信授权登录
 			getUserInfoclick(e) {
 				// let that = this;
 				uni.getSetting({
 					success: (isAuth) => {
 						if (isAuth.authSetting['scope.userInfo']) {
-							uni.showLoading({
-								title: '登录中...'
-							})
+							uni.showLoading({title:'登录中...'})
 							let res = e.detail
 							Object.assign(this.loginData, {
 								iv: res.iv,
@@ -82,7 +76,8 @@
 					success: (res) => {
 						Object.assign(data, {
 							jsCode: res.code,
-						})
+						})	
+						// this.login(data)
 						this.login(data).then(res => {
 							if (res.cache_key !== '') {
 								Object.assign(this.loginData, {
@@ -121,10 +116,6 @@
 				display: block;
 				margin: 1rpx auto;
 			}
-		}
-
-		.pro_title {
-			margin-bottom: 10rpx;
 		}
 		>view:last-child {
 			button {

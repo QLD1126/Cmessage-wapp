@@ -101,6 +101,14 @@ var render = function() {
     _vm.e0 = function($event) {
       _vm.show = false
     }
+
+    _vm.e1 = function($event) {
+      _vm.ewmShow = false
+    }
+
+    _vm.e2 = function($event) {
+      _vm.ewmShow = false
+    }
   }
 }
 var recyclableRender = false
@@ -189,10 +197,24 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _default =
 {
   data: function data() {
     return {
+      ewmShow: true,
       a: 1,
       show: false,
       fromdata: {

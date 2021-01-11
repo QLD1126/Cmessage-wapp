@@ -47,6 +47,7 @@ VantComponent({
     color: String,
     backgroundColor: String,
     background: String,
+	height:String,
     wrapable: Boolean,
   },
   data: {

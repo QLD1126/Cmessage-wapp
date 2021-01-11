@@ -1,0 +1,1 @@
+<view class="container"><block wx:for="{{datalist}}" wx:for-item="item" wx:for-index="__i0__" wx:key="id"><navigator class="li_106 flex-between" url="{{'/pages/me/rich?title='+item.title}}"><text>{{item.title}}</text><text class="iconfont icon-fanhuizuojiantouxiangzuoshangyibuxianxing"></text></navigator></block></view>

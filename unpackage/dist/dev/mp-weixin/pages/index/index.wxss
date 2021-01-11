@@ -24,6 +24,19 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
+.van-enter-active-class,
+.van-leave-active-class {
+  -webkit-transition-property: background-color, -webkit-transform;
+  transition-property: background-color, -webkit-transform;
+  transition-property: background-color, transform;
+  transition-property: background-color, transform, -webkit-transform;
+}
+.van-enter-class,
+.van-leave-to-class {
+  background-color: red;
+  -webkit-transform: rotate(-360deg) translate3d(-100%, -100%, 0);
+          transform: rotate(-360deg) translate3d(-100%, -100%, 0);
+}
 .content .input > view {
   padding: 20rpx;
   position: relative;
@@ -68,5 +81,77 @@
 }
 .content .input .van-uploader__upload {
   background: #fff;
+}
+.pop {
+  text-align: center;
+}
+.pop > image:first-child {
+  margin-top: 194rpx;
+  width: 282rpx;
+  position: relative;
+  z-index: 11;
+}
+.pop > view {
+  margin: -144rpx auto 0;
+  background: #fff;
+  width: 578rpx;
+  height: 476rpx;
+  border-radius: 10rpx;
+  overflow: hidden;
+}
+.pop > view > view {
+  height: 60%;
+  margin-top: 160rpx;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+  -webkit-justify-content: space-around;
+          justify-content: space-around;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+}
+.pop > view > view > view:first-child {
+  color: #f00;
+  font-size: 36rpx;
+}
+.pop > view > view > view:first-child + view {
+  color: #666;
+}
+.pop > view > view > view:last-child {
+  width: 80%;
+  text-align: left;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-flow: row nowrap;
+          flex-flow: row nowrap;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+}
+.pop > view > view > view:last-child > button {
+  width: 180rpx;
+  height: 64rpx;
+  line-height: 64rpx;
+  border-radius: 32rpx;
+  font-size: 28rpx;
+  padding: 0;
+}
+.pop > view > view > view:last-child > button:first-child {
+  color: #fff;
+}
+.pop > view + image {
+  width: 64rpx;
+  margin-top: 40rpx;
+}
+.van-action-sheet__cancel, .van-action-sheet__item {
+  border-radius: 0;
 }
 

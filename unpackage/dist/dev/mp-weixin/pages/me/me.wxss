@@ -24,16 +24,16 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-.container > view {
+.container_0 > view {
   background: #fff;
 }
-.container > view:first-child {
+.container_0 > view:first-child {
   background-image: -webkit-linear-gradient(top, #FF3D3B, #FE4543);
   background-image: linear-gradient(to bottom, #FF3D3B, #FE4543);
   height: 370rpx;
   position: relative;
 }
-.container > view:first-child > view {
+.container_0 > view:first-child > view {
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
@@ -42,43 +42,42 @@
           align-items: center;
   color: #fff;
 }
-.container > view:first-child > view > image {
+.container_0 > view:first-child > view > image {
   width: 130rpx;
   border: 2rpx solid #fff;
   border-radius: 50%;
   margin-right: 20rpx;
 }
-.container > view:first-child > view > image + text {
+.container_0 > view:first-child > view > image + text {
   font-weight: bold;
   font-size: 36rpx;
 }
-.container > view:first-child > view:last-child {
+.container_0 > view:first-child > view:last-child {
   position: absolute;
   bottom: 0;
   width: 700rpx;
   height: 160rpx;
   border-radius: 10rpx 10rpx 0 0;
-  background-image: -webkit-linear-gradient(top, #9CBAF7, #6C84B2);
-  background-image: linear-gradient(to bottom, #9CBAF7, #6C84B2);
+  background: #2C3240;
   left: 25rpx;
 }
-.container > view:first-child > view:last-child > view {
+.container_0 > view:first-child > view:last-child > view {
   -webkit-box-flex: 0;
   -webkit-flex: 0 0 50%;
           flex: 0 0 50%;
   text-align: center;
 }
-.container > view:first-child > view:last-child > view > view:first-child {
+.container_0 > view:first-child > view:last-child > view > view:first-child {
   font-size: 24rpx;
 }
-.container > view:first-child > view:last-child > view > view:first-child + view {
+.container_0 > view:first-child > view:last-child > view > view:first-child + view {
   font-size: 48rpx;
   font-weight: bold;
 }
-.container > view:first-child > view:last-child > view:first-child {
+.container_0 > view:first-child > view:last-child > view:first-child {
   border-right: 1rpx solid #fff;
 }
-.container > view:nth-child(2) {
+.container_0 > view:nth-child(2) {
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
@@ -89,7 +88,11 @@
           align-items: center;
   height: 172rpx;
 }
-.container > view:nth-child(2) > view {
+.container_0 > view:nth-child(2) > view {
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 33%;
+          flex: 0 0 33%;
+  height: 100%;
   text-align: center;
   display: -webkit-box;
   display: -webkit-flex;
@@ -101,12 +104,15 @@
   -webkit-box-align: center;
   -webkit-align-items: center;
           align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
 }
-.container > view:nth-child(2) > view > image {
+.container_0 > view:nth-child(2) > view > image {
   width: 44rpx;
   height: 44rpx;
 }
-.container > view:last-child {
+.container_0 > view:last-child {
   margin-top: 20rpx;
 }
 

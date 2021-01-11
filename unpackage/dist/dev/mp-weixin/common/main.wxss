@@ -352,7 +352,14 @@ page {
   color: #333;
   background: #F8F8F8;
 }
+.van-popup {
+  background-color: transparent !important;
+}
 .container {
+  overflow: hidden;
+  margin-top: 20rpx;
+}
+.container_0 {
   overflow: hidden;
 }
 button {
@@ -365,6 +372,30 @@ button {
 .t_32_333 {
   font-size: 32rpx;
   font-weight: bold;
+}
+.input > view {
+  padding: 20rpx;
+  position: relative;
+}
+.input > view > view {
+  font-size: 30rpx;
+  font-weight: bold;
+  margin-bottom: 30rpx;
+}
+.input > view > view > text {
+  color: #FE4543;
+}
+.input > view > input,
+.input > view textarea {
+  background: #fff;
+  width: 95%;
+  font-size: 26rpx;
+  border-radius: 10rpx;
+  margin-top: 20rpx;
+}
+.input > view > input {
+  height: 68rpx;
+  padding: 0 22rpx;
 }
 .flex-between {
   display: -webkit-box;
@@ -390,7 +421,7 @@ button {
           align-items: center;
 }
 .li_106 {
-  width: 660rpx;
+  width: 710rpx;
   padding: 0 20rpx;
   background: #fff;
   border-bottom: 1rpx solid #F3F3F3;
@@ -401,6 +432,22 @@ button {
   width: 700rpx;
   border-radius: 44rpx;
   margin: 40rpx auto;
+}
+.btn_round_line {
+  color: #fff;
+  width: 262rpx;
+  height: 64rpx;
+  line-height: 64rpx;
+  border-radius: 32rpx;
+  background: -webkit-linear-gradient(left, #FF4F4D, #F03A3A);
+  background: linear-gradient(to right, #FF4F4D, #F03A3A);
+  font-size: 32rpx;
+}
+.btn_squre {
+  position: fixed;
+  bottom: 30rpx;
+  width: 700rpx;
+  left: 25rpx;
 }
 .li_109 {
   height: 109rpx;

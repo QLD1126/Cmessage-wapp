@@ -48,6 +48,27 @@
 		  @input="onInput"
 		/>
 		</van-popup>
+		<van-popup :show="loginShow" @close="loginShow=false"  >
+		<view class="pop">
+			<image src="../../static/denglutishi.png" mode="widthFix"></image>
+			<view class="">
+				
+			<view class="">
+				<view class="">
+					未登录
+				</view>
+				<view class="">
+					请先登录再进行操作~~
+				</view>
+				<view class="">
+					<button type="warn" @click="toPage">前往登录</button>
+					<button type="default" @click="loginShow=false">暂不登录</button>
+				</view>
+			</view>
+			</view>
+			<image src="../../static/indexclose.png" mode="widthFix" @click="loginShow=false"></image>
+		</view>
+		</van-popup>
 	</view>
 </template>
 
@@ -57,6 +78,8 @@
 		data() {
 			return {
 				// 时间选择器
+				// loginShow:uni.getStorageSync('TOKEN')?false:true,
+				loginShow:true,
 				timeShow:false,
 				  minHour: 10,
 				    maxHour: 20,
@@ -136,7 +159,11 @@
 			}
 		},
 		onLoad() {
-
+			// uni.request({
+			// 	url:'/api/wechat/mp_auth',
+			// 	method:'POST',
+			// 	data:object
+			// })
 		},
 		  // computed: {
 				//         startDate() {
@@ -147,6 +174,15 @@
 				//         }
 				//     },
 		methods: {
+			toPage(){
+				uni.navigateTo({
+					url:'/pages/login/login'
+				})
+			},
+			
+			setAnimation(){
+			console.log(this.$refs)	
+			},
 			// 上拉价格菜单
 			onSelect(){
 				
@@ -162,6 +198,16 @@
 </script>
 
 <style lang="scss">
+	.van-enter-active-class,
+	.van-leave-active-class {
+	  transition-property: background-color, transform;
+	}
+	
+	.van-enter-class,
+	.van-leave-to-class {
+	  background-color: red;
+	  transform: rotate(-360deg) translate3d(-100%, -100%, 0);
+	}
 	.content {
 		.input {
 			>view {
@@ -213,5 +259,65 @@
 				background: #fff;
 			}
 		}
+	}
+	.pop{
+		text-align: center;
+		>image:first-child{
+			margin-top: 194rpx;
+			width: 282rpx;
+			position: relative;
+			z-index: 11;
+		}
+		>view{
+			margin: -144rpx auto 0;
+			background: #fff;
+			width: 578rpx;
+			height: 476rpx;
+			border-radius: 10rpx;
+			overflow: hidden;
+			>view{
+				
+				height: 60%;
+				margin-top: 160rpx;
+			display: flex;
+			flex-flow: column nowrap;
+			justify-content: space-around;
+			align-items: center;
+			>view:first-child{
+				color: #f00;
+				font-size: 36rpx;
+				+view{
+					color: #666;
+				}
+			}
+			>view:last-child{
+				width: 80%;
+				text-align: left;
+				display: flex;
+				flex-flow: row nowrap;
+				justify-content: space-between;
+				>button{
+					width: 180rpx;
+					height: 64rpx;
+					line-height: 64rpx;
+					border-radius: 32rpx;
+					font-size: 28rpx;
+					padding: 0;
+				}
+				>button:first-child{
+					color: #fff;
+				}
+			}
+			}
+			+image{
+				width: 64rpx;
+				margin-top: 40rpx;
+			}
+		}
+	}
+	// 组件背景透明
+	
+	.van-action-sheet__cancel, .van-action-sheet__item {
+		border-radius: 0;
 	}
 </style>
