@@ -1,6 +1,6 @@
-(global["webpackJsonp"] = global["webpackJsonp"] || []).push([["common/vendor"],{
-
-/***/ 1:
+(global["webpackJsonp"] = global["webpackJsonp"] || []).push([["common/vendor"],[
+/* 0 */,
+/* 1 */
 /*!************************************************************!*\
   !*** ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js ***!
   \************************************************************/
@@ -1727,229 +1727,7 @@ var uni$1 = uni;var _default =
 uni$1;exports.default = _default;
 
 /***/ }),
-
-/***/ 10:
-/*!**********************************************************************************************************!*\
-  !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/runtime/componentNormalizer.js ***!
-  \**********************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return normalizeComponent; });
-/* globals __VUE_SSR_CONTEXT__ */
-
-// IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
-// This module is a runtime utility for cleaner component module output and will
-// be included in the final webpack user bundle.
-
-function normalizeComponent (
-  scriptExports,
-  render,
-  staticRenderFns,
-  functionalTemplate,
-  injectStyles,
-  scopeId,
-  moduleIdentifier, /* server only */
-  shadowMode, /* vue-cli only */
-  components, // fixed by xxxxxx auto components
-  renderjs // fixed by xxxxxx renderjs
-) {
-  // Vue.extend constructor export interop
-  var options = typeof scriptExports === 'function'
-    ? scriptExports.options
-    : scriptExports
-
-  // fixed by xxxxxx auto components
-  if (components) {
-    if (!options.components) {
-      options.components = {}
-    }
-    var hasOwn = Object.prototype.hasOwnProperty
-    for (var name in components) {
-      if (hasOwn.call(components, name) && !hasOwn.call(options.components, name)) {
-        options.components[name] = components[name]
-      }
-    }
-  }
-  // fixed by xxxxxx renderjs
-  if (renderjs) {
-    (renderjs.beforeCreate || (renderjs.beforeCreate = [])).unshift(function() {
-      this[renderjs.__module] = this
-    });
-    (options.mixins || (options.mixins = [])).push(renderjs)
-  }
-
-  // render functions
-  if (render) {
-    options.render = render
-    options.staticRenderFns = staticRenderFns
-    options._compiled = true
-  }
-
-  // functional template
-  if (functionalTemplate) {
-    options.functional = true
-  }
-
-  // scopedId
-  if (scopeId) {
-    options._scopeId = 'data-v-' + scopeId
-  }
-
-  var hook
-  if (moduleIdentifier) { // server build
-    hook = function (context) {
-      // 2.3 injection
-      context =
-        context || // cached call
-        (this.$vnode && this.$vnode.ssrContext) || // stateful
-        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
-      // 2.2 with runInNewContext: true
-      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
-        context = __VUE_SSR_CONTEXT__
-      }
-      // inject component styles
-      if (injectStyles) {
-        injectStyles.call(this, context)
-      }
-      // register component module identifier for async chunk inferrence
-      if (context && context._registeredComponents) {
-        context._registeredComponents.add(moduleIdentifier)
-      }
-    }
-    // used by ssr in case component is cached and beforeCreate
-    // never gets called
-    options._ssrRegister = hook
-  } else if (injectStyles) {
-    hook = shadowMode
-      ? function () { injectStyles.call(this, this.$root.$options.shadowRoot) }
-      : injectStyles
-  }
-
-  if (hook) {
-    if (options.functional) {
-      // for template-only hot-reload because in that case the render fn doesn't
-      // go through the normalizer
-      options._injectStyles = hook
-      // register for functioal component in vue file
-      var originalRender = options.render
-      options.render = function renderWithStyleInjection (h, context) {
-        hook.call(context)
-        return originalRender(h, context)
-      }
-    } else {
-      // inject component registration as beforeCreate hook
-      var existing = options.beforeCreate
-      options.beforeCreate = existing
-        ? [].concat(existing, hook)
-        : [hook]
-    }
-  }
-
-  return {
-    exports: scriptExports,
-    options: options
-  }
-}
-
-
-/***/ }),
-
-/***/ 17:
-/*!*********************************************************!*\
-  !*** D:/Project/Cmessage_Wapp/common/dateTimePicker.js ***!
-  \*********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}function _unsupportedIterableToArray(o, minLen) {if (!o) return;if (typeof o === "string") return _arrayLikeToArray(o, minLen);var n = Object.prototype.toString.call(o).slice(8, -1);if (n === "Object" && o.constructor) n = o.constructor.name;if (n === "Map" || n === "Set") return Array.from(o);if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);}function _iterableToArray(iter) {if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) return _arrayLikeToArray(arr);}function _arrayLikeToArray(arr, len) {if (len == null || len > arr.length) len = arr.length;for (var i = 0, arr2 = new Array(len); i < len; i++) {arr2[i] = arr[i];}return arr2;}function withData(param) {
-  return param < 10 ? '0' + param : '' + param;
-}
-function getLoopArray(start, end) {
-  var start = start || 0;
-  var end = end || 1;
-  var array = [];
-  for (var i = start; i <= end; i++) {
-    array.push(withData(i));
-  }
-  return array;
-}
-function getMonthDay(year, month) {
-  var flag = year % 400 == 0 || year % 4 == 0 && year % 100 != 0,array = null;
-
-  switch (month) {
-    case '01':
-    case '03':
-    case '05':
-    case '07':
-    case '08':
-    case '10':
-    case '12':
-      array = getLoopArray(1, 31);
-      break;
-    case '04':
-    case '06':
-    case '09':
-    case '11':
-      array = getLoopArray(1, 30);
-      break;
-    case '02':
-      array = flag ? getLoopArray(1, 29) : getLoopArray(1, 28);
-      break;
-    default:
-      array = '月份格式不正确，请重新输入！';}
-
-  return array;
-}
-function getNewDateArry() {
-  // 当前时间的处理
-  var newDate = new Date();
-  var year = withData(newDate.getFullYear()),
-  mont = withData(newDate.getMonth() + 1),
-  date = withData(newDate.getDate()),
-  hour = withData(newDate.getHours()),
-  minu = withData(newDate.getMinutes()),
-  seco = withData(newDate.getSeconds());
-
-  return [year, mont, date, hour, minu, seco];
-}
-function dateTimePicker(startYear, endYear, date) {
-  // 返回默认显示的数组和联动数组的声明
-  var dateTime = [],dateTimeArray = [[], [], [], [], [], []];
-  var start = startYear || 1978;
-  var end = endYear || 2100;
-  // 默认开始显示数据
-  var defaultDate = date ? [].concat(_toConsumableArray(date.split(' ')[0].split('-')), _toConsumableArray(date.split(' ')[1].split(':'))) : getNewDateArry();
-  // 处理联动列表数据
-  /*年月日 时分秒*/
-  dateTimeArray[0] = getLoopArray(start, end);
-  dateTimeArray[1] = getLoopArray(1, 12);
-  dateTimeArray[2] = getMonthDay(defaultDate[0], defaultDate[1]);
-  dateTimeArray[3] = getLoopArray(0, 23);
-  dateTimeArray[4] = getLoopArray(0, 59);
-  dateTimeArray[5] = getLoopArray(0, 59);
-
-  dateTimeArray.forEach(function (current, index) {
-    dateTime.push(current.indexOf(defaultDate[index]));
-  });
-
-  return {
-    dateTimeArray: dateTimeArray,
-    dateTime: dateTime };
-
-}
-module.exports = {
-  dateTimePicker: dateTimePicker,
-  getMonthDay: getMonthDay };
-
-// export default dateTimePicker
-// export default getMonthDay
-
-/***/ }),
-
-/***/ 2:
+/* 2 */
 /*!******************************************************************************************!*\
   !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js ***!
   \******************************************************************************************/
@@ -7995,8 +7773,7 @@ internalMixin(Vue);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../webpack/buildin/global.js */ 3)))
 
 /***/ }),
-
-/***/ 3:
+/* 3 */
 /*!***********************************!*\
   !*** (webpack)/buildin/global.js ***!
   \***********************************/
@@ -8026,8 +7803,7 @@ module.exports = g;
 
 
 /***/ }),
-
-/***/ 4:
+/* 4 */
 /*!*******************************************!*\
   !*** D:/Project/Cmessage_Wapp/pages.json ***!
   \*******************************************/
@@ -8037,8 +7813,140 @@ module.exports = g;
 
 
 /***/ }),
+/* 5 */,
+/* 6 */,
+/* 7 */,
+/* 8 */,
+/* 9 */,
+/* 10 */
+/*!**********************************************************************************************************!*\
+  !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/runtime/componentNormalizer.js ***!
+  \**********************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-/***/ 58:
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return normalizeComponent; });
+/* globals __VUE_SSR_CONTEXT__ */
+
+// IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
+// This module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle.
+
+function normalizeComponent (
+  scriptExports,
+  render,
+  staticRenderFns,
+  functionalTemplate,
+  injectStyles,
+  scopeId,
+  moduleIdentifier, /* server only */
+  shadowMode, /* vue-cli only */
+  components, // fixed by xxxxxx auto components
+  renderjs // fixed by xxxxxx renderjs
+) {
+  // Vue.extend constructor export interop
+  var options = typeof scriptExports === 'function'
+    ? scriptExports.options
+    : scriptExports
+
+  // fixed by xxxxxx auto components
+  if (components) {
+    if (!options.components) {
+      options.components = {}
+    }
+    var hasOwn = Object.prototype.hasOwnProperty
+    for (var name in components) {
+      if (hasOwn.call(components, name) && !hasOwn.call(options.components, name)) {
+        options.components[name] = components[name]
+      }
+    }
+  }
+  // fixed by xxxxxx renderjs
+  if (renderjs) {
+    (renderjs.beforeCreate || (renderjs.beforeCreate = [])).unshift(function() {
+      this[renderjs.__module] = this
+    });
+    (options.mixins || (options.mixins = [])).push(renderjs)
+  }
+
+  // render functions
+  if (render) {
+    options.render = render
+    options.staticRenderFns = staticRenderFns
+    options._compiled = true
+  }
+
+  // functional template
+  if (functionalTemplate) {
+    options.functional = true
+  }
+
+  // scopedId
+  if (scopeId) {
+    options._scopeId = 'data-v-' + scopeId
+  }
+
+  var hook
+  if (moduleIdentifier) { // server build
+    hook = function (context) {
+      // 2.3 injection
+      context =
+        context || // cached call
+        (this.$vnode && this.$vnode.ssrContext) || // stateful
+        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
+      // 2.2 with runInNewContext: true
+      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+        context = __VUE_SSR_CONTEXT__
+      }
+      // inject component styles
+      if (injectStyles) {
+        injectStyles.call(this, context)
+      }
+      // register component module identifier for async chunk inferrence
+      if (context && context._registeredComponents) {
+        context._registeredComponents.add(moduleIdentifier)
+      }
+    }
+    // used by ssr in case component is cached and beforeCreate
+    // never gets called
+    options._ssrRegister = hook
+  } else if (injectStyles) {
+    hook = shadowMode
+      ? function () { injectStyles.call(this, this.$root.$options.shadowRoot) }
+      : injectStyles
+  }
+
+  if (hook) {
+    if (options.functional) {
+      // for template-only hot-reload because in that case the render fn doesn't
+      // go through the normalizer
+      options._injectStyles = hook
+      // register for functioal component in vue file
+      var originalRender = options.render
+      options.render = function renderWithStyleInjection (h, context) {
+        hook.call(context)
+        return originalRender(h, context)
+      }
+    } else {
+      // inject component registration as beforeCreate hook
+      var existing = options.beforeCreate
+      options.beforeCreate = existing
+        ? [].concat(existing, hook)
+        : [hook]
+    }
+  }
+
+  return {
+    exports: scriptExports,
+    options: options
+  }
+}
+
+
+/***/ }),
+/* 11 */
 /*!********************************************************!*\
   !*** D:/Project/Cmessage_Wapp/common/service/index.js ***!
   \********************************************************/
@@ -8046,8 +7954,8 @@ module.exports = g;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _request = _interopRequireDefault(__webpack_require__(/*! ./request.js */ 59));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-var files = __webpack_require__(61);
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _request = _interopRequireDefault(__webpack_require__(/*! ./request.js */ 12));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var files = __webpack_require__(14);
 var apiGenerators = files.keys().map(function (key) {return files(key).default;});
 var api = {};
 apiGenerators.forEach(function (generator) {
@@ -8063,8 +7971,7 @@ apiGenerators.forEach(function (generator) {
 api;exports.default = _default;
 
 /***/ }),
-
-/***/ 59:
+/* 12 */
 /*!**********************************************************!*\
   !*** D:/Project/Cmessage_Wapp/common/service/request.js ***!
   \**********************************************************/
@@ -8072,7 +7979,7 @@ api;exports.default = _default;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _public_data = __webpack_require__(/*! ../public_data.js */ 60);
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _public_data = __webpack_require__(/*! ../public_data.js */ 13);
 
 
 
@@ -8145,8 +8052,7 @@ req;exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
-
-/***/ 60:
+/* 13 */
 /*!******************************************************!*\
   !*** D:/Project/Cmessage_Wapp/common/public_data.js ***!
   \******************************************************/
@@ -8155,11 +8061,12 @@ req;exports.default = _default;
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });exports.public_data = void 0;var public_data = {
-  host: 'http://192.168.3.48:8084' };exports.public_data = public_data;
+  host: 'http://192.168.3.48:8084'
+  // upload:'/api/upload/image'
+};exports.public_data = public_data;
 
 /***/ }),
-
-/***/ 61:
+/* 14 */
 /*!*******************************************************************************!*\
   !*** D:/Project/Cmessage_Wapp/common/service/modules sync nonrecursive \.js$ ***!
   \*******************************************************************************/
@@ -8167,9 +8074,9 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.public_dat
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
-	"./article.js": 64,
-	"./message.js": 63,
-	"./user.js": 62
+	"./article.js": 15,
+	"./message.js": 16,
+	"./user.js": 17
 };
 
 
@@ -8190,84 +8097,31 @@ webpackContext.keys = function webpackContextKeys() {
 };
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
-webpackContext.id = 61;
+webpackContext.id = 14;
 
 /***/ }),
-
-/***/ 62:
-/*!***************************************************************!*\
-  !*** D:/Project/Cmessage_Wapp/common/service/modules/user.js ***!
-  \***************************************************************/
+/* 15 */
+/*!******************************************************************!*\
+  !*** D:/Project/Cmessage_Wapp/common/service/modules/article.js ***!
+  \******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = function _default(_ref) {var
-  request = _ref.request;return (
-    {
-      LOGIN: function LOGIN(data) {
-        return request({
-          url: '/api/wechat/mp_auth',
-          method: 'post',
-          data: data });
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = function _default(_ref) {var request = _ref.request;return {
+    ARTICLE_LIST: function ARTICLE_LIST(id) {
+      return request({
+        url: '/api/article/list/' + id });
 
-      },
-      PHONE: function PHONE(data) {
-        return request({
-          url: '/api/wechat/decryptData',
-          method: 'post',
-          data: data });
+    },
+    ARTICLE: function ARTICLE(id) {
+      return request({
+        url: '/api/article/detail/' + id });
 
-      },
-      LOGO: function LOGO() {
-        return request({
-          url: '/api/wechat/get_logo' });
-
-      },
-      USERINFO: function USERINFO() {
-        return request({
-          url: '/api/order/user/info' });
-
-      },
-      NAME: function NAME(data) {
-        return request({
-          url: '/api/order/user/real_name',
-          method: 'post',
-          data: data });
-
-      },
-      WALLET_LIST: function WALLET_LIST(params) {
-        return request({
-          url: '/api/order/user/bill',
-          params: params });
-
-      },
-      ISFOLLOW: function ISFOLLOW(id) {
-        return request({
-          url: '/api/order/user/follow/' + id });
-
-      },
-      UNFOLLOW: function UNFOLLOW(id) {
-        return request({
-          url: '/api/order/user/unfollow/2' });
-
-      },
-      FOLLOW_LIST: function FOLLOW_LIST(params) {
-        return request({
-          url: '/api/order/user/myFollow',
-          params: params });
-
-      },
-      FANS: function FANS(params) {
-        return request({
-          url: '/api/order/user/myFans',
-          params: params });
-
-      } });};exports.default = _default;
+    } };};exports.default = _default;
 
 /***/ }),
-
-/***/ 63:
+/* 16 */
 /*!******************************************************************!*\
   !*** D:/Project/Cmessage_Wapp/common/service/modules/message.js ***!
   \******************************************************************/
@@ -8301,43 +8155,117 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
           url: '/api/sell/del/' + id });
 
       },
-      // 买
+      //
+      BUY_LIST: function BUY_LIST(params) {
+        return request({
+          url: '/api/order/list',
+          params: params });
+
+      },
+
       BUY_INFO: function BUY_INFO(id) {
         return request({
-          url: '/api/buy/detail/' + id });
+          url: '/api/order/detail/' + id });
 
       },
       BUY_CREATE: function BUY_CREATE(id) {
         return request({
           url: '/api/order/create/' + id });
 
+      },
+      BUY_SHARE_INFO: function BUY_SHARE_INFO(id) {
+        return request({
+          url: '/api/buy/detail/' + id });
+
       } });};exports.default = _default;
 
 /***/ }),
-
-/***/ 64:
-/*!******************************************************************!*\
-  !*** D:/Project/Cmessage_Wapp/common/service/modules/article.js ***!
-  \******************************************************************/
+/* 17 */
+/*!***************************************************************!*\
+  !*** D:/Project/Cmessage_Wapp/common/service/modules/user.js ***!
+  \***************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = function _default(_ref) {var request = _ref.request;return {
-    ARTICLE_LIST: function ARTICLE_LIST(id) {
-      return request({
-        url: '/api/article/list/' + id });
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = function _default(_ref) {var
+  request = _ref.request;return (
+    {
+      LOGIN: function LOGIN(data) {
+        return request({
+          url: '/api/wechat/mp_auth',
+          method: 'post',
+          data: data });
 
-    },
-    ARTICLE: function ARTICLE(id) {
-      return request({
-        url: '/api/article/detail/' + id });
+      },
+      PHONE: function PHONE(data) {
+        return request({
+          url: '/api/wechat/decryptData',
+          method: 'post',
+          data: data });
 
-    } };};exports.default = _default;
+      },
+      LOGO: function LOGO() {
+        return request({
+          url: '/api/wechat/get_logo' });
+
+      },
+      USERINFO: function USERINFO() {
+        return request({
+          url: '/api/user/info' });
+
+      },
+      NAME: function NAME(data) {
+        return request({
+          url: '/api/user/real_name',
+          method: 'post',
+          data: data });
+
+      },
+      WALLET_LIST: function WALLET_LIST(params) {
+        return request({
+          url: '/api/user/bill',
+          params: params });
+
+      },
+      ISFOLLOW: function ISFOLLOW(id) {
+        return request({
+          url: '/api/user/follow/' + id });
+
+      },
+      UNFOLLOW: function UNFOLLOW(id) {
+        return request({
+          url: '/api/user/unfollow/' + id });
+
+      },
+      FOLLOW_LIST: function FOLLOW_LIST(params) {
+        return request({
+          url: '/api/user/myFollow',
+          params: params });
+
+      },
+      FANS: function FANS(params) {
+        return request({
+          url: '/api/user/myFans',
+          params: params });
+
+      },
+      CASH: function CASH(data) {
+        return request({
+          url: '/api/extract/cash',
+          method: 'post',
+          data: data });
+
+      },
+      CASH_LIST: function CASH_LIST(params) {
+        return request({
+          url: '/api/extract/list',
+          params: params });
+
+      } });};exports.default = _default;
 
 /***/ }),
-
-/***/ 65:
+/* 18 */
 /*!***********************************************!*\
   !*** D:/Project/Cmessage_Wapp/store/index.js ***!
   \***********************************************/
@@ -8345,9 +8273,9 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 66));var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _vuex = _interopRequireDefault(__webpack_require__(/*! vuex */ 69));
-var _index = _interopRequireDefault(__webpack_require__(/*! ../common/service/index.js */ 58));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 19));var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _vuex = _interopRequireDefault(__webpack_require__(/*! vuex */ 22));
+var _index = _interopRequireDefault(__webpack_require__(/*! ../common/service/index.js */ 11));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}
 _vue.default.use(_vuex.default);
 var store = new _vuex.default.Store({
   state: {
@@ -8363,22 +8291,30 @@ var store = new _vuex.default.Store({
                   _index.default.LOGIN(data));case 4:res = _context.sent;
                 uni.setStorageSync('TOKEN', res.token);
                 uni.setStorageSync('CATCH_KEY', res.cache_key);
-                uni.navigateBack({
-                  delta: 1 });
-
+                // uni.navigateBack({
+                // 	delta: 1
+                // })
                 commit('loginSet', true);return _context.abrupt("return",
-                Promise.resolve(res));case 12:_context.prev = 12;_context.t0 = _context["catch"](1);return _context.abrupt("return",
+                Promise.resolve(res));case 11:_context.prev = 11;_context.t0 = _context["catch"](1);return _context.abrupt("return",
 
-                Promise.reject(_context.t0));case 15:case "end":return _context.stop();}}}, _callee, null, [[1, 12]]);}))();
+                Promise.reject(_context.t0));case 14:case "end":return _context.stop();}}}, _callee, null, [[1, 11]]);}))();
 
     },
     getuserInfo: function getuserInfo(_ref2) {return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var commit, res;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:commit = _ref2.commit;_context2.prev = 1;_context2.next = 4;return (
 
                   _index.default.USERINFO());case 4:res = _context2.sent;
+                // 实名认证页面需要用到
+                if (res.phone !== '') {
+                  res.phone = String(res.phone).slice(0, 3) + '****' + String(res.phone).slice(-4);
+                }
+                if (res.alipay_account !== '') {
+                  res.alipay_account = String(res.alipay_account).slice(0, 3) + '****' + String(res.alipay_account).slice(-4);
+                }
+                uni.setStorageSync('USERINFO', res);
                 commit('userinfoSet', res);return _context2.abrupt("return",
-                Promise.resolve(res));case 9:_context2.prev = 9;_context2.t0 = _context2["catch"](1);return _context2.abrupt("return",
+                Promise.resolve(res));case 12:_context2.prev = 12;_context2.t0 = _context2["catch"](1);return _context2.abrupt("return",
 
-                Promise.reject(_context2.t0));case 12:case "end":return _context2.stop();}}}, _callee2, null, [[1, 9]]);}))();
+                Promise.reject(_context2.t0));case 15:case "end":return _context2.stop();}}}, _callee2, null, [[1, 12]]);}))();
 
     } },
 
@@ -8395,19 +8331,17 @@ store;exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
-
-/***/ 66:
+/* 19 */
 /*!**********************************************************!*\
   !*** ./node_modules/@babel/runtime/regenerator/index.js ***!
   \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! regenerator-runtime */ 67);
+module.exports = __webpack_require__(/*! regenerator-runtime */ 20);
 
 /***/ }),
-
-/***/ 67:
+/* 20 */
 /*!************************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime-module.js ***!
   \************************************************************/
@@ -8438,7 +8372,7 @@ var oldRuntime = hadRuntime && g.regeneratorRuntime;
 // Force reevalutation of runtime.js.
 g.regeneratorRuntime = undefined;
 
-module.exports = __webpack_require__(/*! ./runtime */ 68);
+module.exports = __webpack_require__(/*! ./runtime */ 21);
 
 if (hadRuntime) {
   // Restore the original runtime.
@@ -8454,8 +8388,7 @@ if (hadRuntime) {
 
 
 /***/ }),
-
-/***/ 68:
+/* 21 */
 /*!*****************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime.js ***!
   \*****************************************************/
@@ -9186,8 +9119,7 @@ if (hadRuntime) {
 
 
 /***/ }),
-
-/***/ 69:
+/* 22 */
 /*!********************************************!*\
   !*** ./node_modules/vuex/dist/vuex.esm.js ***!
   \********************************************/
@@ -10298,7 +10230,103 @@ var index = {
 
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../webpack/buildin/global.js */ 3)))
 
-/***/ })
+/***/ }),
+/* 23 */,
+/* 24 */,
+/* 25 */,
+/* 26 */,
+/* 27 */,
+/* 28 */,
+/* 29 */
+/*!*********************************************************!*\
+  !*** D:/Project/Cmessage_Wapp/common/dateTimePicker.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
 
-}]);
+function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}function _unsupportedIterableToArray(o, minLen) {if (!o) return;if (typeof o === "string") return _arrayLikeToArray(o, minLen);var n = Object.prototype.toString.call(o).slice(8, -1);if (n === "Object" && o.constructor) n = o.constructor.name;if (n === "Map" || n === "Set") return Array.from(o);if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);}function _iterableToArray(iter) {if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) return _arrayLikeToArray(arr);}function _arrayLikeToArray(arr, len) {if (len == null || len > arr.length) len = arr.length;for (var i = 0, arr2 = new Array(len); i < len; i++) {arr2[i] = arr[i];}return arr2;}function withData(param) {
+  return param < 10 ? '0' + param : '' + param;
+}
+function getLoopArray(start, end) {
+  var start = start || 0;
+  var end = end || 1;
+  var array = [];
+  for (var i = start; i <= end; i++) {
+    array.push(withData(i));
+  }
+  return array;
+}
+function getMonthDay(year, month) {
+  var flag = year % 400 == 0 || year % 4 == 0 && year % 100 != 0,array = null;
+
+  switch (month) {
+    case '01':
+    case '03':
+    case '05':
+    case '07':
+    case '08':
+    case '10':
+    case '12':
+      array = getLoopArray(1, 31);
+      break;
+    case '04':
+    case '06':
+    case '09':
+    case '11':
+      array = getLoopArray(1, 30);
+      break;
+    case '02':
+      array = flag ? getLoopArray(1, 29) : getLoopArray(1, 28);
+      break;
+    default:
+      array = '月份格式不正确，请重新输入！';}
+
+  return array;
+}
+function getNewDateArry() {
+  // 当前时间的处理
+  var newDate = new Date();
+  var year = withData(newDate.getFullYear()),
+  mont = withData(newDate.getMonth() + 1),
+  date = withData(newDate.getDate()),
+  hour = withData(newDate.getHours()),
+  minu = withData(newDate.getMinutes()),
+  seco = withData(newDate.getSeconds());
+
+  return [year, mont, date, hour, minu, seco];
+}
+function dateTimePicker(startYear, endYear, date) {
+  // 返回默认显示的数组和联动数组的声明
+  var dateTime = [],dateTimeArray = [[], [], [], [], [], []];
+  var start = startYear || 1978;
+  var end = endYear || 2100;
+  // 默认开始显示数据
+  var defaultDate = date ? [].concat(_toConsumableArray(date.split(' ')[0].split('-')), _toConsumableArray(date.split(' ')[1].split(':'))) : getNewDateArry();
+  // 处理联动列表数据
+  /*年月日 时分秒*/
+  dateTimeArray[0] = getLoopArray(start, end);
+  dateTimeArray[1] = getLoopArray(1, 12);
+  dateTimeArray[2] = getMonthDay(defaultDate[0], defaultDate[1]);
+  dateTimeArray[3] = getLoopArray(0, 23);
+  dateTimeArray[4] = getLoopArray(0, 59);
+  dateTimeArray[5] = getLoopArray(0, 59);
+
+  dateTimeArray.forEach(function (current, index) {
+    dateTime.push(current.indexOf(defaultDate[index]));
+  });
+
+  return {
+    dateTimeArray: dateTimeArray,
+    dateTime: dateTime };
+
+}
+module.exports = {
+  dateTimePicker: dateTimePicker,
+  getMonthDay: getMonthDay };
+
+// export default dateTimePicker
+// export default getMonthDay
+
+/***/ })
+]]);
 //# sourceMappingURL=../../.sourcemap/mp-weixin/common/vendor.js.map

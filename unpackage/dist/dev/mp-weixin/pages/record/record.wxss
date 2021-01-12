@@ -24,14 +24,17 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-.container {
+.s-action button {
+  border-radius: 0;
+}
+.container_0 {
   width: 100vw;
 }
-.container > view:first-child {
+.container_0 > view:first-child {
   position: relative;
   background: #fff;
 }
-.container > view:first-child > input {
+.container_0 > view:first-child > input {
   width: 644rpx;
   height: 54rpx;
   border-radius: 27rpx;
@@ -39,23 +42,23 @@
   background: #f3f3f3;
   padding-left: 54rpx;
 }
-.container > view:first-child > input + text {
+.container_0 > view:first-child > input + text {
   position: absolute;
   left: 40rpx;
   top: 12rpx;
   color: #999;
 }
-.container .item {
+.container_0 .item {
   width: 700rpx;
   background: #fff;
   margin: 20rpx 0;
   padding: 0 25rpx;
 }
-.container .item > view,
-.container .item text {
+.container_0 .item > view,
+.container_0 .item text {
   margin: 17rpx 0;
 }
-.container .item > view:first-child {
+.container_0 .item > view:first-child {
   position: relative;
   display: -webkit-box;
   display: -webkit-flex;
@@ -65,7 +68,7 @@
           align-items: center;
   height: 88rpx;
 }
-.container .item > view:first-child > view {
+.container_0 .item > view:first-child > view {
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
@@ -76,10 +79,10 @@
   -webkit-justify-content: space-between;
           justify-content: space-between;
 }
-.container .item > view:first-child > view > image {
+.container_0 .item > view:first-child > view > image {
   margin-right: 10rpx;
 }
-.container .item > view:first-child > view:last-child {
+.container_0 .item > view:first-child > view:last-child {
   display: inline;
   text-align: right;
   border-radius: 20rpx;
@@ -87,25 +90,26 @@
   min-width: 100rpx;
   text-align: center;
 }
-.container .item > .flex-between > text:first-child {
+.container_0 .item > .flex-between > text:first-child {
   color: #f00;
   font-size: 24rpx;
 }
-.container .item > .flex-between .t_24_9 + text {
+.container_0 .item > .flex-between .t_24_9 + text {
   color: #999;
 }
-.container .item > .flex-around {
+.container_0 .item > .flex-around {
   width: 100vw;
   height: 104rpx;
   line-height: 104rpx;
   margin-left: -25rpx;
 }
-.container .item > .flex-around > text {
+.container_0 .item > .flex-around > button {
   -webkit-box-flex: 0;
   -webkit-flex: 0 0 50%;
           flex: 0 0 50%;
   border: 1rpx solid #f8f8f8;
-  text-align: center;
+}
+.container_0 .item > .flex-around > button > text {
   font-size: 24rpx;
   color: #333;
 }
@@ -115,6 +119,7 @@
   text-align: center;
 }
 .pop > view {
+  height: 490rpx;
   padding: 30rpx 0;
   display: -webkit-box;
   display: -webkit-flex;
@@ -145,8 +150,10 @@
 }
 .hui {
   background: #666;
+  color: #fff;
 }
 .fff {
+  background: #fff;
   border: 1rpx solid #666;
 }
 

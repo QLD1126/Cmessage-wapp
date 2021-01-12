@@ -1,31 +1,30 @@
 <template>
 	<view class="container_0">
-		<van-notice-bar
-		  left-icon="volume-o"
-		  text="实名认证信息只用于提现，信息发布平台不会向任何渠道泄露您的个人信息，请放心填写！"
-		/>
+		<van-notice-bar left-icon="volume-o" text="实名认证信息只用于提现，信息发布平台不会向任何渠道泄露您的个人信息，请放心填写！" />
 		<view class="input" v-for="item in re_list" :key='item.key'>
-			<view class="" @click="open(item.key)">
+			<view class="">
 				<view class="">
 					<text>*</text>{{item.name}}
 				</view>
-				<input v-model="item.value" type="text" :placeholder="item.placeholder" :confirm-type="item.confirm_type">
+				<input v-model="item.value||userInfo[item.key]" type="text" :placeholder="item.placeholder" :confirm-type="item.confirm_type" :disabled="userInfo.check_status>=0">
 				</input>
 			</view>
 		</view>
 		<text>单笔提现金额超过4500元，将使用支付宝支付</text>
-		<button type="warn" class="btn_squre">提交</button>
+		<!-- <button type="warn" class="btn_squre" @click="sure(userInfo.real_name)">{{userInfo.real_name==-1?'提交':userInfo.real_name==0?'审核中...':'已通过'}}</button> -->
+		<button type="warn" class="btn_squre" @click="sure(userInfo.real_name)">{{userInfo.real_name==''?'提交':'审核中...'}}</button>
 	</view>
 </template>
 
 <script>
+	import {mapActions,mapState} from 'vuex'
 	export default {
 		data() {
 			return {
 				re_list: [{
 						placeholder: '请输入您的姓名',
 						value: '',
-						key: 'title',
+						key: 'real_name',
 						name: '姓名',
 						confirm_type: 'next',
 					},
@@ -33,43 +32,71 @@
 						placeholder: '请输入您的手机号',
 						type: 'number',
 						value: '',
-						key: 'title_2',
+						key: 'phone',
 						name: '手机号',
 						confirm_type: 'next',
 					},
 					{
 						placeholder: '请输入您的支付宝账号',
 						value: '',
-						key: 'content',
+						key: 'alipay_account',
 						name: '支付宝账号',
 						confirm_type: 'down',
 					}
 				]
+			}
+		},
+		onLoad() {
+			this.getuserInfo()
+		},
+		computed:mapState(['userInfo']),
+		methods: {
+			...mapActions(['getuserInfo']),
+			sure(state) {
+				if (state !== '') {
+					uni.showToast({
+						title: '正在审核中',
+						icon:'none'
+					})
+					return
+				}
+				let formdata = {}
+				this.re_list.map(item => {
+					formdata[item.key] = item.value
+				})
+				this.$apis.NAME(formdata).then(res => {
+					this.getuserInfo()
+				})
 			}
 		}
 	}
 </script>
 
 <style lang="scss">
-	.container_0{
+	.container_0 {
 		height: 100vh;
 		background: #fff;
-		>view:first-child{
+
+		>view:first-child {
 			height: 50rpx;
 		}
+
 		.input {
 			>view {
 				padding: 20rpx;
 				position: relative;
+
 				>view {
 					font-size: 30rpx;
 					font-weight: bold;
 					margin-bottom: 30rpx;
+
 					>text {
 						color: #FE4543;
 					}
 				}
-				>input{
+
+				>input {
 					background: #F3F3F3;
 					width: 95%;
 					font-size: 26rpx;
@@ -78,6 +105,7 @@
 					height: 68rpx;
 					padding: 0 22rpx;
 				}
+
 				// >text {
 				// 	position: absolute;
 				// 	right: 30rpx;
@@ -85,7 +113,8 @@
 				// }
 			}
 		}
-		>text{
+
+		>text {
 			color: #f00;
 			font-size: 24rpx;
 		}

@@ -1,11 +1,6 @@
 <template>
 	<view class="container">
-		<van-empty
-		v-if='datalist.length==0'
-		  class="custom-image"
-		  image="https://img.yzcdn.cn/vant/custom-empty-image.png"
-		  description="暂无记录"
-		/>
+		<van-empty description="暂无记录" v-if='datalist.length==0' />
 		<view class="li_106 flex-between" v-else>
 			<view class="">
 				<view class="">

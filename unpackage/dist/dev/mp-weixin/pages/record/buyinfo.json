@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "详情页",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "van-action-sheet": "/wxcomponents/vant/dist/action-sheet/index"
+  }
+}

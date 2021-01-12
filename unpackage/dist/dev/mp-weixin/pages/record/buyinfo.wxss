@@ -24,11 +24,13 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-.container .li_106 {
-  height: 144rpx;
-  line-height: 1;
+.container > view:first-child > .user {
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+  padding: 20rpx 0;
 }
-.container .li_106 > view:first-child {
+.container > view:first-child > .user > view {
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
@@ -36,21 +38,32 @@
   -webkit-align-items: center;
           align-items: center;
 }
-.container .li_106 > view:first-child image {
-  width: 88rpx;
-  height: 88rpx;
+.container > view:first-child > .user > view > image {
+  width: 94rpx;
+  height: 94rpx;
   border-radius: 50%;
-  margin-right: 20rpx;
+  margin-right: 10rpx;
 }
-.container .li_106 > view:first-child image + view {
-  font-weight: bold;
-}
-.container .li_106 button {
-  margin: 0;
-  padding: 0;
+.container > view:first-child > .user > .btn_squre {
+  position: static;
   width: 140rpx;
   height: 54rpx;
   line-height: 54rpx;
+  padding: 0;
   font-size: 24rpx;
+  margin: 0;
+}
+.container > view:first-child > .nobuy {
+  height: 240rpx;
+  color: #999;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+  border-top: 1rpx solid #f3f3f3;
+}
+.container > .btn_round {
+  position: absolute;
+  bottom: 20rpx;
+  left: 25rpx;
 }
 

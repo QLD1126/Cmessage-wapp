@@ -22,42 +22,56 @@ export default({
 	},
 	USERINFO(){
 		return request({
-			url:'/api/order/user/info'
+			url:'/api/user/info'
 		})
 	},
 	NAME(data){
 		return request({
-			url:'/api/order/user/real_name',
+			url:'/api/user/real_name',
 			method:'post',
 			data
 		})
 	},
 	WALLET_LIST(params){
 		return request({
-			url:'/api/order/user/bill',
+			url:'/api/user/bill',
 			params
 		})
 	},
 	ISFOLLOW(id){
 		return request({
-			url:'/api/order/user/follow/'+id
+			url:'/api/user/follow/'+id
 		})
 	},
 	UNFOLLOW(id){
 		return request({
-			url:'/api/order/user/unfollow/2'
+			url:'/api/user/unfollow/'+id
 		})
 	},
 	FOLLOW_LIST(params){
 		return request({
-			url:'/api/order/user/myFollow',
+			url:'/api/user/myFollow',
 			params
 		})
 	},
 	FANS(params){
 		return request({
-			url:'/api/order/user/myFans',
+			url:'/api/user/myFans',
+			params
+		})
+	},
+	CASH(data){
+		return request({
+			url:'/api/extract/cash',
+			method:'post',
+			data
+		})
+	},
+	CASH_LIST(params){
+		return request({
+			url:'/api/extract/list',
 			params
 		})
 	}
+	
 })

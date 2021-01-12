@@ -9,7 +9,8 @@
 					"van-uploader": "/wxcomponents/vant/dist/uploader/index",
 					"van-popup": "/wxcomponents/vant/dist/popup/index",
 					"van-datetime-picker": "/wxcomponents/vant/dist/datetime-picker/index",
-					 "van-transition": "/wxcomponents/vant/dist/transition/index"
+					 "van-transition": "/wxcomponents/vant/dist/transition/index",
+					 "van-switch": "/wxcomponents/vant/dist/switch/index"
 				}
 			}
 		}, {
@@ -46,6 +47,16 @@
 			}
 
 		}, {
+			"path": "pages/record/buyinfo",
+			"style": {
+				"navigationBarTitleText": "详情页",
+				"enablePullDownRefresh": false,
+				"usingComponents": {
+					"van-action-sheet": "/wxcomponents/vant/dist/action-sheet/index"
+				}
+			}
+
+		},{
 			"path": "pages/me/me",
 			"style": {
 				"navigationBarTitleText": "我的",
@@ -91,14 +102,20 @@
 			"path": "pages/me/follow",
 			"style": {
 				"navigationBarTitleText": "我的关注",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": false,
+				"usingComponents":{
+					"van-empty": "/wxcomponents/vant/dist/empty/index"
+				}
 			}
 		},
 		{
 			"path": "pages/me/fans",
 			"style": {
 				"navigationBarTitleText": "我的粉丝",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": false,
+				"usingComponents":{
+					"van-empty": "/wxcomponents/vant/dist/empty/index"
+				}
 			}
 		},
 		{

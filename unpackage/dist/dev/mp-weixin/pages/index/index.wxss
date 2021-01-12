@@ -24,6 +24,10 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
+.switch {
+  -webkit-transform: scale(0.5) translateX(36rpx);
+          transform: scale(0.5) translateX(36rpx);
+}
 .van-enter-active-class,
 .van-leave-active-class {
   -webkit-transition-property: background-color, -webkit-transform;
@@ -81,6 +85,15 @@
 }
 .content .input .van-uploader__upload {
   background: #fff;
+}
+.content .input .li_106 {
+  width: 95%;
+}
+.content .input .li_106 .pickertime {
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 65%;
+          flex: 0 0 65%;
+  text-align: right;
 }
 .pop {
   text-align: center;

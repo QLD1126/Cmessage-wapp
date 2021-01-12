@@ -4,6 +4,7 @@
     "pages/login/login",
     "pages/record/record",
     "pages/record/detail",
+    "pages/record/buyinfo",
     "pages/me/me",
     "pages/me/wallet",
     "pages/me/wallet_list",

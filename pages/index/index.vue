@@ -1,30 +1,32 @@
 <template>
 	<view class="content">
 		<view class="input" v-for="item in re_list" :key='item.key'>
-			<view class="" @click="open(item.key)">
+			<view class="">
 				<view class="">
-					<text v-show="item.key!=='iamge'">*</text>{{item.name}}
+					<text v-show="item.key!=='image'">*</text>{{item.key=='image'?item.name+'(1/'+fileList.length+')':item.name}}
 				</view>
-				<textarea value="" placeholder="请输入信息内容" v-if="item.name=='信息内容'" :auto-blur='true' :adjust-position='false' />
+				<!-- <textarea v-model="item.value" placeholder="请输入信息内容" v-if="item.name=='信息内容'" :auto-blur='true' :adjust-position='false' @confirm="confirm" @blur="change($event,2)"/> -->
+				<textarea v-model="item.value" placeholder="请输入信息内容" v-if="item.name=='信息内容'" :auto-blur='true' :adjust-position='false'/>
 				<view class="unload" v-else-if="item.key=='image'">
 					<van-uploader :file-list="fileList" max-count="1" accept='image' :multiple='true' :deletable='true' capture="['album','camera']"
 					 @after-read="afterRead" @delete='deleteImg' />
 				</view>
 								
 				<view class="" v-else-if="item.name=='可选功能'">
-				<view class="flex-between li_106" v-for="o_item in Optional" :key='o_item.key'>
+				<view class="flex-between li_106" v-for="o_item in Optional" :key='o_item.key' @click="timetype=o_item.key">
 					<text>{{o_item.name}}</text>
 					<!-- 不返还 -->
-					<switch :checked="o_item.value" @change="" v-if="o_item.key=='fanhuan'" />
+					<switch :checked="o_item.value" @change="change($event,0)" v-if="o_item.key=='is_return'" class="switch"/>
 					<!-- 截止时间 -->
-					<text v-else-if="o_item.key=='end_time'">{{o_item.value}}</text>
+					<!-- <text v-else-if="o_item.key=='end_time'">{{o_item.value}}</text> -->
 					<!-- 内容公开时间 -->
-					<view v-else class="" @click="timeShow=true">
-						
-						<image src="../../static/日期.png" mode="" class="icon_44" v-if="o_item.value==''"></image>
-						<!-- <text v-else>{{o_item.value}}</text> -->
-						<text v-else>{{currentDate}}</text>
-				</view>	
+					<!-- <view v-else class=""> -->
+					<picker v-else mode="multiSelector" :value="dateTime1" @change="changeDateTime1" @columnchange="changeDateTimeColumn1" class="pickertime"
+										 :range="dateTimeArray1" >
+										 <image src="../../static/日期.png" mode="" class="icon_44" v-if="o_item.value==''"></image>
+						<text v-else>{{o_item.value}}</text>
+						</picker>
+					<!-- </view>	 -->
 				</view>
 				</view>
 				<input v-else v-model="item.value" type="text" :placeholder="item.placeholder" :confirm-type="item.confirm_type">
@@ -32,22 +34,13 @@
 				</input>
 			</view>
 		</view>
-		<button type="warn" class="btn_round">发布</button>
+		<button type="warn" class="btn_round" @click="sure">发布</button>
 		<van-action-sheet
 		  :show="priceShow"
-		  :actions=" actions"
+		  :actions=" priceAction"
 		  @close="priceShow=false"
-		  @select="onSelect"
+		  @select="change($event,4)"
 		/>
-		<van-popup :show="timeShow" @close="timeShow=false"  position="bottom">
-		<van-datetime-picker
-		  type="datetime"
-		  :value="currentDate"
-		  :min-date="minDate"
-		  :max-date="maxDate"
-		  @input="onInput"
-		/>
-		</van-popup>
 		<van-popup :show="loginShow" @close="loginShow=false"  >
 		<view class="pop">
 			<image src="../../static/denglutishi.png" mode="widthFix"></image>
@@ -76,39 +69,66 @@
 		let dateTimePicker = require('../../common/dateTimePicker.js');
 	export default {
 		data() {
+			// 时间选择
+			const currentDate = this.getDate({
+									            format: true
+									        })
+											aa:0
 			return {
+				formdata:{},
+				// 上传
+				 fileList: [],
 				// 时间选择器
-				// loginShow:uni.getStorageSync('TOKEN')?false:true,
-				loginShow:true,
-				timeShow:false,
-				  minHour: 10,
-				    maxHour: 20,
-				    minDate: new Date().getTime(),
-				    maxDate: new Date(2019, 10, 1).getTime(),
-				    currentDate: new Date().getTime(),
+				startYear: 2000,
+				currentDate:'',
+								     endYear: 2050,
+								dateTimeArray1: null,
+								    dateTime1: null,
+								 date: currentDate,
+								            time: '12:01',
+											timetype:'end_time',
+				loginShow:uni.getStorageSync('TOKEN')?false:true,
 				// 价格选择下拉菜单
 				priceShow:false,
-				 actions: [
+				priceAction: [
 				      {
 				        name: '免费',
+						value:0,
 				      },
 				      {
-				        name: '选项',
+				        name: '1元',
+						value:1,
 				      },
-				      {
-				        name: '选项',
-				        subname: '描述信息',
-				        openType: 'share',
-				      }],
+				     {
+				       name: '38元',
+				     						value:38,
+				     },
+					 {
+					   name: '58元',
+					 						value:58,
+					 },
+					 {
+					   name: '88元',
+					 						value:88,
+					 },
+					 {
+					   name: '138元',
+					 						value:138,
+					 },
+					 {
+					   name: '188元',
+					 						value:188,
+					 },
+					 ],
 				 fileList: [],
 				// 可选功能
 				Optional:[{
 					name:'开启不对返还',
 					value:1,
-					key:'fanhuan'
+					key:'is_return'
 				},{
 					name:'销售截止时间',
-					value:'2020-11-12 16:58',
+					value:'',
 					key:'end_time'
 				},{
 					name:'内容公开时间',
@@ -125,7 +145,7 @@
 					{
 						placeholder: '请输入信息副标题',
 						value: '',
-						key: 'title_2',
+						key: 'subhead',
 						name: '信息副标题',
 						confirm_type: 'next',
 					},
@@ -134,12 +154,12 @@
 						value: '',
 						key: 'content',
 						name: '信息内容',
-						confirm_type: 'next',
+						confirm_type: 'done',
 					},
 					{
 						value: '',
 						key: 'image',
-						name: '信息图片1/1',
+						name: '信息图片',
 					},
 					{
 						placeholder: '请输入价格或点击右侧按钮快速定价',
@@ -159,45 +179,165 @@
 			}
 		},
 		onLoad() {
-			// uni.request({
-			// 	url:'/api/wechat/mp_auth',
-			// 	method:'POST',
-			// 	data:object
-			// })
+			 var obj1 = dateTimePicker.dateTimePicker(this.startYear, this.endYear);
+			this.dateTimeArray1=obj1.dateTimeArray,
+			this.dateTime1= obj1.dateTime
+			console.log(this.currentDate,this.date,this.aa,'onload')
 		},
-		  // computed: {
-				//         startDate() {
-				//             return this.getDate('start');
-				//         },
-				//         endDate() {
-				//             return this.getDate('end');
-				//         }
-				//     },
+		computed:{
+			  startDate() {
+					            return this.getDate('start');
+					        },
+					        endDate() {
+					            return this.getDate('end');
+					        }
+		},
 		methods: {
+			// 文本域
+			confirm(e){
+				console.log(e)
+			},
+		
+			// 时间选择开始
+			getDate(type) {
+				console.log(1111,type)
+						            const date = new Date();
+						            let year = date.getFullYear();
+						            let month = date.getMonth() + 1;
+						            let day = date.getDate();
+						
+						            if (type === 'start') {
+						                year = year - 60;
+						            } else if (type === 'end') {
+						                year = year + 2;
+						            }
+						            month = month > 9 ? month : '0' + month;;
+						            day = day > 9 ? day : '0' + day;
+						            return `${year}-${month}-${day}`;
+						        },
+								// 确定最终结果
+						 changeDateTime1(e) {
+						    // this.dateTime1= e.detail.value ;
+							this.Optional.forEach(item=>{
+							 		if(item.key==this.timetype){
+							 			item.value=this.currentDate
+							 		}
+							 	})
+						  },
+						  // 改变行
+						 changeDateTimeColumn1(e) {
+						    var arr = this.dateTime1, dateArr = this.dateTimeArray1;
+						    arr[e.detail.column] = e.detail.value;
+						    dateArr[2] = dateTimePicker.getMonthDay(dateArr[0][arr[0]], dateArr[1][arr[1]]);
+						
+						      this.dateTimeArray1=dateArr;
+						     this.dateTime1=arr;
+							this.currentDate=dateArr[0][arr[0]]+'-'+dateArr[1][arr[1]]+'-'+dateArr[2][arr[2]]+' '+dateArr[3][arr[3]]+':'+dateArr[4][arr[4]]
+							 // console.log(currentDate,888)
+							 // this.currentDate=currentDate
+							 // this.formdata.visit_at=dateArr[0][arr[0]]+'-'+dateArr[1][arr[1]]+'-'+dateArr[2][arr[2]]+' '+dateArr[3][arr[3]]+':'+dateArr[4][arr[4]]
+							 
+						  },
+						  // pao(type){
+							 //  this.timetype=type
+							//   console.log(type,'冒泡')
+						 //  	this.Optional.forEach(item=>{
+						 //  		if(item.key==type){
+						 //  			item.value=this.currentDate
+						 //  		}
+						 //  	})
+							// console.log(this.Optional)
+						  // },
+			// 发布
+			sure(){
+				let formdata={}
+				this.re_list.map(item=>{
+					let key=item.key
+					let value=item.value
+					formdata[key]=value
+				})
+				this.Optional.map(item=>{
+					// let
+					formdata[item.key]=item.value
+				})
+				console.log(formdata)
+				this.$apis.SELL(formdata).then(res=>{
+					this.re_list.forEach(item=>{
+						item.value=''
+					})
+					this.Optional.forEach(item=>{
+						item.value=''
+					})
+					this.fileList=[]
+					uni.navigateTo({
+						url:'/pages/record/detail?id='+res.id
+					})
+				})
+			},
+			change(e,index){
+				if(index==0){
+					//额外
+					Object.assign(this.Optional[index],{value:e.detail.value?1:0})
+				}else{
+					Object.assign(this.re_list[index],{value:e.detail.value})
+				}
+				console.log(this.re_list,this.Optional)
+			},
+			// 上拉价格菜单
+			// onSelect(e){
+			// 	Object.assign(this.formdata,{price:e.detail.value})
+			// },
+				// 删除图片
+						deleteImg(e){
+							let index=e.detail.index
+							this.fileList.splice(index,1)
+						},
+						
+						 afterRead(event) {
+							 // this.fileList=[]
+							const file=event.detail.file
+							uni.showLoading({
+								
+							})
+							file.map(item=>{
+								uni.uploadFile({
+									url:this.public_data.host + '/api/upload/image',
+									filePath: item.url,
+									header: {
+										'Authori-zation': 'Bearer' + ' ' + uni.getStorageSync('TOKEN')
+									},
+									name: 'image',
+									formData: {
+										filename: 'image'
+									},
+									success: (uploadFileRes)=> {
+										console.log('成功',uploadFileRes)
+										
+										        // const { fileList = [] } = this.data;
+										        this.fileList.push(JSON.parse(uploadFileRes.data).data);
+												
+												Object.assign(this.re_list[3],{value:JSON.parse(uploadFileRes.data).data.url})
+			console.log(this.re_list)									
+												uni.hideLoading()
+									}
+								});
+							})
+							
+						  },
 			toPage(){
 				uni.navigateTo({
 					url:'/pages/login/login'
 				})
 			},
-			
-			setAnimation(){
-			console.log(this.$refs)	
-			},
-			// 上拉价格菜单
-			onSelect(){
-				
-			},
-			// 时间选择
-			 onInput(event) {
-			      this.currentDate=event.detail
-				  console.log(event,999)
-			  },
 
-		}
+		},
 	}
 </script>
 
 <style lang="scss">
+	.switch{
+		transform: scale(.5) translateX(36rpx);
+	}
 	.van-enter-active-class,
 	.van-leave-active-class {
 	  transition-property: background-color, transform;
@@ -257,6 +397,13 @@
 			}
 			.van-uploader__upload{
 				background: #fff;
+			}
+			.li_106 {
+				width: 95%;
+				.pickertime{
+					flex:0 0 65%;
+					text-align: right;
+				}
 			}
 		}
 	}

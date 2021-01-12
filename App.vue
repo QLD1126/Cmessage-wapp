@@ -27,6 +27,54 @@
 		color: #333;
 		background: #F8F8F8;
 	}
+	.sell_info{
+		>view {
+			background-color: #fff;
+		}
+		
+		>view:first-child {
+			width: 700rpx;
+			padding: 0 25rpx;
+			margin-bottom: 20rpx;
+		
+			>view {
+				display: flex;
+				justify-content: flex-start;
+				align-items: center;
+				min-height: 54rpx;
+				padding: 10rpx 0;
+		
+				>text:first-child {
+					flex: 0 0 25%;
+				}
+		
+				>image {
+					width: 200rpx;
+					border-radius: 20rpx;
+				}
+			}
+		
+			>view:first-child {
+				border-bottom: 1rpx solid #F8F8F8;
+				justify-content: space-between;
+				height: 88rpx;
+		
+				>text:last-child {
+					color: #f00;
+					font-size: 24rpx;
+				}
+			}
+		
+		}
+		
+		>.btn_round {
+			background: #f00;
+			color: #fff;
+			height: 88rpx;
+			line-height: 88rpx;
+			text-align: center;
+		}
+	}
 .van-popup{
 		background-color: transparent !important;
 	}

@@ -24,6 +24,9 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
+.van-nav-bar__arrow {
+  color: #fff !important;
+}
 .radio {
   -webkit-transform: scale(0.5);
           transform: scale(0.5);
@@ -35,8 +38,9 @@
   z-index: -1;
 }
 .container_0 .top {
+  background: #F83C3B;
   color: #fff;
-  width: 700rpx;
+  width: 702rpx;
   padding: 160rpx 25rpx 10rpx;
   text-align: center;
   height: 300rpx;
@@ -67,9 +71,12 @@
   line-height: 64rpx;
   font-size: 32rpx;
 }
+.container_0 .input {
+  margin-top: 30rpx;
+}
 .container_0 .input > view:first-child {
   padding: 0 25rpx;
-  margin-bottom: 40rpx;
+  margin-bottom: 20rpx auto 40rpx;
 }
 .container_0 .input > view:last-child {
   padding: 0;

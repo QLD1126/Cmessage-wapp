@@ -1,14 +1,17 @@
 <template>
 	<view class="container">
-		<view class="li_106 flex-between" v-for="item in datalist" :key='item.id'>
-			<view class="">
-				<image src="../../static/WechatIMG884.jpg" mode="widthFix"></image>
+		<van-empty description="暂无粉丝" v-if='datalist.length==0' />
+		<view class="" v-else>
+			<view class="li_106 flex-between" v-for="item in datalist" :key='item.id'>
 				<view class="">
-					事实上
+					<image :src="item.fans.avatar" mode=""></image>
+					<view class="">
+						{{item.fans.nickname}}
+					</view>
 				</view>
+				<button :type="item.status==1?'default':'warn'" @click="follow(item)">{{item.status==1?'关注':'互相关注'}}</button>
 			</view>
-			<button type="warn" v-if="1==2">关注</button>
-			<button type="default" v-else>互相关注</button>
+			<uni-load-more :status="loadstate"></uni-load-more>
 		</view>
 	</view>
 </template>
@@ -17,44 +20,90 @@
 	export default {
 		data() {
 			return {
-				datalist: [{
-						title: '小点点',
-						id: 1
-					},
-					{
-						title: '大点点',
-						id: 2
-					},
-				]
+				loadstate: 'loading',
+				formdata: {
+					page: 1,
+					limit: 10
+				},
+				datalist: [],
 			}
+		},
+		onLoad() {
+			this.getList(this.formdata)
+		},
+		methods: {
+			follow(item) {
+				if (item.status == 1) {
+					this.$apis.ISFOLLOW(item.fans.uid).then(() => {
+						this.getList(this.formdata)
+					})
+				} else {
+					uni.showModal({
+						title: '确定取消关注吗？',
+						success: (res) => {
+							if (res.confirm) {
+								this.$apis.UNFOLLOW(item.fans.uid).then(() => {
+									this.getList(this.formdata)
+									uni.showToast({
+										title: '取消关注成功',
+										icon: 'none'
+									})
+								})
+							}
+						}
+					})
+				}
+			},
+			getList(data) {
+				this.$apis.FANS(data).then(res => {
+					this.loadstate = res.length < data.limit ? 'noMore' : 'more'
+					this.datalist = res
+				})
+			},
+			loadMore(data) {
+				this.$apis.FANS(data).then(res => {
+					this.loadstate = res.length < data.limit ? 'noMore' : 'more'
+					this.datalist.push(...res)
+				})
+			}
+		},
+		onReachBottom() {
+			// if(thi)
+			this.formdata.page++
+			this.loadMore(this.formdata)
 		}
 	}
 </script>
 
 <style lang="scss">
 	.container {
-		.li_106{
+		.li_106 {
 			height: 144rpx;
 			line-height: 1;
-			>view:first-child{
+
+			>view:first-child {
 				display: flex;
 				align-items: center;
-				image{
+
+				image {
 					width: 88rpx;
+					height: 88rpx;
 					border-radius: 50%;
 					margin-right: 20rpx;
-					+view{
+
+					+view {
 						font-weight: bold;
 					}
 				}
 			}
-			button{
+
+			button {
 				margin: 0;
 				padding: 0;
 				width: 140rpx;
 				height: 54rpx;
 				line-height: 54rpx;
-				font-size:24rpx ;
+				font-size: 24rpx;
 			}
 		}
 	}

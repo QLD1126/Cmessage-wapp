@@ -33,7 +33,7 @@
   height: 370rpx;
   position: relative;
 }
-.container_0 > view:first-child > view {
+.container_0 > view:first-child > view, .container_0 > view:first-child navigator {
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
@@ -42,15 +42,21 @@
           align-items: center;
   color: #fff;
 }
-.container_0 > view:first-child > view > image {
+.container_0 > view:first-child > view > image, .container_0 > view:first-child navigator > image {
   width: 130rpx;
+  height: 130rpx;
   border: 2rpx solid #fff;
   border-radius: 50%;
   margin-right: 20rpx;
 }
-.container_0 > view:first-child > view > image + text {
+.container_0 > view:first-child > view > text, .container_0 > view:first-child > view navigator, .container_0 > view:first-child navigator > text, .container_0 > view:first-child navigator navigator {
   font-weight: bold;
   font-size: 36rpx;
+}
+.container_0 > view:first-child > navigator {
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
 }
 .container_0 > view:first-child > view:last-child {
   position: absolute;
@@ -114,5 +120,6 @@
 }
 .container_0 > view:last-child {
   margin-top: 20rpx;
+  color: #999;
 }
 

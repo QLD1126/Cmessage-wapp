@@ -16,9 +16,9 @@ const store=new Vuex.Store({
 				const res = await apis.LOGIN(data)
 				uni.setStorageSync('TOKEN', res.token)
 				uni.setStorageSync('CATCH_KEY',res.cache_key)
-				uni.navigateBack({
-					delta: 1
-				})
+				// uni.navigateBack({
+				// 	delta: 1
+				// })
 				commit('loginSet', true)
 				return Promise.resolve(res)
 			} catch (error) {
@@ -28,6 +28,14 @@ const store=new Vuex.Store({
 		async getuserInfo({commit}){
 			try{
 				const res=await apis.USERINFO()
+				// 实名认证页面需要用到
+				if(res.phone!==''){
+					res.phone=String(res.phone).slice(0,3)+'****'+String(res.phone).slice(-4)
+				}
+				if(res.alipay_account!==''){
+					res.alipay_account=String(res.alipay_account).slice(0,3)+'****'+String(res.alipay_account).slice(-4)
+				}
+				uni.setStorageSync('USERINFO',res)
 				commit('userinfoSet',res)
 				return Promise.resolve(res)
 			}catch(Error){

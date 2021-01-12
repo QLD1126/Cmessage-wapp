@@ -2,6 +2,7 @@
   "navigationBarTitleText": "记录",
   "enablePullDownRefresh": false,
   "usingComponents": {
+    "uni-load-more": "/components/uni-load-more/uni-load-more",
     "van-action-sheet": "/wxcomponents/vant/dist/action-sheet/index",
     "van-tab": "/wxcomponents/vant/dist/tab/index",
     "van-tabs": "/wxcomponents/vant/dist/tabs/index",

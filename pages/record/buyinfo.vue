@@ -1,0 +1,180 @@
+<template>
+	<view class="container sell_info" v-show="loadOver">
+		<view>
+			<view>
+				<text class="t_32_333">{{info.goods.title}}</text>
+				<text :style="{color:info.goods.status>3?'#999':'#FE4543'}">{{info.goods._status}}</text>
+			</view>
+			<view class="user">
+				<view class="">
+					<image :src="info.mch_user.avatar" mode=""></image>
+					{{info.mch_user.nickname}}
+				</view>
+				<button type="warn" class="btn_squre" @click="follow(info.mch_user.uid)">+关注</button>
+			</view>
+			<!-- <view>
+				<text>副标题：</text>
+				<text>{{info.goods.subhead}}</text>
+			</view> -->
+			<view v-if="pageType=='isbuy'">
+				<text>内容：</text>
+				<text>{{info.goods.content}}</text>
+			</view>
+			<view v-if="info.goods.image!==''&&pageType=='isbuy'">
+				<text>图片：</text>
+				<image :src="info.goods.image" mode="widthFix"></image>
+			</view>
+			<view class="nobuy">
+				购买详情后可见
+			</view>
+		</view>
+		<view class="list_between_106">
+			<view>
+				<text>价格</text>
+				<text>¥ {{info.goods.price}}</text>
+			</view>
+			<view v-if="pageType=='isbuy'">
+				<text>不对返还</text>
+				<text>{{info.goods.is_return==1?'开':'关'}}</text>
+			</view>
+			<view>
+				<text>销售截止时间</text>
+				<text>{{info.goods.end_time}}</text>
+			</view>
+			<view v-if="pageType=='isbuy'">
+				<text>内容公开时间</text>
+				<text>{{info.goods.open_time}}</text>
+			</view>
+			<view v-if="info.goods.status==4&&pageType=='isbuy'">
+				<text>结果</text>
+				<text>结果正确</text>
+			</view>
+		</view>
+		<!-- <button type="warn" class="btn_round" @click="buy(info.goods.id)" v-if="pageType=='share'">购买</button> -->
+		<button type="warn" class="btn_round" @click="buy(info.goods.id)">购买</button>
+	</view>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				pageType: 'isbuy',
+				loadOver: false,
+				info: {},
+				resShow: false,
+				actions: [{
+						name: '结果正确',
+					},
+					{
+						name: '结果错误',
+					},
+				],
+			}
+		},
+		onLoad(options) {
+			this.pageType = options.type
+			// 刷新页面用
+			if (options.type == 'isbuy') {
+				this.$apis.BUY_INFO(options.id).then(res => {
+					// this.info = res
+					Object.assign(this.info,{id:options.id,...res})
+					this.loadOver = true
+					// console.log(this.info)
+				})
+			} else {
+				this.$apis.BUY_SHARE_INFO(options.id).then(res=>{
+					let goods={...res}
+					Object.assign(this.info,{id:options.id,mch_user:res.user,goods:goods})
+				})
+			}
+		},
+		methods: {
+			buy(id) {
+				this.$apis.BUY_CREATE(id).then(res => {
+					console.log(res)
+					wx.requestPayment({
+						appId: res.appId,
+						timeStamp: res.timestamp,
+						nonceStr: res.nonceStr,
+						package: res.package,
+						signType: res.signType,
+						paySign: res.paySign,
+						success: pay => {
+							console.log('支付结果', pay)
+							uni.reLaunch({
+								url:'/pages/record/buyinfo?type=isbuy&id='+res.id
+							})
+						},
+						fail: err => {
+							uni.showToast({
+								title: err,
+								duration: 2000
+							});
+						},
+					})
+				})
+			},
+			follow(id) {
+				this.$apis.ISFOLLOW(id).then(res => {
+					uni.showToast({
+						title: '已关注',
+						icon: 'none'
+					})
+					// this.
+					// 状态改为已关注
+				})
+			},
+			btnClick() {
+				// 不同状态不同操作
+				this.resShow = true
+			}
+		}
+	}
+</script>
+
+<style lang="scss">
+	.container {
+		>view:first-child {
+			>.user {
+				justify-content: space-between;
+				padding: 20rpx 0;
+
+				>view {
+					display: flex;
+					align-items: center;
+
+					>image {
+						width: 94rpx;
+						height: 94rpx;
+						border-radius: 50%;
+						margin-right: 10rpx;
+					}
+				}
+
+				>.btn_squre {
+					position: static;
+					width: 140rpx;
+					height: 54rpx;
+					line-height: 54rpx;
+					padding: 0;
+					font-size: 24rpx;
+					margin: 0;
+				}
+			}
+
+			>.nobuy {
+				height: 240rpx;
+				color: #999;
+				justify-content: center;
+				border-top: 1rpx solid #f3f3f3;
+			}
+		}
+
+		>.btn_round {
+			position: absolute;
+			bottom: 20rpx;
+			left: 25rpx;
+		}
+	}
+</style>

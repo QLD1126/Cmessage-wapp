@@ -1,17 +1,22 @@
 <template>
 	<view class="container_0">
 		<view>
-			<view>
-				<image src="../../static/WechatIMG884.jpg" mode="widthFix"></image>
-				<text>啊啊等哈悲剧啊</text>
+			<view v-if="isLogged">
+				<image :src="userInfo.avatar"></image>
+				<text>{{userInfo.nickname}}</text>
 			</view>
+			<navigator v-else open-type="navigate" url="/pages/login/login">
+				<text>
+					前往登录
+				</text>
+			</navigator>
 			<view>
 				<view>
 					<view>
 						今日收益（¥）
 					</view>
 					<view>
-						120.00
+						{{userInfo.todayEarnings||0}}
 					</view>
 				</view>
 				<view>
@@ -19,12 +24,12 @@
 						累计收益（¥）
 					</view>
 					<view>
-						120.00
+						{{userInfo.totalEarnings||0}}
 					</view>
 				</view>
 			</view>
 		</view>
-		<view >
+		<view>
 			<view v-for="item in meArr" :key='item.title' @click="toPage(item.url)">
 				<image :src="item.image"></image>
 				{{item.title}}
@@ -42,6 +47,9 @@
 </template>
 
 <script>
+	import {
+		mapState,mapActions
+	} from 'vuex';
 	export default {
 		data() {
 			return {
@@ -79,20 +87,26 @@
 				}]
 			};
 		},
+		computed:mapState(['userInfo','isLogged']),
+		onLoad() {
+			this.getuserInfo()
+			console.log(this.userInfo)
+		},
 		methods: {
+			...mapActions(['getuserInfo']),
 			aa(e) {
-				console.log('子元素',e)
+				console.log('子元素', e)
 			},
 			toPage(url) {
-				let isTab=['/pages/index/index','/pages/record/record'].indexOf(url)
-				if(isTab<0){
+				let isTab = ['/pages/index/index', '/pages/record/record'].indexOf(url)
+				if (isTab < 0) {
 					console.log(1111)
 					uni.navigateTo({
-						url:url
+						url: url
 					})
-				}else{
+				} else {
 					uni.switchTab({
-						url:url
+						url: url
 					})
 				}
 			}
@@ -112,20 +126,24 @@
 			// 头像部分
 			position: relative;
 
-			>view {
+			>view,navigator {
 				display: flex;
 				align-items: center;
 				color: #fff;
 				>image {
 					width: 130rpx;
+					height: 130rpx;
 					border: 2rpx solid #fff;
 					border-radius: 50%;
 					margin-right: 20rpx;
-					+text {
-						font-weight: bold;
-						font-size: 36rpx;
-					}
 				}
+				>text,navigator {
+					font-weight: bold;
+					font-size: 36rpx;
+				}
+			}
+			>navigator{
+				justify-content: center;
 			}
 
 			>view:last-child {
@@ -137,9 +155,11 @@
 				// background-image: linear-gradient(to bottom, #9CBAF7, #6C84B2);
 				background: #2C3240;
 				left: 25rpx;
+
 				>view {
 					flex: 0 0 50%;
 					text-align: center;
+
 					>view:first-child {
 						font-size: 24rpx;
 
@@ -162,6 +182,7 @@
 			justify-content: space-around;
 			align-items: center;
 			height: 172rpx;
+
 			>view {
 				flex: 0 0 33%;
 				height: 100%;
@@ -180,6 +201,7 @@
 
 		>view:last-child {
 			margin-top: 20rpx;
+			color: #999;
 		}
 	}
 </style>

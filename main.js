@@ -4,9 +4,9 @@ import apis from './common/service/index.js'
 import store from './store'
 Vue.prototype.$apis = apis
 Vue.config.productionTip = false
-
+import {public_data} from 'common/public_data.js'
+Vue.prototype.public_data=public_data
 App.mpType = 'app'
-Vue.prototype.aa='暂无内容'
 
 const app = new Vue({
 	store,

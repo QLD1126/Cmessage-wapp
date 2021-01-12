@@ -24,15 +24,27 @@ export default ({
 			url: '/api/sell/del/' + id
 		})
 	},
-	// 买
+	//
+	BUY_LIST(params){
+		return request({
+			url:'/api/order/list',
+			params
+		})
+	},
+	
 	BUY_INFO(id) {
 		return request({
-			url: '/api/buy/detail/' + id
+			url: '/api/order/detail/' + id
 		})
 	},
 	BUY_CREATE(id){
 		return request({
 			url:'/api/order/create/'+id
+		})
+	},
+	BUY_SHARE_INFO(id){
+		return request({
+			url:'/api/buy/detail/'+id
 		})
 	}
 })
