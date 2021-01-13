@@ -1,7 +1,9 @@
 <template>
 	<view class="container">
 		<van-empty description="暂无记录" v-if='datalist.length==0' />
-		<view class="li_106 flex-between" v-else>
+		<view class="" v-else>
+			
+		<view class="li_106 flex-between">
 			<view class="">
 				<view class="">
 					提现到微信
@@ -20,6 +22,7 @@
 			</view>
 		</view>
 		<uni-load-more :status="loadStatus"></uni-load-more>
+		</view>
 		
 	</view>
 </template>
@@ -28,11 +31,37 @@
 	export default{
 		data(){
 			return {
-				loadStatus:'more',
-				datalist:[]
+				loadStatus:'loading',
+				datalist:[],
+				formdata:{
+					page:1,
+					limit:10,
+				},
 			}
 		},
+		onLoad() {
+			this.getList(this.formdata)
+		},
 		methods:{
+			getList(data){
+				data.page=1
+				this.$apis.CASH_LIST(data).then(res=>{
+					this.loadStatus=res.length>data.limit?'more':'noMore'
+					this.datalist=res
+				})
+			},
+			loadMore(data){
+				this.$apis.CASH_LIST(data).then(res=>{
+					this.loadStatus=res.length>data.limit?'more':'noMore'
+					this.datalist.push(...res)
+				})
+			}
+		},
+		onReachBottom() {
+			if(this.loadStatus=='more'){
+				this.formdata.page++
+				this.loadMore(this.formdata)
+			}
 		}
 	}
 </script>

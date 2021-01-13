@@ -108,14 +108,14 @@
 				console.log(e)
 			},
 			toPage() {
-				// if(parseInt( this.userInfo.balance)<parseInt(this.userInfo.min_extract_price)){
-				// 	uni.showToast({
-				// 		title:'最低提现金额为'+this.userInfo.min_extract_price,
-				// 		icon:'none'
-				// 	})
-				// }else{
+				if(parseInt( this.userInfo.balance)<parseInt(this.userInfo.min_extract_price)){
+					uni.showToast({
+						title:'最低提现金额为'+this.userInfo.min_extract_price,
+						icon:'none'
+					})
+				}else{
 				this.pageType = 2
-				// }
+				}
 			},
 			onClickLeft() {
 				if (this.pageType == 2) {

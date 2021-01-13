@@ -7984,6 +7984,9 @@ api;exports.default = _default;
 
 
 function req(obj) {
+  uni.showLoading({});
+
+
   return new Promise(function (resolve, reject) {
     var HOST = _public_data.public_data.host;
     var method = obj.method || "GET";
@@ -8000,7 +8003,7 @@ function req(obj) {
     var fail = obj.fail; //表示失败后，要执行的回调函数
     uni.request({
       url: url,
-      data: method == 'get' ? params : data,
+      data: method == 'post' ? data : params,
       header: header,
       method: method,
       success: function success(res) {
@@ -8018,15 +8021,17 @@ function req(obj) {
         } else {
           var status = res.data.status;
           if (status == 200) {
+            uni.hideLoading();
             resolve(res.data.data);
-          } else if ([410000, 410001, 410001].indexOf(status) >= 0) {
+          } else if ([410000, 410001, 410002].indexOf(status) >= 0) {
             uni.showToast({
               title: res.data.msg,
               icon: 'none' });
 
             uni.removeStorageSync('TOKEN');
             uni.removeStorageSync('USERINFO');
-            uni.reLaunch({
+            uni.removeStorageSync('CATCH_KEY');
+            uni.navigateTo({
               url: '/pages/login/login' });
 
             reject(res.data);
@@ -8303,6 +8308,7 @@ var store = new _vuex.default.Store({
     getuserInfo: function getuserInfo(_ref2) {return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var commit, res;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:commit = _ref2.commit;_context2.prev = 1;_context2.next = 4;return (
 
                   _index.default.USERINFO());case 4:res = _context2.sent;
+
                 // 实名认证页面需要用到
                 if (res.phone !== '') {
                   res.phone = String(res.phone).slice(0, 3) + '****' + String(res.phone).slice(-4);

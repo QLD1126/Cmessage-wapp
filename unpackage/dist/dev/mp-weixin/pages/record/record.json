@@ -1,6 +1,6 @@
 {
   "navigationBarTitleText": "记录",
-  "enablePullDownRefresh": false,
+  "enablePullDownRefresh": true,
   "usingComponents": {
     "uni-load-more": "/components/uni-load-more/uni-load-more",
     "van-action-sheet": "/wxcomponents/vant/dist/action-sheet/index",

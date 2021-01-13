@@ -90,6 +90,9 @@
   min-width: 100rpx;
   text-align: center;
 }
+.container_0 .item > .flex-between {
+  font-size: 24rpx;
+}
 .container_0 .item > .flex-between > text:first-child {
   color: #f00;
   font-size: 24rpx;
@@ -107,7 +110,8 @@
   -webkit-box-flex: 0;
   -webkit-flex: 0 0 50%;
           flex: 0 0 50%;
-  border: 1rpx solid #f8f8f8;
+  border: 1rpx solid #F3f3f3;
+  border-radius: 0;
 }
 .container_0 .item > .flex-around > button > text {
   font-size: 24rpx;
@@ -154,6 +158,6 @@
 }
 .fff {
   background: #fff;
-  border: 1rpx solid #666;
+  border: 1rpx solid #ccc;
 }
 

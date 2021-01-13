@@ -24,6 +24,9 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
+.t_32_333 + view {
+  margin-top: 10rpx;
+}
 .container > view:first-child > .user {
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
@@ -45,7 +48,7 @@
   margin-right: 10rpx;
 }
 .container > view:first-child > .user > .btn_squre {
-  position: static;
+  position: relative;
   width: 140rpx;
   height: 54rpx;
   line-height: 54rpx;

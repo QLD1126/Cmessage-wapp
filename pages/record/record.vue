@@ -1,7 +1,7 @@
 <template>
 	<view class="container_0">
 		<view class="">
-			<input type="text" v-model="formdata.keyword" placeholder="请输入搜索关键词" confirm-type="search" @confirm="getList(formdata)" />
+			<input type="text" v-model="formdata.keywords" placeholder="请输入搜索关键词" confirm-type="search" @confirm="getList(formdata)" />
 			<text class="iconfont icon-sousuo"></text>
 		</view>
 		<van-tabs swipeable @change='tabchange' animated>
@@ -16,11 +16,8 @@
 									<image src="../../static/fan.png" mode="" class="icon_44"></image>
 									<text class="t_32_333">{{item.title}}</text>
 								</view>
-								<!-- <view class="" @click.stop="openPop('res')">
-									选结果
-								</view> -->
-								<view :class="item.status==1?'red':item.status==-1?'hui':'fff'"  v-if="item.status==3" @click.stop="openPop('res',item.status)">
-									<!-- {{item.status==3?'选结果':''}} -->选结果
+								<view :class="item.result==1?'red':item.result==-1?'hui':'fff'" :style="{display:item.status==3?'inline':'none'}" @click.stop="openPop('res',item)">
+									{{item.result==-1?'错误':item.result==1?'正确':'选结果'}}
 									<!-- {{item.status==-1?'结果错误':item.status==0?'等待结果':'结果正确'}} -->
 								</view>
 
@@ -28,11 +25,14 @@
 							<text>{{item.subhead}}</text>
 							<view class="flex-between">
 								<text>{{item._status}}</text>
+								<!-- <text v-if="item.status==2">已售份</text> -->
+								<view class="t_24_9" v-if="item.status>=2">已售<text style="color: #f00;">{{item.sales}}</text> 份</view>
 								<text class="t_24_9">{{item.add_time}}</text>
 							</view>
 							<view class="flex-around">
-								<button type="default" plain @click.stop="openPop('share')"><text class="iconfont icon-fenxiang">分享</text></button>
-								<button type="default" plain @click.stop="remove(item.id,index)"><text class="iconfont icon-delete2">删除</text></button>
+								<button type="default" plain @click.stop="openPop('share',item)"><text class="iconfont icon-fenxiang">分享</text></button>
+								<button type="default" plain @click.stop="remove(item.id,index)" :disabled="item.status==2||item.status==3"><text
+									 :style='{color:item.status==2||item.status==3?"#999":"#000"}' class="iconfont icon-delete2">删除</text></button>
 							</view>
 						</navigator>
 					</view>
@@ -68,9 +68,9 @@
 				<view class="">
 
 					<text class="t_32_333">必须红</text>
-					<image src="../../static/denglutishi.png" mode="widthFix"></image>
+					<image :src="wxaCode" mode="widthFix"></image>
 					<text class="t_24_9">信息发布小程序</text>
-					<button class="btn_round_line" @click.stop="saveImage">保存</button>
+					<button class="btn_round_line" @click.stop="saveBase64">保存</button>
 				</view>
 				<image src="../../static/indexclose.png" mode="widthFix" @click.stop="ewmShow=false"></image>
 			</view>
@@ -82,13 +82,15 @@
 	export default {
 		data() {
 			return {
+				wxaCode: '',
+				item: {},
 				// 加载列表
 				loadStatus: 'loading',
 				formdata: {
 					type: 0,
 					page: 1,
 					limit: 10,
-					keyword: null,
+					keywords: '',
 				},
 				ewmShow: false,
 				shareShow: false,
@@ -105,39 +107,31 @@
 					}
 				],
 				btntype: 'share',
-				actions: [{
-					name: '分享到微信好友'
-				}, {
-					name: '二维码分享'
-				}],
+				actions: [],
 			};
 		},
 		onLoad() {
 			this.getList(this.formdata)
+		},
+		onShow() {
 		},
 		methods: {
 			getList(data) {
 				data.page = 1
 				console.log(data)
 				if (data.type == 0) {
-					// uni.showLoading({
-
-					// })
-					// 卖料
+				// 卖料
 					this.$apis.SELL_LIST(data).then(res => {
 						this.loadStatus = res.length < data.limit ? 'noMore' : 'more'
 						this.datalist[0].content = res
-						// console.log(this.datalist[].content, 777)
-						// uni.hideLoading()
+						uni.stopPullDownRefresh()
 					})
 				} else {
+				// 买料
 					this.$apis.BUY_LIST(data).then(res => {
 						this.loadStatus = res.length < data.limit ? 'noMore' : 'more'
 						this.datalist[1].content = res
-						// uni.hideLoading()
-
 					})
-					// 
 				}
 			},
 			loadMore(data) {
@@ -174,11 +168,19 @@
 				this.getList(this.formdata)
 				console.log(e.detail)
 			},
-			openPop(type,status) {
+			openPop(type, item) {
 				// this.btntype=type
+				this.item = item //分享用
+				if (item && item.result !== 0) {
+					uni.showToast({
+						title: '当前状态还不能选结果'
+					})
+					return
+				}
 				this.actions = type == 'share' ? [{
 						name: '分享到微信好友',
 						value: 'wx',
+						openType: 'share'
 					}, {
 						name: '二维码分享',
 						value: 'ewm',
@@ -187,68 +189,164 @@
 
 					}, {
 						name: '结果错误'
-					}]
+					}],
 					this.shareShow = true
-					// this.show = true
+				// this.show = true
 
 			},
 			onSelect(e) {
 				console.log(e.detail)
 				let res = e.detail.value
-				if (res == 'wx') {
-				} else {
+				if (res == 'wx') {} else {
 					this.shareShow = false
-					this.ewmShow = true
+					this.getToken()
 				}
 			},
-			saveImage() {
-							// console.log(123)
-							uni.saveImageToPhotosAlbum({
-								filePath: 'https://img-home.csdnimg.cn/images/20201124032511.png',
-								success: () => {
-									uni.showToast({
-										title: '保存成功',
-										duration: 2000
-									});
+			// 获取访问相册权限
+			getAuthorize() {
+				let that = this
+				//判断用户是否授权"保存到相册"
+				wx.getSetting({
+					success(res) {
+						//没有权限，发起授权
+						if (!res.authSetting['scope.writePhotosAlbum']) {
+							wx.authorize({
+								scope: 'scope.writePhotosAlbum',
+								success() { //用户允许授权，保存图片到相册
+									that.saveImage();
 								},
-								fail: (err) => {
-									console.log(err)
-									uni.showToast({
-										title: '保存失败',
-										duration: 2000,
-										icon: "none"
-									});
+								fail() { //用户点击拒绝授权，跳转到设置页，引导用户授权
+									wx.openSetting({
+										success() {
+											wx.authorize({
+												scope: 'scope.writePhotosAlbum',
+												success() {
+													that.saveImage();
+												}
+											})
+										}
+									})
 								}
-							});
-							return
-							uni.showActionSheet({
-								itemList: ['保存图片', '取消'],
-								success: res => {
-									if (res.tapIndex == 0) {
-			
-									}
-								},
-								fail: function(res) {
-									console.log(res.errMsg);
-								}
-							});
+							})
+						} else { //用户已授权，保存到相册
+							that.saveImage()
 						}
+					}
+				})
+			},
+			//保存图片到相册，提示保存成功
+			saveImage() {
+				let that = this
+				wx.downloadFile({
+					url: 'https://profile.csdnimg.cn/4/0/2/0_weixin_48888726',
+					success: function(res) {
+						wx.saveImageToPhotosAlbum({
+							filePath: res.tempFilePath,
+							success(res) {
+								wx.showToast({
+									title: '保存成功',
+									icon: "success",
+									duration: 1000
+								})
+							}
+						})
+					}
+				})
+			},
+			  // 保存base64
+			  saveBase64() {
+			    var that = this
+			    var aa = wx.getFileSystemManager();//获取文件管理器对象
+			    // console.log('that.data.wxaCode:', that.data.wxaCode)
+			    aa.writeFile({
+			      filePath: wx.env.USER_DATA_PATH + '/cmessage.png',
+			      data: this.wxaCode.slice(22),
+			      encoding: 'base64',
+			      success: res => {
+			        wx.saveImageToPhotosAlbum({
+			          filePath: wx.env.USER_DATA_PATH + '/cmessage.png',
+			          success: function (res) {
+			            wx.showToast({
+			              title: '保存成功',
+			            })
+			          },
+			          fail: function (err) {
+						  console.log(err,'失败')
+			          }
+			        })
+			        console.log(res)
+			      }, fail: err => {
+			        console.log(err)
+			      }
+			    })
+			  },
+			// 二维码
+			//获取access_token
+			getToken() {
+				uni.request({
+					url: 'https://api.weixin.qq.com/cgi-bin/token',
+					method: 'GET',
+					data: {
+						grant_type: 'client_credential',
+						appid: 'wxff7578518bec0a09',
+						secret: 'c04ac48be3603ee577de3cc7a493095d'
+					},
+					header: {
+						'content-type': 'application/json' // 默认值
+					},
+					success: res => {
+						// wx.setStorageSync('access_token', res.data.access_token)
+						let access_token = res.data.access_token
+						wx.request({
+							url: 'https://api.weixin.qq.com/cgi-bin/wxaapp/createwxaqrcode?access_token=' + access_token,
+							method: 'POST',
+							responseType: 'arraybuffer',
+							data: {
+								path: "pages/record/buyinfo?type=share&id=" + this.item.id,
+								width: 200
+							},
+							success: (res) => {
+								// console.log('二维码', res.data)
+								var base64 = wx.arrayBufferToBase64(res.data).replace(/\. +/g, '')
+								base64 = base64.replace(/[\r\n]/g, '')
+								uni.setStorageSync('wxaCode', 'data:image/png;base64,' + base64)
+								this.wxaCode = 'data:image/png;base64,' + base64
+								this.ewmShow = true
+							},
+							complete: function(res) {
+								// console.log('二维码', res.data)
+							}
+						})
+					},
+					complete: res => {
+						console.log(res)
+					}
+				})
+			},
 		},
-		onShareAppMessage: function() {
+		onShareAppMessage() {
+			let item = this.item
+			console.log(item)
 			return {
-				title: '邀请好友领积分',
-				imageUrl: this.imgurl, //自定义图片路径，可以是本地文件路径、代码包文件路径或者网络图片路径。支持PNG及JPG。显示图片长宽比是 5:4。
-				path: '/pages/index/index',
+				title: item.title,
+				imageUrl: item.image, //自定义图片路径，可以是本地文件路径、代码包文件路径或者网络图片路径。支持PNG及JPG。显示图片长宽比是 5:4。
+				path: '/pages/record/buyinfo?type=share&id=' + item.id,
 				success: function(res) {
-					console.log(res);
+					console.log(res, '分享');
 				}
 			};
 		},
 		onReachBottom() {
-			if (this.loadStatus !== 'noMore') {
-				// Object.assign(this.formdata,{page++})
+			console.log('触底')
+			if (this.loadStatus == 'more') {
 				this.formdata.page++
 				this.loadMore(this.formdata)
+			}
+		},
+		onPullDownRefresh() {
+			if(this.loadStatus!=='loading'){
+				
+				this.getList(this.formdata)
 			}
 		}
 	}
@@ -269,6 +367,7 @@
 
 	.container_0 {
 		width: 100vw;
+
 		>view:first-child {
 			position: relative;
 			background: #fff;
@@ -302,18 +401,15 @@
 			text {
 				margin: 17rpx 0;
 			}
-
 			>view:first-child {
 				position: relative;
 				display: flex;
 				align-items: center;
 				height: 88rpx;
-
 				>view {
 					display: flex;
 					align-items: center;
 					justify-content: space-between;
-
 					>image {
 						margin-right: 10rpx;
 					}
@@ -330,11 +426,16 @@
 			}
 
 			>.flex-between {
+				font-size: 24rpx;
+
 				>text:first-child {
 					color: #f00;
 					font-size: 24rpx;
 				}
 
+				// >view{
+				// 	color: ;
+				// }
 				.t_24_9+text {
 					color: #999;
 				}
@@ -348,7 +449,8 @@
 
 				>button {
 					flex: 0 0 50%;
-					border: 1rpx solid #f8f8f8;
+					border: 1rpx solid #F3f3f3;
+					border-radius: 0;
 
 					>text {
 						font-size: 24rpx;
@@ -404,6 +506,6 @@
 
 	.fff {
 		background: #fff;
-		border: 1rpx solid #666;
+		border: 1rpx solid #ccc;
 	}
 </style>

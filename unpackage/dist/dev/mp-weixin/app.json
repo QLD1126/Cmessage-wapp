@@ -21,7 +21,7 @@
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "C信息",
     "navigationBarBackgroundColor": "#FFFFFF",
-    "backgroundColor": "#F0AD4E"
+    "backgroundColor": "#f8f8f8"
   },
   "tabBar": {
     "color": "#000000",

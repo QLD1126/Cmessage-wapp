@@ -99,7 +99,6 @@
   text-align: center;
 }
 .pop > image:first-child {
-  margin-top: 194rpx;
   width: 282rpx;
   position: relative;
   z-index: 11;

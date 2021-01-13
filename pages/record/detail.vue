@@ -14,9 +14,9 @@
 				<text>内容：</text>
 				<text>{{info.content}}</text>
 			</view>
-			<view>
+			<view v-if="info.image">
 				<text>图片：</text>
-				<image :src="info.image" mode="widthFix"></image>
+				<image @click="lookImg(info.image)" :src="info.image" mode="widthFix"></image>
 			</view>
 		</view>
 		<view class="list_between_106">
@@ -84,6 +84,11 @@
 				})
 		},
 		methods: {
+			lookImg(url){
+				uni.previewImage({
+					urls:[url]
+				})
+			},
 			btnClick() {
 				// 不同状态不同操作
 				this.resShow = true

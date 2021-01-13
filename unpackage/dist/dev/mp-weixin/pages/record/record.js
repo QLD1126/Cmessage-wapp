@@ -96,7 +96,7 @@ var components
 try {
   components = {
     uniLoadMore: function() {
-      return __webpack_require__.e(/*! import() | components/uni-load-more/uni-load-more */ "components/uni-load-more/uni-load-more").then(__webpack_require__.bind(null, /*! @/components/uni-load-more/uni-load-more.vue */ 130))
+      return __webpack_require__.e(/*! import() | components/uni-load-more/uni-load-more */ "components/uni-load-more/uni-load-more").then(__webpack_require__.bind(null, /*! @/components/uni-load-more/uni-load-more.vue */ 138))
     }
   }
 } catch (e) {
@@ -251,13 +251,15 @@ var _default =
 {
   data: function data() {
     return {
+      wxaCode: '',
+      item: {},
       // 加载列表
       loadStatus: 'loading',
       formdata: {
         type: 0,
         page: 1,
         limit: 10,
-        keyword: null },
+        keywords: '' },
 
       ewmShow: false,
       shareShow: false,
@@ -274,39 +276,31 @@ var _default =
 
 
       btntype: 'share',
-      actions: [{
-        name: '分享到微信好友' },
-      {
-        name: '二维码分享' }] };
-
+      actions: [] };
 
   },
   onLoad: function onLoad() {
     this.getList(this.formdata);
+  },
+  onShow: function onShow() {
   },
   methods: {
     getList: function getList(data) {var _this = this;
       data.page = 1;
       console.log(data);
       if (data.type == 0) {
-        // uni.showLoading({
-
-        // })
         // 卖料
         this.$apis.SELL_LIST(data).then(function (res) {
           _this.loadStatus = res.length < data.limit ? 'noMore' : 'more';
           _this.datalist[0].content = res;
-          // console.log(this.datalist[].content, 777)
-          // uni.hideLoading()
+          uni.stopPullDownRefresh();
         });
       } else {
+        // 买料
         this.$apis.BUY_LIST(data).then(function (res) {
           _this.loadStatus = res.length < data.limit ? 'noMore' : 'more';
           _this.datalist[1].content = res;
-          // uni.hideLoading()
-
         });
-        // 
       }
     },
     loadMore: function loadMore(data) {var _this2 = this;
@@ -343,11 +337,19 @@ var _default =
       this.getList(this.formdata);
       console.log(e.detail);
     },
-    openPop: function openPop(type, status) {
+    openPop: function openPop(type, item) {
       // this.btntype=type
+      this.item = item; //分享用
+      if (item && item.result !== 0) {
+        uni.showToast({
+          title: '当前状态还不能选结果' });
+
+        return;
+      }
       this.actions = type == 'share' ? [{
         name: '分享到微信好友',
-        value: 'wx' },
+        value: 'wx',
+        openType: 'share' },
       {
         name: '二维码分享',
         value: 'ewm' }] :
@@ -355,7 +357,7 @@ var _default =
         name: '结果正确' },
 
       {
-        name: '结果错误' }];
+        name: '结果错误' }],
 
       this.shareShow = true;
       // this.show = true
@@ -364,60 +366,156 @@ var _default =
     onSelect: function onSelect(e) {
       console.log(e.detail);
       var res = e.detail.value;
-      if (res == 'wx') {
-      } else {
+      if (res == 'wx') {} else {
         this.shareShow = false;
-        this.ewmShow = true;
+        this.getToken();
       }
     },
-    saveImage: function saveImage() {
-      // console.log(123)
-      uni.saveImageToPhotosAlbum({
-        filePath: 'https://img-home.csdnimg.cn/images/20201124032511.png',
-        success: function success() {
-          uni.showToast({
-            title: '保存成功',
-            duration: 2000 });
+    // 获取访问相册权限
+    getAuthorize: function getAuthorize() {
+      var that = this;
+      //判断用户是否授权"保存到相册"
+      wx.getSetting({
+        success: function success(res) {
+          //没有权限，发起授权
+          if (!res.authSetting['scope.writePhotosAlbum']) {
+            wx.authorize({
+              scope: 'scope.writePhotosAlbum',
+              success: function success() {//用户允许授权，保存图片到相册
+                that.saveImage();
+              },
+              fail: function fail() {//用户点击拒绝授权，跳转到设置页，引导用户授权
+                wx.openSetting({
+                  success: function success() {
+                    wx.authorize({
+                      scope: 'scope.writePhotosAlbum',
+                      success: function success() {
+                        that.saveImage();
+                      } });
 
-        },
-        fail: function fail(err) {
-          console.log(err);
-          uni.showToast({
-            title: '保存失败',
-            duration: 2000,
-            icon: "none" });
+                  } });
+
+              } });
+
+          } else {//用户已授权，保存到相册
+            that.saveImage();
+          }
+        } });
+
+    },
+    //保存图片到相册，提示保存成功
+    saveImage: function saveImage() {
+      var that = this;
+      wx.downloadFile({
+        url: 'https://profile.csdnimg.cn/4/0/2/0_weixin_48888726',
+        success: function success(res) {
+          wx.saveImageToPhotosAlbum({
+            filePath: res.tempFilePath,
+            success: function success(res) {
+              wx.showToast({
+                title: '保存成功',
+                icon: "success",
+                duration: 1000 });
+
+            } });
 
         } });
 
-      return;
-      uni.showActionSheet({
-        itemList: ['保存图片', '取消'],
+    },
+    // 保存base64
+    saveBase64: function saveBase64() {
+      var that = this;
+      var aa = wx.getFileSystemManager(); //获取文件管理器对象
+      // console.log('that.data.wxaCode:', that.data.wxaCode)
+      aa.writeFile({
+        filePath: wx.env.USER_DATA_PATH + '/cmessage.png',
+        data: this.wxaCode.slice(22),
+        encoding: 'base64',
         success: function success(res) {
-          if (res.tapIndex == 0) {
+          wx.saveImageToPhotosAlbum({
+            filePath: wx.env.USER_DATA_PATH + '/cmessage.png',
+            success: function success(res) {
+              wx.showToast({
+                title: '保存成功' });
 
-          }
+            },
+            fail: function fail(err) {
+              console.log(err, '失败');
+            } });
+
+          console.log(res);
+        }, fail: function fail(err) {
+          console.log(err);
+        } });
+
+    },
+    // 二维码
+    //获取access_token
+    getToken: function getToken() {var _this4 = this;
+      uni.request({
+        url: 'https://api.weixin.qq.com/cgi-bin/token',
+        method: 'GET',
+        data: {
+          grant_type: 'client_credential',
+          appid: 'wxff7578518bec0a09',
+          secret: 'c04ac48be3603ee577de3cc7a493095d' },
+
+        header: {
+          'content-type': 'application/json' // 默认值
         },
-        fail: function fail(res) {
-          console.log(res.errMsg);
+        success: function success(res) {
+          // wx.setStorageSync('access_token', res.data.access_token)
+          var access_token = res.data.access_token;
+          wx.request({
+            url: 'https://api.weixin.qq.com/cgi-bin/wxaapp/createwxaqrcode?access_token=' + access_token,
+            method: 'POST',
+            responseType: 'arraybuffer',
+            data: {
+              path: "pages/record/buyinfo?type=share&id=" + _this4.item.id,
+              width: 200 },
+
+            success: function success(res) {
+              // console.log('二维码', res.data)
+              var base64 = wx.arrayBufferToBase64(res.data).replace(/\. +/g, '');
+              base64 = base64.replace(/[\r\n]/g, '');
+              uni.setStorageSync('wxaCode', 'data:image/png;base64,' + base64);
+              _this4.wxaCode = 'data:image/png;base64,' + base64;
+              _this4.ewmShow = true;
+            },
+            complete: function complete(res) {
+              // console.log('二维码', res.data)
+            } });
+
+        },
+        complete: function complete(res) {
+          console.log(res);
         } });
 
     } },
 
   onShareAppMessage: function onShareAppMessage() {
+    var item = this.item;
+    console.log(item);
     return {
-      title: '邀请好友领积分',
-      imageUrl: this.imgurl, //自定义图片路径，可以是本地文件路径、代码包文件路径或者网络图片路径。支持PNG及JPG。显示图片长宽比是 5:4。
-      path: '/pages/index/index',
+      title: item.title,
+      imageUrl: item.image, //自定义图片路径，可以是本地文件路径、代码包文件路径或者网络图片路径。支持PNG及JPG。显示图片长宽比是 5:4。
+      path: '/pages/record/buyinfo?type=share&id=' + item.id,
       success: function success(res) {
-        console.log(res);
+        console.log(res, '分享');
       } };
 
   },
   onReachBottom: function onReachBottom() {
-    if (this.loadStatus !== 'noMore') {
-      // Object.assign(this.formdata,{page++})
+    console.log('触底');
+    if (this.loadStatus == 'more') {
       this.formdata.page++;
       this.loadMore(this.formdata);
+    }
+  },
+  onPullDownRefresh: function onPullDownRefresh() {
+    if (this.loadStatus !== 'loading') {
+
+      this.getList(this.formdata);
     }
   } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))

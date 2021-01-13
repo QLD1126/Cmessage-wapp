@@ -73,7 +73,6 @@
 			const currentDate = this.getDate({
 									            format: true
 									        })
-											aa:0
 			return {
 				formdata:{},
 				// 上传
@@ -93,7 +92,7 @@
 				priceAction: [
 				      {
 				        name: '免费',
-						value:0,
+						value:'0',//避免选了之后没有结果
 				      },
 				      {
 				        name: '1元',
@@ -410,7 +409,7 @@
 	.pop{
 		text-align: center;
 		>image:first-child{
-			margin-top: 194rpx;
+			// margin-top: 194rpx;
 			width: 282rpx;
 			position: relative;
 			z-index: 11;

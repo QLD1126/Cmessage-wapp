@@ -25,7 +25,7 @@
 			"path": "pages/record/record",
 			"style": {
 				"navigationBarTitleText": "记录",
-				"enablePullDownRefresh": false,
+				"enablePullDownRefresh": true,
 				"usingComponents": {
 					"van-action-sheet": "/wxcomponents/vant/dist/action-sheet/index",
 					"van-tab": "/wxcomponents/vant/dist/tab/index",
@@ -177,6 +177,6 @@
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "C信息",
 		"navigationBarBackgroundColor": "#FFFFFF",
-		"backgroundColor": "#F0AD4E"
+		"backgroundColor": "#f8f8f8"
 	}
 }

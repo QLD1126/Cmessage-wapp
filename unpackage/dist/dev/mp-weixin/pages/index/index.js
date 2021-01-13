@@ -237,7 +237,6 @@ var dateTimePicker = __webpack_require__(/*! ../../common/dateTimePicker.js */ 2
     var currentDate = this.getDate({
       format: true });
 
-    aa: 0;
     return _ref = {
       formdata: {},
       // 上传
@@ -257,8 +256,8 @@ var dateTimePicker = __webpack_require__(/*! ../../common/dateTimePicker.js */ 2
       priceAction: [
       {
         name: '免费',
-        value: 0 },
-
+        value: '0' //避免选了之后没有结果
+      },
       {
         name: '1元',
         value: 1 },

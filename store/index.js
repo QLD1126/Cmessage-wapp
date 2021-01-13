@@ -28,6 +28,7 @@ const store=new Vuex.Store({
 		async getuserInfo({commit}){
 			try{
 				const res=await apis.USERINFO()
+				
 				// 实名认证页面需要用到
 				if(res.phone!==''){
 					res.phone=String(res.phone).slice(0,3)+'****'+String(res.phone).slice(-4)
