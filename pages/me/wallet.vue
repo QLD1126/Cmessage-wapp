@@ -1,8 +1,9 @@
 <template>
 	<view class="container_0">
-		<van-nav-bar title="我的钱包" @click-left="onClickLeft" custom-style='background: transparent;' title-class='natab'  left-arrow
-		 fixed :border='false'>
-			<left><text class="iconfont icon-fanhuizuojiantouxiangzuoshangyibuxianxing1"></text></left>
+		<van-nav-bar title="我的钱包" @click-left="onClickLeft" custom-style='background: transparent;' title-class='natab'
+		 fixed :border='false' style='color: #fff !important;'>
+			<view class="iconfont icon-fanhuizuojiantouxiangzuoshangyibuxianxing1" slot='left'></view>
+			<left>111</left>
 		</van-nav-bar>
 		<image src="../../static/qbbg.png" mode=""></image>
 		<view class="top" :style="{'text-align':pageType==1?'center':'left'}">
@@ -131,7 +132,7 @@
 </script>
 
 <style lang="scss">
-	.van-nav-bar__arrow{
+	.van-nav-bar__text{
 		color: #fff !important;
 	}
 	.radio {
@@ -222,9 +223,8 @@
 	}
 
 	.icon-fanhuizuojiantouxiangzuoshangyibuxianxing1 {
-		color: #f00;
+		color: #fff;
 	}
-
 	.van-nav-bar__title {
 		color: #fff !important;
 	}

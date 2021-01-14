@@ -110,10 +110,8 @@
 				actions: [],
 			};
 		},
-		onLoad() {
-			this.getList(this.formdata)
-		},
 		onShow() {
+			this.getList(this.formdata)
 		},
 		methods: {
 			getList(data) {
@@ -329,7 +327,8 @@
 			console.log(item)
 			return {
 				title: item.title,
-				imageUrl: item.image, //自定义图片路径，可以是本地文件路径、代码包文件路径或者网络图片路径。支持PNG及JPG。显示图片长宽比是 5:4。
+				desc:item.content,
+				imageUrl: item.image||null, //自定义图片路径，可以是本地文件路径、代码包文件路径或者网络图片路径。支持PNG及JPG。显示图片长宽比是 5:4。
 				path: '/pages/record/buyinfo?type=share&id=' + item.id,
 				success: function(res) {
 					console.log(res, '分享');

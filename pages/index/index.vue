@@ -5,8 +5,7 @@
 				<view class="">
 					<text v-show="item.key!=='image'">*</text>{{item.key=='image'?item.name+'(1/'+fileList.length+')':item.name}}
 				</view>
-				<!-- <textarea v-model="item.value" placeholder="请输入信息内容" v-if="item.name=='信息内容'" :auto-blur='true' :adjust-position='false' @confirm="confirm" @blur="change($event,2)"/> -->
-				<textarea v-model="item.value" placeholder="请输入信息内容" v-if="item.name=='信息内容'" :auto-blur='true' :adjust-position='false'/>
+				<textarea v-model="item.value" placeholder="请输入信息内容" v-if="item.name=='信息内容'" :auto-blur='true' :adjust-position='false' />
 				<view class="unload" v-else-if="item.key=='image'">
 					<van-uploader :file-list="fileList" max-count="1" accept='image' :multiple='true' :deletable='true' capture="['album','camera']"
 					 @after-read="afterRead" @delete='deleteImg' />
@@ -21,9 +20,10 @@
 					<!-- <text v-else-if="o_item.key=='end_time'">{{o_item.value}}</text> -->
 					<!-- 内容公开时间 -->
 					<!-- <view v-else class=""> -->
-					<picker v-else mode="multiSelector" :value="dateTime1" @change="changeDateTime1" @columnchange="changeDateTimeColumn1" class="pickertime"
+					<picker v-else mode="multiSelector" v-model="dateTime1" @change="changeDateTime1" @columnchange="changeDateTimeColumn1" class="pickertime"
 										 :range="dateTimeArray1" >
-										 <image src="../../static/日期.png" mode="" class="icon_44" v-if="o_item.value==''"></image>
+										
+										<image src="../../static/日期.png" mode="" class="icon_44" v-if="o_item.value==''||o_item.value==undefined"></image>
 						<text v-else>{{o_item.value}}</text>
 						</picker>
 					<!-- </view>	 -->
@@ -34,6 +34,8 @@
 				</input>
 			</view>
 		</view>
+		<text>
+		</text>
 		<button type="warn" class="btn_round" @click="sure">发布</button>
 		<van-action-sheet
 		  :show="priceShow"
@@ -66,7 +68,9 @@
 </template>
 
 <script>
+	import {mapState} from 'vuex'
 		let dateTimePicker = require('../../common/dateTimePicker.js');
+		// console.log()
 	export default {
 		data() {
 			// 时间选择
@@ -74,6 +78,7 @@
 									            format: true
 									        })
 			return {
+				// nowtime:'',
 				formdata:{},
 				// 上传
 				 fileList: [],
@@ -86,7 +91,7 @@
 								 date: currentDate,
 								            time: '12:01',
 											timetype:'end_time',
-				loginShow:uni.getStorageSync('TOKEN')?false:true,
+				loginShow:uni.getStorageSync('TOKEN')==''?true:false,
 				// 价格选择下拉菜单
 				priceShow:false,
 				priceAction: [
@@ -179,11 +184,12 @@
 		},
 		onLoad() {
 			 var obj1 = dateTimePicker.dateTimePicker(this.startYear, this.endYear);
+			this.Optional[2].value=obj1.defaultDate_1
 			this.dateTimeArray1=obj1.dateTimeArray,
 			this.dateTime1= obj1.dateTime
-			console.log(this.currentDate,this.date,this.aa,'onload')
 		},
 		computed:{
+			// ...mapState(['isLogged']),
 			  startDate() {
 					            return this.getDate('start');
 					        },
@@ -217,6 +223,7 @@
 								// 确定最终结果
 						 changeDateTime1(e) {
 						    // this.dateTime1= e.detail.value ;
+							console.log('最终',this.currentDate,this.currentDate.length)
 							this.Optional.forEach(item=>{
 							 		if(item.key==this.timetype){
 							 			item.value=this.currentDate
@@ -225,10 +232,11 @@
 						  },
 						  // 改变行
 						 changeDateTimeColumn1(e) {
-						    var arr = this.dateTime1, dateArr = this.dateTimeArray1;
+							 console.log('滚动',e)
+						    var arr = this.dateTime1,
+							 dateArr = this.dateTimeArray1;
 						    arr[e.detail.column] = e.detail.value;
 						    dateArr[2] = dateTimePicker.getMonthDay(dateArr[0][arr[0]], dateArr[1][arr[1]]);
-						
 						      this.dateTimeArray1=dateArr;
 						     this.dateTime1=arr;
 							this.currentDate=dateArr[0][arr[0]]+'-'+dateArr[1][arr[1]]+'-'+dateArr[2][arr[2]]+' '+dateArr[3][arr[3]]+':'+dateArr[4][arr[4]]
@@ -409,7 +417,6 @@
 	.pop{
 		text-align: center;
 		>image:first-child{
-			// margin-top: 194rpx;
 			width: 282rpx;
 			position: relative;
 			z-index: 11;

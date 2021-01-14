@@ -10253,6 +10253,7 @@ var index = {
 function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}function _unsupportedIterableToArray(o, minLen) {if (!o) return;if (typeof o === "string") return _arrayLikeToArray(o, minLen);var n = Object.prototype.toString.call(o).slice(8, -1);if (n === "Object" && o.constructor) n = o.constructor.name;if (n === "Map" || n === "Set") return Array.from(o);if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);}function _iterableToArray(iter) {if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) return _arrayLikeToArray(arr);}function _arrayLikeToArray(arr, len) {if (len == null || len > arr.length) len = arr.length;for (var i = 0, arr2 = new Array(len); i < len; i++) {arr2[i] = arr[i];}return arr2;}function withData(param) {
   return param < 10 ? '0' + param : '' + param;
 }
+
 function getLoopArray(start, end) {
   var start = start || 0;
   var end = end || 1;
@@ -10262,8 +10263,10 @@ function getLoopArray(start, end) {
   }
   return array;
 }
+
 function getMonthDay(year, month) {
-  var flag = year % 400 == 0 || year % 4 == 0 && year % 100 != 0,array = null;
+  var flag = year % 400 == 0 || year % 4 == 0 && year % 100 != 0,
+  array = null;
 
   switch (month) {
     case '01':
@@ -10289,6 +10292,7 @@ function getMonthDay(year, month) {
 
   return array;
 }
+
 function getNewDateArry() {
   // 当前时间的处理
   var newDate = new Date();
@@ -10301,13 +10305,25 @@ function getNewDateArry() {
 
   return [year, mont, date, hour, minu, seco];
 }
+
 function dateTimePicker(startYear, endYear, date) {
   // 返回默认显示的数组和联动数组的声明
-  var dateTime = [],dateTimeArray = [[], [], [], [], [], []];
+  var dateTime = [],
+  dateTimeArray = [
+  [],
+  [],
+  [],
+  [],
+  [],
+  []];
+
+  var defaultDate_1 = "".concat(
+  getNewDateArry()[0], "-").concat(getNewDateArry()[1], "-").concat(getNewDateArry()[2], " ").concat(getNewDateArry()[3], ":").concat(getNewDateArry()[4]);
   var start = startYear || 1978;
   var end = endYear || 2100;
   // 默认开始显示数据
   var defaultDate = date ? [].concat(_toConsumableArray(date.split(' ')[0].split('-')), _toConsumableArray(date.split(' ')[1].split(':'))) : getNewDateArry();
+  // console.log('default', defaultDate, defaultDate_1)
   // 处理联动列表数据
   /*年月日 时分秒*/
   dateTimeArray[0] = getLoopArray(start, end);
@@ -10322,6 +10338,7 @@ function dateTimePicker(startYear, endYear, date) {
   });
 
   return {
+    defaultDate_1: defaultDate_1,
     dateTimeArray: dateTimeArray,
     dateTime: dateTime };
 

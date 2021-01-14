@@ -24,7 +24,7 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-.van-nav-bar__arrow {
+.van-nav-bar__text {
   color: #fff !important;
 }
 .radio {
@@ -110,7 +110,7 @@
   margin-top: -10rpx;
 }
 .icon-fanhuizuojiantouxiangzuoshangyibuxianxing1 {
-  color: #f00;
+  color: #fff;
 }
 .van-nav-bar__title {
   color: #fff !important;

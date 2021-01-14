@@ -119,7 +119,6 @@
 		>view {
 			background: #fff;
 		}
-
 		>view:first-child {
 			background-image: linear-gradient(to bottom, #FF3D3B, #FE4543);
 			height: 370rpx;
@@ -133,7 +132,7 @@
 				>image {
 					width: 130rpx;
 					height: 130rpx;
-					border: 2rpx solid #fff;
+					border: 4rpx solid #fff;
 					border-radius: 50%;
 					margin-right: 20rpx;
 				}

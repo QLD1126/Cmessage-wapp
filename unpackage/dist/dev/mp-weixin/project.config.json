@@ -26,8 +26,8 @@
         {
           "name": "pages/index/index",
           "pathName": "pages/index/index",
-          "query": "type=share&id=14",
-          "scene": 1044
+          "query": "type=share&id=12",
+          "scene": 1013
         }
       ]
     }

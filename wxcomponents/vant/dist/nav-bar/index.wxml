@@ -10,7 +10,7 @@
   <view class="van-nav-bar__content">
     <view class="van-nav-bar__left" bind:tap="onClickLeft">
       <block wx:if="{{ leftArrow || leftText }}">
-        <van-icon
+       <van-icon
           wx:if="{{ leftArrow }}"
           size="16px"
           name="arrow-left"

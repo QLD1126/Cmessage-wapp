@@ -124,7 +124,7 @@
 						fail: err => {
 							console.log(err)
 							uni.showToast({
-								title: err,
+								title: '您已取消支付',
 								duration: 2000
 							});
 						},

@@ -162,82 +162,87 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;} //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
 
-var dateTimePicker = __webpack_require__(/*! ../../common/dateTimePicker.js */ 29);var _default =
-{
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var _vuex = __webpack_require__(/*! vuex */ 22);function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}
+var dateTimePicker = __webpack_require__(/*! ../../common/dateTimePicker.js */ 29);
+// console.log()
+var _default = {
   data: function data() {var _ref;
     // 时间选择
     var currentDate = this.getDate({
       format: true });
 
     return _ref = {
+      // nowtime:'',
       formdata: {},
       // 上传
       fileList: [],
@@ -250,7 +255,7 @@ var dateTimePicker = __webpack_require__(/*! ../../common/dateTimePicker.js */ 2
       date: currentDate,
       time: '12:01',
       timetype: 'end_time',
-      loginShow: uni.getStorageSync('TOKEN') ? false : true,
+      loginShow: uni.getStorageSync('TOKEN') == '' ? true : false,
       // 价格选择下拉菜单
       priceShow: false,
       priceAction: [
@@ -343,11 +348,12 @@ var dateTimePicker = __webpack_require__(/*! ../../common/dateTimePicker.js */ 2
   },
   onLoad: function onLoad() {
     var obj1 = dateTimePicker.dateTimePicker(this.startYear, this.endYear);
+    this.Optional[2].value = obj1.defaultDate_1;
     this.dateTimeArray1 = obj1.dateTimeArray,
     this.dateTime1 = obj1.dateTime;
-    console.log(this.currentDate, this.date, this.aa, 'onload');
   },
   computed: {
+    // ...mapState(['isLogged']),
     startDate: function startDate() {
       return this.getDate('start');
     },
@@ -381,6 +387,7 @@ var dateTimePicker = __webpack_require__(/*! ../../common/dateTimePicker.js */ 2
     // 确定最终结果
     changeDateTime1: function changeDateTime1(e) {var _this = this;
       // this.dateTime1= e.detail.value ;
+      console.log('最终', this.currentDate, this.currentDate.length);
       this.Optional.forEach(function (item) {
         if (item.key == _this.timetype) {
           item.value = _this.currentDate;
@@ -389,10 +396,11 @@ var dateTimePicker = __webpack_require__(/*! ../../common/dateTimePicker.js */ 2
     },
     // 改变行
     changeDateTimeColumn1: function changeDateTimeColumn1(e) {
-      var arr = this.dateTime1,dateArr = this.dateTimeArray1;
+      console.log('滚动', e);
+      var arr = this.dateTime1,
+      dateArr = this.dateTimeArray1;
       arr[e.detail.column] = e.detail.value;
       dateArr[2] = dateTimePicker.getMonthDay(dateArr[0][arr[0]], dateArr[1][arr[1]]);
-
       this.dateTimeArray1 = dateArr;
       this.dateTime1 = arr;
       this.currentDate = dateArr[0][arr[0]] + '-' + dateArr[1][arr[1]] + '-' + dateArr[2][arr[2]] + ' ' + dateArr[3][arr[3]] + ':' + dateArr[4][arr[4]];
