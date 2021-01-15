@@ -94,7 +94,7 @@
           align-items: center;
   height: 172rpx;
 }
-.container_0 > view:nth-child(2) > view {
+.container_0 > view:nth-child(2) > navigator {
   -webkit-box-flex: 0;
   -webkit-flex: 0 0 33%;
           flex: 0 0 33%;
@@ -114,7 +114,7 @@
   -webkit-justify-content: center;
           justify-content: center;
 }
-.container_0 > view:nth-child(2) > view > image {
+.container_0 > view:nth-child(2) > navigator > image {
   width: 44rpx;
   height: 44rpx;
 }

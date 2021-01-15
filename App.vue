@@ -182,7 +182,7 @@
 		padding: 0 25rpx;
 		background: #fff;
 
-		>view {
+		>view ,navigator{
 			display: flex;
 			justify-content: space-between;
 			align-items: center;

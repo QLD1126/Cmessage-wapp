@@ -24,6 +24,10 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
+van-tab {
+  height: 90vh;
+  overflow-y: scroll;
+}
 .s-action button {
   border-radius: 0;
 }
@@ -48,17 +52,17 @@
   top: 12rpx;
   color: #999;
 }
-.container_0 .item {
+.container_0 .content .item {
   width: 700rpx;
   background: #fff;
   margin: 20rpx 0;
   padding: 0 25rpx;
 }
-.container_0 .item > view,
-.container_0 .item text {
+.container_0 .content .item > view,
+.container_0 .content .item text {
   margin: 17rpx 0;
 }
-.container_0 .item > view:first-child {
+.container_0 .content .item > view:first-child {
   position: relative;
   display: -webkit-box;
   display: -webkit-flex;
@@ -68,7 +72,7 @@
           align-items: center;
   height: 88rpx;
 }
-.container_0 .item > view:first-child > view {
+.container_0 .content .item > view:first-child > view {
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
@@ -79,10 +83,10 @@
   -webkit-justify-content: space-between;
           justify-content: space-between;
 }
-.container_0 .item > view:first-child > view > image {
+.container_0 .content .item > view:first-child > view > image {
   margin-right: 10rpx;
 }
-.container_0 .item > view:first-child > view:last-child {
+.container_0 .content .item > view:first-child > view:last-child {
   display: inline;
   text-align: right;
   border-radius: 20rpx;
@@ -90,30 +94,30 @@
   min-width: 100rpx;
   text-align: center;
 }
-.container_0 .item > .flex-between {
+.container_0 .content .item > .flex-between {
   font-size: 24rpx;
 }
-.container_0 .item > .flex-between > text:first-child {
+.container_0 .content .item > .flex-between > text:first-child {
   color: #f00;
   font-size: 24rpx;
 }
-.container_0 .item > .flex-between .t_24_9 + text {
+.container_0 .content .item > .flex-between .t_24_9 + text {
   color: #999;
 }
-.container_0 .item > .flex-around {
+.container_0 .content .item > .flex-around {
   width: 100vw;
   height: 104rpx;
   line-height: 104rpx;
   margin-left: -25rpx;
 }
-.container_0 .item > .flex-around > button {
+.container_0 .content .item > .flex-around > button {
   -webkit-box-flex: 0;
   -webkit-flex: 0 0 50%;
           flex: 0 0 50%;
   border: 1rpx solid #F3f3f3;
   border-radius: 0;
 }
-.container_0 .item > .flex-around > button > text {
+.container_0 .content .item > .flex-around > button > text {
   font-size: 24rpx;
   color: #333;
 }

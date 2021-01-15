@@ -1,7 +1,7 @@
 <template>
 	<view class="container_0">
-		<van-nav-bar title="我的钱包" @click-left="onClickLeft" custom-style='background: transparent;' title-class='natab'
-		 fixed :border='false' style='color: #fff !important;'>
+		<van-nav-bar title="我的钱包" @click-left="onClickLeft" custom-style='background: transparent;' title-class='natab' fixed
+		 :border='false' style='color: #fff !important;'>
 			<view class="iconfont icon-fanhuizuojiantouxiangzuoshangyibuxianxing1" slot='left'></view>
 			<left>111</left>
 		</van-nav-bar>
@@ -40,7 +40,7 @@
 				<view class="">
 					提现金额
 				</view>
-				<input type="digit" v-model="formdata.money" placeholder="请输入提现金额" confirm-type="done" />
+				<input type="digit" v-model="formdata.money" :placeholder="'请输入提现金额(最低'+userInfo.min_extract_price+')'" confirm-type="done" />
 			</view>
 			<view class="">
 				<view class="选择提现方式">
@@ -71,7 +71,6 @@
 					type: 'wechat'
 
 				},
-				// userInfo:uni.getStorageSync('USERINFO'),
 				method: [{
 						title: '微信支付',
 						checked: true,
@@ -89,55 +88,58 @@
 			}
 		},
 		computed: (mapState(['userInfo'])),
-		onLoad() {
+		onLoad(options) {
+			this.pageType = options.type
 			this.getuserInfo()
 		},
 		methods: {
 			...mapActions(['getuserInfo']),
-			toRich(){
+			toRich() {
 				uni.navigateTo({
-					url:'/pages/me/rich?title=提现规则'
+					url: '/pages/me/rich?title=提现规则'
 				})
 			},
 			sure() {
-				this.$apis.CASH(this.formdata).then(() => {
-					this.getuserInfo()
-					this.pageType = 1
-				})
-			},
-			radiochange(e) {
-				console.log(e)
-			},
-			toPage() {
-				if(parseInt( this.userInfo.balance)<parseInt(this.userInfo.min_extract_price)){
-					uni.showToast({
-						title:'最低提现金额为'+this.userInfo.min_extract_price,
-						icon:'none'
+				// this.$apis.CASH(this.formdata).then(() => {
+					this.getuserInfo().then(()=>{
+						this.onClickLeft()
 					})
-				}else{
-				this.pageType = 2
+				// })
+			},
+		
+			// radiochange(e) {
+			// 	console.log(e)
+			// },
+			toPage() {
+				if (parseInt(this.userInfo.balance) < parseInt(this.userInfo.min_extract_price)) {
+					uni.showToast({
+						title: '最低提现金额为' + this.userInfo.min_extract_price,
+						icon: 'none'
+					})
+				} else {
+					uni.navigateTo({
+						url: '/pages/me/wallet?type=2'
+					})
 				}
 			},
 			onClickLeft() {
-				if (this.pageType == 2) {
-					this.pageType --
-				} else {
-					uni.navigateBack({
-						delta: 1
-					})
-				}
+				uni.navigateBack({
+					delta: 1
+				})
 			}
 		}
 	}
 </script>
 
 <style lang="scss">
-	.van-nav-bar__text{
+	.van-nav-bar__text {
 		color: #fff !important;
 	}
+
 	.radio {
 		transform: scale(.5);
 	}
+
 	.container_0 {
 		>image {
 			width: 750rpx;
@@ -178,6 +180,7 @@
 
 		.input {
 			margin-top: 30rpx;
+
 			>view:first-child {
 				padding: 0 25rpx;
 				margin-bottom: 20rpx auto 40rpx;
@@ -225,6 +228,7 @@
 	.icon-fanhuizuojiantouxiangzuoshangyibuxianxing1 {
 		color: #fff;
 	}
+
 	.van-nav-bar__title {
 		color: #fff !important;
 	}

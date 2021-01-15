@@ -97,6 +97,24 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  var l0 = _vm.__map(_vm.meArr, function(item, __i0__) {
+    var $orig = _vm.__get_orig(item)
+
+    var g0 = item.url.match(/wallet/)
+    return {
+      $orig: $orig,
+      g0: g0
+    }
+  })
+
+  _vm.$mp.data = Object.assign(
+    {},
+    {
+      $root: {
+        l0: l0
+      }
+    }
+  )
 }
 var recyclableRender = false
 var staticRenderFns = []
@@ -130,7 +148,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
 
 
 
@@ -179,70 +197,58 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var _vuex = __webpack_require__(/*! vuex */ 22);function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var _default =
 
 
-{
-  data: function data() {
-    return {
-      meArr: [{
-        title: '我的发布',
-        image: '../../static/fabu1.png',
-        url: '/pages/index/index' },
-      {
-        title: '我的购买',
-        image: '../../static/goumai.png',
-        url: '/pages/record/record' },
-      {
-        title: '我的钱包',
-        image: '../../static/qianbao.png',
-        url: '/pages/me/wallet' }],
 
-      ulArr: [{
-        title: '实名认证',
-        url: '/pages/me/name' },
-      {
-        title: '我的关注',
-        url: '/pages/me/follow' },
-      {
-        title: '我的粉丝',
-        url: '/pages/me/fans' },
-      {
-        title: '常见问题',
-        url: '/pages/me/questions' },
-      {
-        title: '联系客服',
-        url: '/pages/me/costomer' },
-      {
-        title: '关于我们',
-        url: '/pages/me/we' }] };
-
-
-  },
-  computed: (0, _vuex.mapState)(['userInfo', 'isLogged']),
-  onLoad: function onLoad() {
-    this.getuserInfo();
-    console.log(this.userInfo);
-  },
-  methods: _objectSpread(_objectSpread({},
-  (0, _vuex.mapActions)(['getuserInfo'])), {}, {
-    aa: function aa(e) {
-      console.log('子元素', e);
-    },
-    toPage: function toPage(url) {
-      var isTab = ['/pages/index/index', '/pages/record/record'].indexOf(url);
-      if (isTab < 0) {
-        console.log(1111);
-        uni.navigateTo({
-          url: url });
-
-      } else {
-        uni.switchTab({
-          url: url });
-
-      }
-    } }) };exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+var _vuex = __webpack_require__(/*! vuex */ 22);function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;} //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var a = '/pages/me/wallet';var b = a.match(/wallet/) ? 'navigate' : 'switchTab';console.log(b, 111);var _default = { data: function data() {return { meArr: [{ title: '我的发布', image: '../../static/fabu1.png', url: '/pages/index/index' }, { title: '我的购买', image: '../../static/goumai.png', url: '/pages/record/record' }, { title: '我的钱包', image: '../../static/qianbao.png', url: '/pages/me/wallet?type=1' }], ulArr: [{ title: '实名认证', url: '/pages/me/name' }, { title: '我的关注', url: '/pages/me/follow' }, { title: '我的粉丝', url: '/pages/me/fans' }, { title: '常见问题', url: '/pages/me/questions' }, { title: '联系客服', url: '/pages/me/rich?title=联系客服' }, { title: '关于我们', url: '/pages/me/rich?title=关于我们' }] };}, computed: (0, _vuex.mapState)(['userInfo', 'isLogged']), onLoad: function onLoad() {this.getuserInfo();console.log(this.userInfo);}, methods: _objectSpread({}, (0, _vuex.mapActions)(['getuserInfo'])) };exports.default = _default;
 
 /***/ }),
 

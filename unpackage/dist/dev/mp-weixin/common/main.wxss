@@ -506,7 +506,7 @@ button {
   padding: 0 25rpx;
   background: #fff;
 }
-.list_between_106 > view {
+.list_between_106 > view, .list_between_106 navigator {
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;

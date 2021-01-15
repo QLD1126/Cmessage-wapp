@@ -126,20 +126,6 @@
 			}
 		},
 		{
-			"path": "pages/me/customer",
-			"style": {
-				"navigationBarTitleText": "联系客服",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-			"path": "pages/me/we",
-			"style": {
-				"navigationBarTitleText": "关于我们",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
 			"path": "pages/me/rich",
 			"style": {
 				"navigationStyle": "custom",

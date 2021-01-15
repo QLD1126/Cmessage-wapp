@@ -30,23 +30,26 @@
 			</view>
 		</view>
 		<view>
-			<view v-for="item in meArr" :key='item.title' @click="toPage(item.url)">
+			<navigator v-for="item in meArr" :key='item.title' :url="item.url" :open-type="item.url.match(/wallet/)?'navigate':'switchTab'">
 				<image :src="item.image"></image>
 				{{item.title}}
-			</view>
+			</navigator>
 		</view>
 		<view class="list_between_106">
-			<view v-for="(item,index) in ulArr" :key='index' @click="toPage(item.url)">
+			<navigator v-for="(item,index) in ulArr" :key='index' open-type="navigate" :url="item.url">
 				<view>
 					<text>{{item.title}}</text>
 				</view>
 				<text class="iconfont icon-fanhuizuojiantouxiangzuoshangyibuxianxing"></text>
-			</view>
+			</navigator>
 		</view>
 	</view>
 </template>
 
 <script>
+	let a='/pages/me/wallet'
+	let b=a.match(/wallet/)?'navigate':'switchTab'
+	console.log(b,111)
 	import {
 		mapState,mapActions
 	} from 'vuex';
@@ -64,7 +67,7 @@
 				}, {
 					title: '我的钱包',
 					image: '../../static/qianbao.png',
-					url: '/pages/me/wallet'
+					url: '/pages/me/wallet?type=1'
 				}],
 				ulArr: [{
 					title: '实名认证',
@@ -80,10 +83,10 @@
 					url: '/pages/me/questions'
 				}, {
 					title: '联系客服',
-					url: '/pages/me/costomer'
+					url: '/pages/me/rich?title=联系客服'
 				}, {
 					title: '关于我们',
-					url: '/pages/me/we'
+					url: '/pages/me/rich?title=关于我们'
 				}]
 			};
 		},
@@ -94,22 +97,6 @@
 		},
 		methods: {
 			...mapActions(['getuserInfo']),
-			aa(e) {
-				console.log('子元素', e)
-			},
-			toPage(url) {
-				let isTab = ['/pages/index/index', '/pages/record/record'].indexOf(url)
-				if (isTab < 0) {
-					console.log(1111)
-					uni.navigateTo({
-						url: url
-					})
-				} else {
-					uni.switchTab({
-						url: url
-					})
-				}
-			}
 		}
 	}
 </script>
@@ -182,7 +169,7 @@
 			align-items: center;
 			height: 172rpx;
 
-			>view {
+			>navigator {
 				flex: 0 0 33%;
 				height: 100%;
 				text-align: center;

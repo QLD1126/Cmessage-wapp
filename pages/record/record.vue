@@ -4,10 +4,10 @@
 			<input type="text" v-model="formdata.keywords" placeholder="请输入搜索关键词" confirm-type="search" @confirm="getList(formdata)" />
 			<text class="iconfont icon-sousuo"></text>
 		</view>
-		<van-tabs swipeable @change='tabchange' animated>
+		<van-tabs class="content" swipeable @change='tabchange' animated>
 			<!-- <van-tab v-for='item in datalist' :key='item.id' :title="item.type">{{item.content}}</van-tab> -->
 			<van-tab v-for='(item,index) in datalist' :key='item.id' :title="item.type">
-				<view class="" v-if="item.content.length>0">
+				<view  v-if="item.content.length>0">
 
 					<view v-if="formdata.type==0">
 						<navigator class='item' v-for="(item,index) in datalist[0].content" :key="item.id" open-type="navigate" :url="'/pages/record/detail?id='+item.id">
@@ -16,7 +16,8 @@
 									<image src="../../static/fan.png" mode="" class="icon_44"></image>
 									<text class="t_32_333">{{item.title}}</text>
 								</view>
-								<view :class="item.result==1?'red':item.result==-1?'hui':'fff'" :style="{display:item.status==3?'inline':'none'}" @click.stop="openPop('res',item)">
+								<view :class="item.result==1?'red':item.result==-1?'hui':'fff'" :style="{display:item.status==3?'inline':'none'}"
+								 @click.stop="openPop('res',item)">
 									{{item.result==-1?'错误':item.result==1?'正确':'选结果'}}
 									<!-- {{item.status==-1?'结果错误':item.status==0?'等待结果':'结果正确'}} -->
 								</view>
@@ -79,6 +80,9 @@
 </template>
 
 <script>
+	import {
+		mapState
+	} from 'vuex'
 	export default {
 		data() {
 			return {
@@ -110,22 +114,25 @@
 				actions: [],
 			};
 		},
-		onShow() {
-			this.getList(this.formdata)
+		computed: (mapState(['isLogged'])),
+		onLoad() {
+			if (this.isLogged) {
+				this.getList(this.formdata)
+			}
 		},
 		methods: {
 			getList(data) {
 				data.page = 1
 				console.log(data)
 				if (data.type == 0) {
-				// 卖料
+					// 卖料
 					this.$apis.SELL_LIST(data).then(res => {
 						this.loadStatus = res.length < data.limit ? 'noMore' : 'more'
 						this.datalist[0].content = res
 						uni.stopPullDownRefresh()
 					})
 				} else {
-				// 买料
+					// 买料
 					this.$apis.BUY_LIST(data).then(res => {
 						this.loadStatus = res.length < data.limit ? 'noMore' : 'more'
 						this.datalist[1].content = res
@@ -251,33 +258,34 @@
 					}
 				})
 			},
-			  // 保存base64
-			  saveBase64() {
-			    var that = this
-			    var aa = wx.getFileSystemManager();//获取文件管理器对象
-			    // console.log('that.data.wxaCode:', that.data.wxaCode)
-			    aa.writeFile({
-			      filePath: wx.env.USER_DATA_PATH + '/cmessage.png',
-			      data: this.wxaCode.slice(22),
-			      encoding: 'base64',
-			      success: res => {
-			        wx.saveImageToPhotosAlbum({
-			          filePath: wx.env.USER_DATA_PATH + '/cmessage.png',
-			          success: function (res) {
-			            wx.showToast({
-			              title: '保存成功',
-			            })
-			          },
-			          fail: function (err) {
-						  console.log(err,'失败')
-			          }
-			        })
-			        console.log(res)
-			      }, fail: err => {
-			        console.log(err)
-			      }
-			    })
-			  },
+			// 保存base64
+			saveBase64() {
+				var that = this
+				var aa = wx.getFileSystemManager(); //获取文件管理器对象
+				// console.log('that.data.wxaCode:', that.data.wxaCode)
+				aa.writeFile({
+					filePath: wx.env.USER_DATA_PATH + '/cmessage.png',
+					data: this.wxaCode.slice(22),
+					encoding: 'base64',
+					success: res => {
+						wx.saveImageToPhotosAlbum({
+							filePath: wx.env.USER_DATA_PATH + '/cmessage.png',
+							success: function(res) {
+								wx.showToast({
+									title: '保存成功',
+								})
+							},
+							fail: function(err) {
+								console.log(err, '失败')
+							}
+						})
+						console.log(res)
+					},
+					fail: err => {
+						console.log(err)
+					}
+				})
+			},
 			// 二维码
 			//获取access_token
 			getToken() {
@@ -327,8 +335,8 @@
 			console.log(item)
 			return {
 				title: item.title,
-				desc:item.content,
-				imageUrl: item.image||null, //自定义图片路径，可以是本地文件路径、代码包文件路径或者网络图片路径。支持PNG及JPG。显示图片长宽比是 5:4。
+				desc: item.content,
+				imageUrl: item.image || null, //自定义图片路径，可以是本地文件路径、代码包文件路径或者网络图片路径。支持PNG及JPG。显示图片长宽比是 5:4。
 				path: '/pages/record/buyinfo?type=share&id=' + item.id,
 				success: function(res) {
 					console.log(res, '分享');
@@ -343,8 +351,8 @@
 			}
 		},
 		onPullDownRefresh() {
-			if(this.loadStatus!=='loading'){
-				
+			if (this.loadStatus !== 'loading') {
+
 				this.getList(this.formdata)
 			}
 		}
@@ -352,6 +360,20 @@
 </script>
 
 <style lang="scss">
+	van-tab{
+		// background: #f00;
+		height: 90vh;
+		overflow-y: scroll;
+	}
+	// page{height: 100%}
+	// .container_0{
+	// 	display: flex;
+	// 	flex-flow: column;
+	// 	height: 100%;
+	// }
+	// .content{
+	// 	flex: 1;
+	// }
 	.s-action {
 		button {
 			border-radius: 0;
@@ -390,70 +412,76 @@
 
 		}
 
-		.item {
-			width: 700rpx;
-			background: #fff;
-			margin: 20rpx 0;
-			padding: 0 25rpx;
+		.content {
+			
+			.item {
+				width: 700rpx;
+				background: #fff;
+				margin: 20rpx 0;
+				padding: 0 25rpx;
 
-			>view,
-			text {
-				margin: 17rpx 0;
-			}
-			>view:first-child {
-				position: relative;
-				display: flex;
-				align-items: center;
-				height: 88rpx;
-				>view {
+				>view,
+				text {
+					margin: 17rpx 0;
+				}
+
+				>view:first-child {
+					position: relative;
 					display: flex;
 					align-items: center;
-					justify-content: space-between;
-					>image {
-						margin-right: 10rpx;
+					height: 88rpx;
+
+					>view {
+						display: flex;
+						align-items: center;
+						justify-content: space-between;
+
+						>image {
+							margin-right: 10rpx;
+						}
+					}
+
+					>view:last-child {
+						display: inline;
+						text-align: right;
+						border-radius: 20rpx;
+						padding: 0 20rpx;
+						min-width: 100rpx;
+						text-align: center;
 					}
 				}
 
-				>view:last-child {
-					display: inline;
-					text-align: right;
-					border-radius: 20rpx;
-					padding: 0 20rpx;
-					min-width: 100rpx;
-					text-align: center;
-				}
-			}
-
-			>.flex-between {
-				font-size: 24rpx;
-
-				>text:first-child {
-					color: #f00;
+				>.flex-between {
 					font-size: 24rpx;
-				}
 
-				// >view{
-				// 	color: ;
-				// }
-				.t_24_9+text {
-					color: #999;
-				}
-			}
-
-			>.flex-around {
-				width: 100vw;
-				height: 104rpx;
-				line-height: 104rpx;
-				margin-left: -25rpx;
-
-				>button {
-					flex: 0 0 50%;
-					border: 1rpx solid #F3f3f3;
-					border-radius: 0;
-
-					>text {
+					>text:first-child {
+						color: #f00;
 						font-size: 24rpx;
-						color: #333;
+					}
+
+					// >view{
+					// 	color: ;
+					// }
+					.t_24_9+text {
+						color: #999;
+					}
+				}
+
+				>.flex-around {
+					width: 100vw;
+					height: 104rpx;
+					line-height: 104rpx;
+					margin-left: -25rpx;
+
+					>button {
+						flex: 0 0 50%;
+						border: 1rpx solid #F3f3f3;
+						border-radius: 0;
+
+						>text {
+							font-size: 24rpx;
+							color: #333;
+						}
 					}
 				}
 			}

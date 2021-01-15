@@ -130,7 +130,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
 
 
 
@@ -150,6 +150,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var _vuex = __webpack_require__(/*! vuex */ 22);function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var _default =
+
+
+
 {
   data: function data() {
     return {
@@ -157,23 +160,20 @@ var _vuex = __webpack_require__(/*! vuex */ 22);function ownKeys(object, enumera
         placeholder: '请输入您的姓名',
         value: '',
         key: 'real_name',
-        name: '姓名',
-        confirm_type: 'next' },
+        name: '姓名' },
 
       {
         placeholder: '请输入您的手机号',
         type: 'number',
         value: '',
         key: 'phone',
-        name: '手机号',
-        confirm_type: 'next' },
+        name: '手机号' },
 
       {
         placeholder: '请输入您的支付宝账号',
         value: '',
         key: 'alipay_account',
-        name: '支付宝账号',
-        confirm_type: 'down' }] };
+        name: '支付宝账号' }] };
 
 
 
@@ -184,23 +184,26 @@ var _vuex = __webpack_require__(/*! vuex */ 22);function ownKeys(object, enumera
   computed: (0, _vuex.mapState)(['userInfo']),
   methods: _objectSpread(_objectSpread({},
   (0, _vuex.mapActions)(['getuserInfo'])), {}, {
+    blur: function blur(e, index) {
+      this.re_list[index].value = e.detail.value;
+    },
     sure: function sure(state) {var _this = this;
-      if (state !== '') {
-        uni.showToast({
-          title: '正在审核中',
-          icon: 'none' });
-
-        return;
-      }
+      // if (state == '' || !state) {
       var formdata = {};
+      console.log(this.re_list);
       this.re_list.map(function (item) {
         formdata[item.key] = item.value;
       });
       this.$apis.NAME(formdata).then(function (res) {
         _this.getuserInfo();
       });
+      // } else {
+      // 	uni.showToast({
+      // 		title: '正在审核中',
+      // 		icon: 'none'
+      // 	})
+      // }
     } }) };exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 

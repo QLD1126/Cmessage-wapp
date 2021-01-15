@@ -12,8 +12,6 @@
     "pages/me/follow",
     "pages/me/fans",
     "pages/me/questions",
-    "pages/me/customer",
-    "pages/me/we",
     "pages/me/rich"
   ],
   "subPackages": [],
@@ -47,6 +45,5 @@
       }
     ]
   },
-  "usingComponents": {},
-  "sitemapLocation": "sitemap15.json"
+  "usingComponents": {}
 }

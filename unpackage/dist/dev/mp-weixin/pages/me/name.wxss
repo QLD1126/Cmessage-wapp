@@ -31,6 +31,9 @@
 .container_0 > view:first-child {
   height: 50rpx;
 }
+.container_0 text {
+  padding: 20rpx;
+}
 .container_0 .input > view {
   padding: 20rpx;
   position: relative;

@@ -214,7 +214,6 @@ var _vuex = __webpack_require__(/*! vuex */ 22);function ownKeys(object, enumera
         type: 'wechat' },
 
 
-      // userInfo:uni.getStorageSync('USERINFO'),
       method: [{
         title: '微信支付',
         checked: true,
@@ -232,7 +231,8 @@ var _vuex = __webpack_require__(/*! vuex */ 22);function ownKeys(object, enumera
 
   },
   computed: (0, _vuex.mapState)(['userInfo']),
-  onLoad: function onLoad() {
+  onLoad: function onLoad(options) {
+    this.pageType = options.type;
     this.getuserInfo();
   },
   methods: _objectSpread(_objectSpread({},
@@ -243,14 +243,16 @@ var _vuex = __webpack_require__(/*! vuex */ 22);function ownKeys(object, enumera
 
     },
     sure: function sure() {var _this = this;
-      this.$apis.CASH(this.formdata).then(function () {
-        _this.getuserInfo();
-        _this.pageType = 1;
+      // this.$apis.CASH(this.formdata).then(() => {
+      this.getuserInfo().then(function () {
+        _this.onClickLeft();
       });
+      // })
     },
-    radiochange: function radiochange(e) {
-      console.log(e);
-    },
+
+    // radiochange(e) {
+    // 	console.log(e)
+    // },
     toPage: function toPage() {
       if (parseInt(this.userInfo.balance) < parseInt(this.userInfo.min_extract_price)) {
         uni.showToast({
@@ -258,17 +260,15 @@ var _vuex = __webpack_require__(/*! vuex */ 22);function ownKeys(object, enumera
           icon: 'none' });
 
       } else {
-        this.pageType = 2;
+        uni.navigateTo({
+          url: '/pages/me/wallet?type=2' });
+
       }
     },
     onClickLeft: function onClickLeft() {
-      if (this.pageType == 2) {
-        this.pageType--;
-      } else {
-        uni.navigateBack({
-          delta: 1 });
+      uni.navigateBack({
+        delta: 1 });
 
-      }
     } }) };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

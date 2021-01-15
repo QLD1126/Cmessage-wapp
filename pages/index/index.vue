@@ -188,6 +188,17 @@
 			this.dateTimeArray1=obj1.dateTimeArray,
 			this.dateTime1= obj1.dateTime
 		},
+		onShow() {
+			uni.getStorage({
+				key:'TOKEN',
+				success:res=>{
+					console.log(res,111)
+					if(res.data!==''){
+						this.loginShow=false
+						}
+				}
+			})
+		},
 		computed:{
 			// ...mapState(['isLogged']),
 			  startDate() {

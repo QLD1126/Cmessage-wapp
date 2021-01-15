@@ -352,6 +352,17 @@ var _default = {
     this.dateTimeArray1 = obj1.dateTimeArray,
     this.dateTime1 = obj1.dateTime;
   },
+  onShow: function onShow() {var _this = this;
+    uni.getStorage({
+      key: 'TOKEN',
+      success: function success(res) {
+        console.log(res, 111);
+        if (res.data !== '') {
+          _this.loginShow = false;
+        }
+      } });
+
+  },
   computed: {
     // ...mapState(['isLogged']),
     startDate: function startDate() {
@@ -385,12 +396,12 @@ var _default = {
       return "".concat(year, "-").concat(month, "-").concat(day);
     },
     // 确定最终结果
-    changeDateTime1: function changeDateTime1(e) {var _this = this;
+    changeDateTime1: function changeDateTime1(e) {var _this2 = this;
       // this.dateTime1= e.detail.value ;
       console.log('最终', this.currentDate, this.currentDate.length);
       this.Optional.forEach(function (item) {
-        if (item.key == _this.timetype) {
-          item.value = _this.currentDate;
+        if (item.key == _this2.timetype) {
+          item.value = _this2.currentDate;
         }
       });
     },
@@ -420,7 +431,7 @@ var _default = {
     // console.log(this.Optional)
     // },
     // 发布
-    sure: function sure() {var _this2 = this;
+    sure: function sure() {var _this3 = this;
       var formdata = {};
       this.re_list.map(function (item) {
         var key = item.key;
@@ -433,13 +444,13 @@ var _default = {
       });
       console.log(formdata);
       this.$apis.SELL(formdata).then(function (res) {
-        _this2.re_list.forEach(function (item) {
+        _this3.re_list.forEach(function (item) {
           item.value = '';
         });
-        _this2.Optional.forEach(function (item) {
+        _this3.Optional.forEach(function (item) {
           item.value = '';
         });
-        _this2.fileList = [];
+        _this3.fileList = [];
         uni.navigateTo({
           url: '/pages/record/detail?id=' + res.id });
 
@@ -464,7 +475,7 @@ var _default = {
       this.fileList.splice(index, 1);
     },
 
-    afterRead: function afterRead(event) {var _this3 = this;
+    afterRead: function afterRead(event) {var _this4 = this;
       // this.fileList=[]
       var file = event.detail.file;
       uni.showLoading({});
@@ -472,7 +483,7 @@ var _default = {
 
       file.map(function (item) {
         uni.uploadFile({
-          url: _this3.public_data.host + '/api/upload/image',
+          url: _this4.public_data.host + '/api/upload/image',
           filePath: item.url,
           header: {
             'Authori-zation': 'Bearer' + ' ' + uni.getStorageSync('TOKEN') },
@@ -485,10 +496,10 @@ var _default = {
             console.log('成功', uploadFileRes);
 
             // const { fileList = [] } = this.data;
-            _this3.fileList.push(JSON.parse(uploadFileRes.data).data);
+            _this4.fileList.push(JSON.parse(uploadFileRes.data).data);
 
-            Object.assign(_this3.re_list[3], { value: JSON.parse(uploadFileRes.data).data.url });
-            console.log(_this3.re_list);
+            Object.assign(_this4.re_list[3], { value: JSON.parse(uploadFileRes.data).data.url });
+            console.log(_this4.re_list);
             uni.hideLoading();
           } });
 
