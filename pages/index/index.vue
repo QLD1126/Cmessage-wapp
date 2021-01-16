@@ -42,6 +42,7 @@
 		  :actions=" priceAction"
 		  @close="priceShow=false"
 		  @select="change($event,4)"
+		  :safe-area-inset-bottom='false'
 		/>
 		<van-popup :show="loginShow" @close="loginShow=false"  >
 		<view class="pop">
@@ -192,7 +193,6 @@
 			uni.getStorage({
 				key:'TOKEN',
 				success:res=>{
-					console.log(res,111)
 					if(res.data!==''){
 						this.loginShow=false
 						}

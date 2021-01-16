@@ -1,5 +1,5 @@
 <template>
-	<view class="container_0">
+	<view class="container_0" v-show="loadOver">
 		<view>
 			<view v-if="isLogged">
 				<image :src="userInfo.avatar"></image>
@@ -56,6 +56,7 @@
 	export default {
 		data() {
 			return {
+				loadOver:false,
 				meArr: [{
 					title: '我的发布',
 					image: '../../static/fabu1.png',
@@ -92,7 +93,9 @@
 		},
 		computed:mapState(['userInfo','isLogged']),
 		onLoad() {
-			this.getuserInfo()
+			this.getuserInfo().then(()=>{
+				this.loadOver=true
+			})
 			console.log(this.userInfo)
 		},
 		methods: {

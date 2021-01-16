@@ -344,10 +344,13 @@ var _vuex = __webpack_require__(/*! vuex */ 22);function _toConsumableArray(arr)
     },
     openPop: function openPop(type, item) {
       // this.btntype=type
+      item.select = type;
       this.item = item; //分享用
+      console.log(this.item);
       if (item && item.result !== 0) {
         uni.showToast({
-          title: '当前状态还不能选结果' });
+          title: '结果已选',
+          icon: 'none' });
 
         return;
       }
@@ -359,22 +362,29 @@ var _vuex = __webpack_require__(/*! vuex */ 22);function _toConsumableArray(arr)
         name: '二维码分享',
         value: 'ewm' }] :
       [{
-        name: '结果正确' },
+        name: '结果正确',
+        value: '1' },
 
       {
-        name: '结果错误' }],
+        name: '结果错误',
+        value: '2' }],
 
       this.shareShow = true;
-      // this.show = true
-
     },
     onSelect: function onSelect(e) {
+      var item = this.item;
       console.log(e.detail);
       var res = e.detail.value;
-      if (res == 'wx') {} else {
-        this.shareShow = false;
-        this.getToken();
+      if (item.select == 'share') {
+        if (res == 'wx') {} else {
+          this.getToken();
+        }
+      } else {
+        this.$apis.FINISH(item.id, res).then(function () {
+          item.result = res == 1 ? '1' : '-1';
+        });
       }
+
     },
     // 获取访问相册权限
     getAuthorize: function getAuthorize() {
@@ -521,7 +531,6 @@ var _vuex = __webpack_require__(/*! vuex */ 22);function _toConsumableArray(arr)
   },
   onPullDownRefresh: function onPullDownRefresh() {
     if (this.loadStatus !== 'loading') {
-
       this.getList(this.formdata);
     }
   } };exports.default = _default;

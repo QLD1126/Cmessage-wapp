@@ -24,10 +24,10 @@
     "miniprogram": {
       "list": [
         {
-          "name": "pages/me/me",
-          "pathName": "pages/me/me",
-          "query": "type=1",
-          "scene": null
+          "name": "pages/record/record",
+          "pathName": "pages/record/record",
+          "query": "type=share&id=23",
+          "scene": 1011
         }
       ]
     }

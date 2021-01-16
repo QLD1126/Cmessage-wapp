@@ -3,10 +3,10 @@
 		<view>
 			<view>
 				<view class="">
-					
-				<text class="t_32_333">{{info.goods.title}}</text>
-				<view>{{info.goods.title}}</view>
-				
+
+					<text class="t_32_333">{{info.goods.title}}</text>
+					<view>{{info.goods.title}}</view>
+
 				</view>
 				<text :style="{color:info.goods.status>3?'#999':'#FE4543'}">{{info.goods._status}}</text>
 			</view>
@@ -76,7 +76,7 @@
 			}
 		},
 		onLoad(options) {
-			console.log(options)
+			// console.log(options)
 			this.pageType = options.type
 			// 刷新页面用
 			if (options.type == 'isbuy') {
@@ -105,43 +105,50 @@
 			}
 		},
 		methods: {
-			lookImg(url){
+			lookImg(url) {
 				uni.previewImage({
-					urls:[url]
+					urls: [url]
 				})
 			},
 			buy(id) {
 				this.$apis.BUY_CREATE(id).then(res => {
-					console.log(res)
-					wx.requestPayment({
-						...res.jsConfig,
-						success: pay => {
-							console.log('支付结果', pay)
-							uni.reLaunch({
-								url: '/pages/record/buyinfo?type=isbuy&id=' + res.id
-							})
-						},
-						fail: err => {
-							console.log(err)
-							uni.showToast({
-								title: '您已取消支付',
-								duration: 2000
-							});
-						},
-					})
+					if (res.jsConfig) {
+						wx.requestPayment({
+							...res.jsConfig,
+							success: pay => {
+								console.log('支付结果', pay)
+								uni.reLaunch({
+									url: '/pages/record/buyinfo?type=isbuy&id=' + res.id
+								})
+							},
+							fail: err => {
+								console.log(err)
+								uni.showToast({
+									title: '您已取消支付',
+									icon: 'none',
+									duration: 2000
+								});
+							},
+						})
+					} else {
+						// 免费订单无需支付
+						uni.reLaunch({
+							url: '/pages/record/buyinfo?type=isbuy&id=' + res.id
+						})
+					}
 				})
 			},
 			follow(user) {
 				if (user.is_follow) {
 					this.$apis.UNFOLLOW(user.uid).then(() => {
-						user.is_follow=false
+						user.is_follow = false
 						// Object.assign(this.info.mch_user, {
 						// 	is_follow: false
 						// })
 					})
 				} else {
 					this.$apis.ISFOLLOW(user.uid).then(res => {
-						user.is_follow=true
+						user.is_follow = true
 						// Object.assign(this.info.mch_user, {
 						// 	is_follow: true
 						// })
@@ -159,7 +166,10 @@
 </script>
 
 <style lang="scss">
-	.t_32_333+view{margin-top: 10rpx;}
+	.t_32_333+view {
+		margin-top: 10rpx;
+	}
+
 	.container {
 		>view:first-child {
 			>.user {

@@ -100,16 +100,12 @@
 				})
 			},
 			sure() {
-				// this.$apis.CASH(this.formdata).then(() => {
+				this.$apis.CASH(this.formdata).then(() => {
 					this.getuserInfo().then(()=>{
 						this.onClickLeft()
 					})
-				// })
+				})
 			},
-		
-			// radiochange(e) {
-			// 	console.log(e)
-			// },
 			toPage() {
 				if (parseInt(this.userInfo.balance) < parseInt(this.userInfo.min_extract_price)) {
 					uni.showToast({

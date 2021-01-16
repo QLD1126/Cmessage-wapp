@@ -1,5 +1,5 @@
 <template>
-	<view class="container sell_info">
+	<view class="container sell_info" v-show="loadOver">
 		<view>
 			<view>
 				<text class="t_32_333">{{info.title}}</text>

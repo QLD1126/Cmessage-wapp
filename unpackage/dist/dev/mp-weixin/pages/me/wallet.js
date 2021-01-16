@@ -243,16 +243,12 @@ var _vuex = __webpack_require__(/*! vuex */ 22);function ownKeys(object, enumera
 
     },
     sure: function sure() {var _this = this;
-      // this.$apis.CASH(this.formdata).then(() => {
-      this.getuserInfo().then(function () {
-        _this.onClickLeft();
+      this.$apis.CASH(this.formdata).then(function () {
+        _this.getuserInfo().then(function () {
+          _this.onClickLeft();
+        });
       });
-      // })
     },
-
-    // radiochange(e) {
-    // 	console.log(e)
-    // },
     toPage: function toPage() {
       if (parseInt(this.userInfo.balance) < parseInt(this.userInfo.min_extract_price)) {
         uni.showToast({

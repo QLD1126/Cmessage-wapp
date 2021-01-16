@@ -232,6 +232,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 var _vuex = __webpack_require__(/*! vuex */ 22);function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}
 var dateTimePicker = __webpack_require__(/*! ../../common/dateTimePicker.js */ 29);
 // console.log()
@@ -356,7 +357,6 @@ var _default = {
     uni.getStorage({
       key: 'TOKEN',
       success: function success(res) {
-        console.log(res, 111);
         if (res.data !== '') {
           _this.loginShow = false;
         }

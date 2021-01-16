@@ -46,5 +46,10 @@ export default ({
 		return request({
 			url:'/api/buy/detail/'+id
 		})
+	},
+	FINISH(id,r){
+		return request({
+			url:`/api/sell/finish/${id}/${r}`
+		})
 	}
 })

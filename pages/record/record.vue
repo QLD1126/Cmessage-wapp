@@ -7,7 +7,7 @@
 		<van-tabs class="content" swipeable @change='tabchange' animated>
 			<!-- <van-tab v-for='item in datalist' :key='item.id' :title="item.type">{{item.content}}</van-tab> -->
 			<van-tab v-for='(item,index) in datalist' :key='item.id' :title="item.type">
-				<view  v-if="item.content.length>0">
+				<view v-if="item.content.length>0">
 
 					<view v-if="formdata.type==0">
 						<navigator class='item' v-for="(item,index) in datalist[0].content" :key="item.id" open-type="navigate" :url="'/pages/record/detail?id='+item.id">
@@ -61,8 +61,8 @@
 				<van-empty description="暂无记录" v-else />
 			</van-tab>
 		</van-tabs>
-		<van-action-sheet :show="shareShow" :actions="actions" @close="shareShow=false" @select="onSelect" cancel-text="取消"
-		 class='s-action' />
+		<van-action-sheet :safe-area-inset-bottom='false' :show="shareShow" :actions="actions" @close="shareShow=false"
+		 @select="onSelect" cancel-text="取消" class='s-action' />
 		<!-- 二维码弹窗 -->
 		<van-popup :show="ewmShow" @close="ewmShow=false">
 			<view class="pop">
@@ -175,10 +175,13 @@
 			},
 			openPop(type, item) {
 				// this.btntype=type
+				item.select = type
 				this.item = item //分享用
+				console.log(this.item)
 				if (item && item.result !== 0) {
 					uni.showToast({
-						title: '当前状态还不能选结果'
+						title: '结果已选',
+						icon: 'none'
 					})
 					return
 				}
@@ -191,21 +194,28 @@
 						value: 'ewm',
 					}] : [{
 						name: '结果正确',
+						value: '1'
 
 					}, {
-						name: '结果错误'
+						name: '结果错误',
+						value: '2'
 					}],
 					this.shareShow = true
-				// this.show = true
-
 			},
 			onSelect(e) {
+				let item = this.item
 				console.log(e.detail)
 				let res = e.detail.value
-				if (res == 'wx') {} else {
-					this.shareShow = false
-					this.getToken()
+				if (item.select == 'share') {
+					if (res == 'wx') {} else {
+						this.getToken()
+					}
+				} else {
+					this.$apis.FINISH(item.id, res).then(() => {
+						item.result = res == 1 ? '1' : '-1'
+					})
 				}
+
 			},
 			// 获取访问相册权限
 			getAuthorize() {
@@ -352,7 +362,6 @@
 		},
 		onPullDownRefresh() {
 			if (this.loadStatus !== 'loading') {
-
 				this.getList(this.formdata)
 			}
 		}
@@ -360,11 +369,12 @@
 </script>
 
 <style lang="scss">
-	van-tab{
+	van-tab {
 		// background: #f00;
 		height: 90vh;
 		overflow-y: scroll;
 	}
+
 	// page{height: 100%}
 	// .container_0{
 	// 	display: flex;
@@ -413,7 +423,7 @@
 		}
 
 		.content {
-			
+
 			.item {
 				width: 700rpx;
 				background: #fff;

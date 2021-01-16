@@ -208,7 +208,7 @@ var _default =
 
   },
   onLoad: function onLoad(options) {var _this = this;
-    console.log(options);
+    // console.log(options)
     this.pageType = options.type;
     // 刷新页面用
     if (options.type == 'isbuy') {
@@ -244,23 +244,30 @@ var _default =
     },
     buy: function buy(id) {
       this.$apis.BUY_CREATE(id).then(function (res) {
-        console.log(res);
-        wx.requestPayment(_objectSpread(_objectSpread({},
-        res.jsConfig), {}, {
-          success: function success(pay) {
-            console.log('支付结果', pay);
-            uni.reLaunch({
-              url: '/pages/record/buyinfo?type=isbuy&id=' + res.id });
+        if (res.jsConfig) {
+          wx.requestPayment(_objectSpread(_objectSpread({},
+          res.jsConfig), {}, {
+            success: function success(pay) {
+              console.log('支付结果', pay);
+              uni.reLaunch({
+                url: '/pages/record/buyinfo?type=isbuy&id=' + res.id });
 
-          },
-          fail: function fail(err) {
-            console.log(err);
-            uni.showToast({
-              title: '您已取消支付',
-              duration: 2000 });
+            },
+            fail: function fail(err) {
+              console.log(err);
+              uni.showToast({
+                title: '您已取消支付',
+                icon: 'none',
+                duration: 2000 });
 
-          } }));
+            } }));
 
+        } else {
+          // 免费订单无需支付
+          uni.reLaunch({
+            url: '/pages/record/buyinfo?type=isbuy&id=' + res.id });
+
+        }
       });
     },
     follow: function follow(user) {
