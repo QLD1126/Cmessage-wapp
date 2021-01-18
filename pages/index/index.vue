@@ -16,26 +16,28 @@
 					<text>{{o_item.name}}</text>
 					<!-- 不返还 -->
 					<switch :checked="o_item.value" @change="change($event,0)" v-if="o_item.key=='is_return'" class="switch"/>
-					<!-- 截止时间 -->
-					<!-- <text v-else-if="o_item.key=='end_time'">{{o_item.value}}</text> -->
-					<!-- 内容公开时间 -->
-					<!-- <view v-else class=""> -->
+					<!-- 截止时间/内容公开时间 -->
 					<picker v-else mode="multiSelector" v-model="dateTime1" @change="changeDateTime1" @columnchange="changeDateTimeColumn1" class="pickertime"
 										 :range="dateTimeArray1" >
 										
-										<image src="../../static/日期.png" mode="" class="icon_44" v-if="o_item.value==''||o_item.value==undefined"></image>
+										<image src="../../static/date.png" mode="" class="icon_44" v-if="o_item.value==''||o_item.value==undefined"></image>
 						<text v-else>{{o_item.value}}</text>
+						<!-- <text v-else>{{getTime}}</text> -->
 						</picker>
-					<!-- </view>	 -->
 				</view>
 				</view>
-				<input v-else v-model="item.value" type="text" :placeholder="item.placeholder" :confirm-type="item.confirm_type">
+				<!-- <view class="input_item" v-else> -->
+				
+					<view class="input" v-else>
+						
+				<input v-model="item.value" :style="{width:item.key=='price'?'60vw':'95vw'}" type="text" :placeholder="item.placeholder" :confirm-type="item.confirm_type" />
 				<button type="warn" v-if="item.name=='价格'" @click.stop="priceShow=true">快速定价</button>
-				</input>
+				</view>
+				<!-- </view> -->
+				<!-- <button type="warn" v-if="item.name=='价格'" @click.stop="priceShow=true">快速定价</button> -->
 			</view>
 		</view>
-		<text>
-		</text>
+	
 		<button type="warn" class="btn_round" @click="sure">发布</button>
 		<van-action-sheet
 		  :show="priceShow"
@@ -89,7 +91,7 @@
 								     endYear: 2050,
 								dateTimeArray1: null,
 								    dateTime1: null,
-								 date: currentDate,
+								 // date: currentDate,
 								            time: '12:01',
 											timetype:'end_time',
 				loginShow:uni.getStorageSync('TOKEN')==''?true:false,
@@ -190,6 +192,7 @@
 			this.dateTime1= obj1.dateTime
 		},
 		onShow() {
+			// this.loginShow=true
 			uni.getStorage({
 				key:'TOKEN',
 				success:res=>{
@@ -216,7 +219,6 @@
 		
 			// 时间选择开始
 			getDate(type) {
-				console.log(1111,type)
 						            const date = new Date();
 						            let year = date.getFullYear();
 						            let month = date.getMonth() + 1;
@@ -234,6 +236,12 @@
 								// 确定最终结果
 						 changeDateTime1(e) {
 						    // this.dateTime1= e.detail.value ;
+							if(this.currentDate.length==0){
+								uni.showToast({
+									title:'截止时间应大于当前',
+									icon:'none'
+								})
+							}
 							console.log('最终',this.currentDate,this.currentDate.length)
 							this.Optional.forEach(item=>{
 							 		if(item.key==this.timetype){
@@ -256,16 +264,6 @@
 							 // this.formdata.visit_at=dateArr[0][arr[0]]+'-'+dateArr[1][arr[1]]+'-'+dateArr[2][arr[2]]+' '+dateArr[3][arr[3]]+':'+dateArr[4][arr[4]]
 							 
 						  },
-						  // pao(type){
-							 //  this.timetype=type
-							//   console.log(type,'冒泡')
-						 //  	this.Optional.forEach(item=>{
-						 //  		if(item.key==type){
-						 //  			item.value=this.currentDate
-						 //  		}
-						 //  	})
-							// console.log(this.Optional)
-						  // },
 			// 发布
 			sure(){
 				let formdata={}
@@ -367,8 +365,8 @@
 	  transform: rotate(-360deg) translate3d(-100%, -100%, 0);
 	}
 	.content {
-		.input {
-			>view {
+		>.input {
+			>view{
 				padding: 20rpx;
 				position: relative;
 				>view {
@@ -379,16 +377,29 @@
 						color: #FE4543;
 					}
 				}
-				>input,textarea{
+				>input,textarea,.input{
 					background: #fff;
-					width: 95%;
+					width: 95vw;
 					font-size: 26rpx;
 					border-radius: 10rpx;
 					margin-top: 20rpx;
 				}
+				.input{
+					width: 95vw;
 				>input{
 					height: 68rpx;
 					padding: 0 22rpx;
+				}	
+				button{
+					width: 148rpx;
+					height: 48rpx;
+					line-height: 48rpx;
+					font-size: 22rpx;
+					position: absolute;
+					right: 40rpx;
+					bottom: 60rpx;
+					z-index: 90;
+				}
 				}
 				>textarea{
 					padding: 22rpx 20rpx;
@@ -399,19 +410,7 @@
 					right: 30rpx;
 					bottom: 60rpx;
 				}
-				>.flex-between{
-					
-				}
-				button{
-					width: 148rpx;
-					height: 48rpx;
-					line-height: 48rpx;
-					position: absolute;
-					right: 40rpx;
-					bottom: 30rpx;
-					font-size: 22rpx;
-					z-index: 10;
-				}
+				
 			}
 			.van-uploader__upload{
 				background: #fff;
@@ -424,7 +423,11 @@
 				}
 			}
 		}
+	>.btn_round{
+		margin-top: 0;
 	}
+	}
+	// 登录弹窗
 	.pop{
 		text-align: center;
 		>image:first-child{

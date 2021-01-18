@@ -233,6 +233,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
 var _vuex = __webpack_require__(/*! vuex */ 22);function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}
 var dateTimePicker = __webpack_require__(/*! ../../common/dateTimePicker.js */ 29);
 // console.log()
@@ -253,7 +255,7 @@ var _default = {
       endYear: 2050,
       dateTimeArray1: null,
       dateTime1: null,
-      date: currentDate,
+      // date: currentDate,
       time: '12:01',
       timetype: 'end_time',
       loginShow: uni.getStorageSync('TOKEN') == '' ? true : false,
@@ -354,6 +356,7 @@ var _default = {
     this.dateTime1 = obj1.dateTime;
   },
   onShow: function onShow() {var _this = this;
+    // this.loginShow=true
     uni.getStorage({
       key: 'TOKEN',
       success: function success(res) {
@@ -380,7 +383,6 @@ var _default = {
 
     // 时间选择开始
     getDate: function getDate(type) {
-      console.log(1111, type);
       var date = new Date();
       var year = date.getFullYear();
       var month = date.getMonth() + 1;
@@ -398,6 +400,12 @@ var _default = {
     // 确定最终结果
     changeDateTime1: function changeDateTime1(e) {var _this2 = this;
       // this.dateTime1= e.detail.value ;
+      if (this.currentDate.length == 0) {
+        uni.showToast({
+          title: '截止时间应大于当前',
+          icon: 'none' });
+
+      }
       console.log('最终', this.currentDate, this.currentDate.length);
       this.Optional.forEach(function (item) {
         if (item.key == _this2.timetype) {
@@ -420,16 +428,6 @@ var _default = {
       // this.formdata.visit_at=dateArr[0][arr[0]]+'-'+dateArr[1][arr[1]]+'-'+dateArr[2][arr[2]]+' '+dateArr[3][arr[3]]+':'+dateArr[4][arr[4]]
 
     },
-    // pao(type){
-    //  this.timetype=type
-    //   console.log(type,'冒泡')
-    //  	this.Optional.forEach(item=>{
-    //  		if(item.key==type){
-    //  			item.value=this.currentDate
-    //  		}
-    //  	})
-    // console.log(this.Optional)
-    // },
     // 发布
     sure: function sure() {var _this3 = this;
       var formdata = {};

@@ -189,11 +189,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 var _default =
 {
   data: function data() {
     return {
+      is_follow: false,
       pageType: 'isbuy',
       loadOver: false,
       info: {},
@@ -218,6 +218,7 @@ var _default =
           id: options.id },
         res));
 
+        _this.is_follow = res.mch_user.is_follow;
         _this.loadOver = true;
         // console.log(this.info)
       });
@@ -230,9 +231,8 @@ var _default =
           mch_user: res.user,
           goods: goods });
 
-
+        _this.is_follow = res.user.is_follow;
         _this.loadOver = true;
-        console.log();
       });
     }
   },
@@ -271,23 +271,8 @@ var _default =
       });
     },
     follow: function follow(user) {
-      if (user.is_follow) {
-        this.$apis.UNFOLLOW(user.uid).then(function () {
-          user.is_follow = false;
-          // Object.assign(this.info.mch_user, {
-          // 	is_follow: false
-          // })
-        });
-      } else {
-        this.$apis.ISFOLLOW(user.uid).then(function (res) {
-          user.is_follow = true;
-          // Object.assign(this.info.mch_user, {
-          // 	is_follow: true
-          // })
-        });
-      }
-      console.log(this.info.mch_user);
-
+      this.is_follow ? this.$apis.UNFOLLOW(user.uid) : this.$apis.ISFOLLOW(user.uid);
+      this.is_follow = !this.is_follow;
     },
     btnClick: function btnClick() {
       // 不同状态不同操作

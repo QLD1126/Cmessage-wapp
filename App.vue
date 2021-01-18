@@ -6,6 +6,7 @@
 			}
 		},
 		onLaunch: function() {
+			uni.setStorageSync('RECORY_TYPE',0)
 			console.log('App Launch')
 		},
 		onShow: function() {

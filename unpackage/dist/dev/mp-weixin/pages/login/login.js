@@ -179,11 +179,6 @@ var _vuex = __webpack_require__(/*! vuex */ 22);function ownKeys(object, enumera
   computed: (0, _vuex.mapState)(['userInfo']),
   methods: _objectSpread(_objectSpread({},
   (0, _vuex.mapActions)(['login', 'getuserInfo'])), {}, {
-    toPage: function toPage() {
-      uni.navigateBack({
-        delta: 1 });
-
-    },
     //微信授权登录
     getUserInfoclick: function getUserInfoclick(e) {var _this2 = this;
       // let that = this;
@@ -232,7 +227,7 @@ var _vuex = __webpack_require__(/*! vuex */ 22);function ownKeys(object, enumera
             _this3.getuserInfo().then(function (info) {
               if (info.phone !== '') {
                 _this3.getuserInfo();
-                _this3.toPage();
+                _this3.onClickLeft();
               } else {
                 _this3.getphone = false;
               }
@@ -252,9 +247,7 @@ var _vuex = __webpack_require__(/*! vuex */ 22);function ownKeys(object, enumera
 
       this.$apis.PHONE(data).then(function () {
         _this4.getuserInfo();
-        uni.switchTab({
-          url: '/pages/index/index' });
-
+        _this4.onClickLeft();
       });
     },
     onClickLeft: function onClickLeft() {

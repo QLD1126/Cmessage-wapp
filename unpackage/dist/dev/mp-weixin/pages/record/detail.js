@@ -95,7 +95,8 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  var m0 = _vm.info.status >= 2 ? parseInt(_vm.info.price) : null
+  var m0 = _vm.info.status >= 2 ? Number(_vm.info.price) : null
+  var m1 = _vm.info.status >= 2 ? Number(_vm.info.sales) : null
 
   if (!_vm._isMounted) {
     _vm.e0 = function($event) {
@@ -111,7 +112,8 @@ var render = function() {
     {},
     {
       $root: {
-        m0: m0
+        m0: m0,
+        m1: m1
       }
     }
   )

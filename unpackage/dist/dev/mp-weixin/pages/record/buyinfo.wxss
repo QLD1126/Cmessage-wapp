@@ -45,7 +45,7 @@
   width: 94rpx;
   height: 94rpx;
   border-radius: 50%;
-  margin-right: 10rpx;
+  margin-right: 20rpx;
 }
 .container > view:first-child > .user > .btn_squre {
   position: relative;

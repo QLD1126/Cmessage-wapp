@@ -6,12 +6,13 @@
 				<view class="">
 					<text>*</text>{{item.name}}
 				</view>
-				<input v-model="item.value||userInfo[item.key]" type="text" :placeholder="item.placeholder" @blur="blur($event,index)" :disabled="userInfo.check_status>=0" />
+				<input v-model="item.value||userInfo[item.key]" type="text" :placeholder="item.placeholder" @blur="blur($event,index)"
+				 :disabled="userInfo.check_status>=0&&userInfo.real_name!==''" />
 				<!-- <input v-model="item.value||userInfo[item.key]" type="text" :placeholder="item.placeholder" @blur="blur($event,index)" /> -->
 			</view>
 		</view>
 		<text>单笔提现金额超过4500元，将使用支付宝支付</text>
-		<button type="warn" class="btn_squre" @click="sure(userInfo.real_name)" :disabled="userInfo.check_status>=0">{{userInfo.check_status==0?'审核中...':userInfo.check_status==1?'已认证':'提交'}}</button>
+		<button type="warn" class="btn_squre" @click="sure(userInfo.real_name)" :disabled="userInfo.check_status>=0&&userInfo.real_name!==''">{{userInfo.check_status==1?'已认证':userInfo.check_status==0&&userInfo.real_name==''?'提交':'审核中...'}}</button>
 		<!-- <button type="warn" class="btn_squre" @click="sure(userInfo.real_name)" >{{userInfo.check_status==0?'审核中...':userInfo.check_status==1?'已认证':'提交'}}</button> -->
 	</view>
 </template>
@@ -56,21 +57,14 @@
 				this.re_list[index].value = e.detail.value
 			},
 			sure(state) {
-				// if (state == '' || !state) {
-					let formdata = {}
-					console.log(this.re_list)
-					this.re_list.map(item => {
-						formdata[item.key] = item.value
-					})
-					this.$apis.NAME(formdata).then(res => {
-						this.getuserInfo()
-					})
-				// } else {
-				// 	uni.showToast({
-				// 		title: '正在审核中',
-				// 		icon: 'none'
-				// 	})
-				// }
+				let formdata = {}
+				console.log(this.re_list)
+				this.re_list.map(item => {
+					formdata[item.key] = item.value
+				})
+				this.$apis.NAME(formdata).then(res => {
+					this.getuserInfo()
+				})
 			}
 		}
 	}

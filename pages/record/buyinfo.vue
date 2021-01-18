@@ -1,5 +1,6 @@
 <template>
 	<view class="container sell_info" v-show="loadOver">
+		<!-- {{JSON.stringify( info.mch_user)}} -->
 		<view>
 			<view>
 				<view class="">
@@ -15,10 +16,8 @@
 					<image :src="info.mch_user.avatar" mode=""></image>
 					{{info.mch_user.nickname}}
 				</view>
-				<button type="warn" class="btn_squre" @click="follow(info.mch_user)">{{info.mch_user.is_follow? '已关注':'+关注'}}</button>
-				<!-- {{info.mch_user.is_follow}} -->
+				<button type="warn" class="btn_squre" @click="follow(info.mch_user)">{{is_follow? '已关注':'+关注'}}</button>
 			</view>
-
 			<view v-if="pageType=='isbuy'">
 				<text>内容：</text>
 				<text>{{info.goods.content}}</text>
@@ -50,7 +49,7 @@
 			</view>
 			<view v-if="info.goods.status==4&&pageType=='isbuy'">
 				<text>结果</text>
-				<text>结果正确</text>
+				<text>{{info.status==-1?'结果错误':'结果正确'}}</text>
 			</view>
 		</view>
 		<button type="warn" class="btn_round" @click="buy(info.goods.id)" v-if="pageType=='share'">购买</button>
@@ -62,6 +61,7 @@
 	export default {
 		data() {
 			return {
+				is_follow: false,
 				pageType: 'isbuy',
 				loadOver: false,
 				info: {},
@@ -86,6 +86,7 @@
 						id: options.id,
 						...res
 					})
+					this.is_follow = res.mch_user.is_follow
 					this.loadOver = true
 					// console.log(this.info)
 				})
@@ -97,10 +98,9 @@
 						id: options.id,
 						mch_user: res.user,
 						goods: goods,
-
 					})
+					this.is_follow = res.user.is_follow
 					this.loadOver = true
-					console.log()
 				})
 			}
 		},
@@ -139,23 +139,8 @@
 				})
 			},
 			follow(user) {
-				if (user.is_follow) {
-					this.$apis.UNFOLLOW(user.uid).then(() => {
-						user.is_follow = false
-						// Object.assign(this.info.mch_user, {
-						// 	is_follow: false
-						// })
-					})
-				} else {
-					this.$apis.ISFOLLOW(user.uid).then(res => {
-						user.is_follow = true
-						// Object.assign(this.info.mch_user, {
-						// 	is_follow: true
-						// })
-					})
-				}
-				console.log(this.info.mch_user)
-
+				this.is_follow ? this.$apis.UNFOLLOW(user.uid) : this.$apis.ISFOLLOW(user.uid)
+				this.is_follow = !this.is_follow
 			},
 			btnClick() {
 				// 不同状态不同操作
@@ -169,7 +154,6 @@
 	.t_32_333+view {
 		margin-top: 10rpx;
 	}
-
 	.container {
 		>view:first-child {
 			>.user {
@@ -184,10 +168,9 @@
 						width: 94rpx;
 						height: 94rpx;
 						border-radius: 50%;
-						margin-right: 10rpx;
+						margin-right: 20rpx;
 					}
 				}
-
 				>.btn_squre {
 					position: relative;
 					width: 140rpx;

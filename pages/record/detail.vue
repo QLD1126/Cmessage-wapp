@@ -26,11 +26,11 @@
 			</view>
 			<view v-if="info.status>=2">
 				<text>销量</text>
-				<text>¥ {{info.sales}}</text>
+				<text>{{info.sales}}</text>
 			</view>
 			<view v-if="info.status>=2">
 				<text>收益</text>
-				<text>¥ {{parseInt(info.price)*info.sales}}</text>
+				<text>¥ {{Number(info.price)*Number(info.sales)}}</text>
 			</view>
 			<view>
 				<text>不对返还</text>
@@ -51,7 +51,7 @@
 
 			<view v-if="info.status==4">
 				<text>选择结果</text>
-				<text>结果正确</text>
+				<text>{{info.result==-1?'结果错误':'结果正确'}}</text>
 			</view>
 		</view>
 		<navigator open-type="switchTab" url="/pages/index/index" class="btn_round" v-if="info.status==-1">重新填写</navigator>

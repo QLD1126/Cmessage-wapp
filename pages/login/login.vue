@@ -17,7 +17,7 @@
 			<view class="flex-between">
 				<button type="primary" open-type="getUserInfo" lang="zh_CN" @getuserinfo="getUserInfoclick" v-if="getphone">确认登录</button>
 				<button type="primary" open-type="getPhoneNumber" lang="zh_CN" @getphonenumber="getPhoneNumberClick" v-else>确认授权</button>
-				<button type="default" @click="toPage">取消</button>
+				<button type="default" @click="onClickLeft">取消</button>
 			</view>
 		</view>
 	</view>
@@ -47,11 +47,6 @@
 		computed: mapState(['userInfo']),
 		methods: {
 			...mapActions(['login', 'getuserInfo']),
-			toPage(){
-				uni.navigateBack({
-					delta:1
-				})
-			},
 			//微信授权登录
 			getUserInfoclick(e) {
 				// let that = this;
@@ -100,7 +95,7 @@
 							this.getuserInfo().then(info => {
 								if (info.phone!=='') {
 									this.getuserInfo()
-									this.toPage()
+									this.onClickLeft()
 								} else {
 									this.getphone = false
 								}
@@ -120,9 +115,7 @@
 				}
 				this.$apis.PHONE(data).then(() => {
 					this.getuserInfo()
-					uni.switchTab({
-						url: '/pages/index/index'
-					})
+					this.onClickLeft()
 				})
 			},
 			onClickLeft() {

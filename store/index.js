@@ -16,9 +16,6 @@ const store=new Vuex.Store({
 				const res = await apis.LOGIN(data)
 				uni.setStorageSync('TOKEN', res.token)
 				uni.setStorageSync('CATCH_KEY',res.cache_key)
-				// uni.navigateBack({
-				// 	delta: 1
-				// })
 				commit('loginSet', true)
 				return Promise.resolve(res)
 			} catch (error) {

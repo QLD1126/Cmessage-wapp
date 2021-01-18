@@ -248,7 +248,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 var _vuex = __webpack_require__(/*! vuex */ 22);function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}function _unsupportedIterableToArray(o, minLen) {if (!o) return;if (typeof o === "string") return _arrayLikeToArray(o, minLen);var n = Object.prototype.toString.call(o).slice(8, -1);if (n === "Object" && o.constructor) n = o.constructor.name;if (n === "Map" || n === "Set") return Array.from(o);if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);}function _iterableToArray(iter) {if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) return _arrayLikeToArray(arr);}function _arrayLikeToArray(arr, len) {if (len == null || len > arr.length) len = arr.length;for (var i = 0, arr2 = new Array(len); i < len; i++) {arr2[i] = arr[i];}return arr2;}var _default =
 
 
@@ -267,7 +266,6 @@ var _vuex = __webpack_require__(/*! vuex */ 22);function _toConsumableArray(arr)
 
       ewmShow: false,
       shareShow: false,
-      current: 1,
       datalist: [{
         id: 0,
         type: '我卖的料',
@@ -285,36 +283,56 @@ var _vuex = __webpack_require__(/*! vuex */ 22);function _toConsumableArray(arr)
   },
   computed: (0, _vuex.mapState)(['isLogged']),
   onLoad: function onLoad() {
+    this.getList(this.formdata);
+  },
+  onShow: function onShow() {var _this = this;
+    console.log(this.isLogged);
     if (this.isLogged) {
-      this.getList(this.formdata);
+      uni.getStorage({
+        key: 'RECORY_TYPE',
+        complete: function complete(res) {
+          Object.assign(_this.formdata, {
+            type: res.data || 0 });
+
+        } });
+
     }
+    // tabs的active绑定了当前选中值，会自动发送请求
+  },
+  onUnload: function onUnload() {
+    console.log('onUnload');
+  },
+  onHide: function onHide() {
+    console.log('hide');
+    // uni.removeStorageSync('RECORY_TYPE')
+    // uni.setStorageSync('RECORY_TYPE',0)
   },
   methods: {
-    getList: function getList(data) {var _this = this;
+    getList: function getList(data) {var _this2 = this;
       data.page = 1;
       console.log(data);
       if (data.type == 0) {
         // 卖料
         this.$apis.SELL_LIST(data).then(function (res) {
-          _this.loadStatus = res.length < data.limit ? 'noMore' : 'more';
-          _this.datalist[0].content = res;
+          _this2.loadStatus = res.length < data.limit ? 'noMore' : 'more';
+          _this2.datalist[0].content = res;
           uni.stopPullDownRefresh();
         });
       } else {
         // 买料
         this.$apis.BUY_LIST(data).then(function (res) {
-          _this.loadStatus = res.length < data.limit ? 'noMore' : 'more';
-          _this.datalist[1].content = res;
+          _this2.loadStatus = res.length < data.limit ? 'noMore' : 'more';
+          _this2.datalist[1].content = res;
         });
       }
     },
-    loadMore: function loadMore(data) {var _this2 = this;
+    loadMore: function loadMore(data) {var _this3 = this;
       if (data.type == 0) {
         uni.showLoading({});
         // 卖料
-        this.$apis.SELL_LIST(data).then(function (res) {var _this2$datalist$0$con;
-          _this2.loadStatus = res.length < data.limit ? 'noMore' : 'more';
-          (_this2$datalist$0$con = _this2.datalist[0].content).push.apply(_this2$datalist$0$con, _toConsumableArray(res));
+        this.$apis.SELL_LIST(data).then(function (res) {var _this3$datalist$0$con;
+          _this3.loadStatus = res.length < data.limit ? 'noMore' : 'more';
+          (_this3$datalist$0$con = _this3.datalist[0].content).push.apply(_this3$datalist$0$con, _toConsumableArray(res));
           uni.hideLoading();
         });
       } else {
@@ -322,25 +340,26 @@ var _vuex = __webpack_require__(/*! vuex */ 22);function _toConsumableArray(arr)
       }
     },
     // 删除
-    remove: function remove(id, index) {var _this3 = this;
+    remove: function remove(id, index) {var _this4 = this;
       uni.showModal({
         title: '提示',
         content: '确定删除该记录？',
         success: function success(res) {
           if (res.confirm) {
-            _this3.$apis.SELL_DEL(id).then(function (res) {
-              _this3.datalist[_this3.formdata.type].content.splice(index, 1);
+            _this4.$apis.SELL_DEL(id).then(function (res) {
+              _this4.datalist[_this4.formdata.type].content.splice(index, 1);
             });
           }
         } });
 
     },
     tabchange: function tabchange(e) {
+      console.log('tabchange', e);
       Object.assign(this.formdata, {
         type: e.detail.name });
 
       this.getList(this.formdata);
-      console.log(e.detail);
+      console.log(e.detail, e);
     },
     openPop: function openPop(type, item) {
       // this.btntype=type
@@ -377,7 +396,12 @@ var _vuex = __webpack_require__(/*! vuex */ 22);function _toConsumableArray(arr)
       var res = e.detail.value;
       if (item.select == 'share') {
         if (res == 'wx') {} else {
-          this.getToken();
+          console.log(item, item.wxaCode);
+          if (item.wxaCode) {
+            this.ewmShow = true;
+          } else {
+            this.getToken();
+          }
         }
       } else {
         this.$apis.FINISH(item.id, res).then(function () {
@@ -467,7 +491,10 @@ var _vuex = __webpack_require__(/*! vuex */ 22);function _toConsumableArray(arr)
     },
     // 二维码
     //获取access_token
-    getToken: function getToken() {var _this4 = this;
+    getToken: function getToken() {var _this5 = this;
+      uni.showLoading({});
+
+
       uni.request({
         url: 'https://api.weixin.qq.com/cgi-bin/token',
         method: 'GET',
@@ -487,19 +514,22 @@ var _vuex = __webpack_require__(/*! vuex */ 22);function _toConsumableArray(arr)
             method: 'POST',
             responseType: 'arraybuffer',
             data: {
-              path: "pages/record/buyinfo?type=share&id=" + _this4.item.id,
+              path: "pages/record/buyinfo?type=share&id=" + _this5.item.id,
               width: 200 },
 
             success: function success(res) {
               // console.log('二维码', res.data)
               var base64 = wx.arrayBufferToBase64(res.data).replace(/\. +/g, '');
               base64 = base64.replace(/[\r\n]/g, '');
-              uni.setStorageSync('wxaCode', 'data:image/png;base64,' + base64);
-              _this4.wxaCode = 'data:image/png;base64,' + base64;
-              _this4.ewmShow = true;
-            },
-            complete: function complete(res) {
-              // console.log('二维码', res.data)
+              // uni.setStorageSync('wxaCode', 'data:image/png;base64,' + base64)
+              var wxaCode = 'data:image/png;base64,' + base64;
+              _this5.wxaCode = wxaCode;
+              // 存入当前item避免再次生成
+              Object.assign(_this5.item, {
+                wxaCode: wxaCode });
+
+              uni.hideLoading();
+              _this5.ewmShow = true;
             } });
 
         },
@@ -530,9 +560,9 @@ var _vuex = __webpack_require__(/*! vuex */ 22);function _toConsumableArray(arr)
     }
   },
   onPullDownRefresh: function onPullDownRefresh() {
-    if (this.loadStatus !== 'loading') {
-      this.getList(this.formdata);
-    }
+    // if (this.loadStatus !== 'loading') {
+    this.getList(this.formdata);
+    // }
   } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

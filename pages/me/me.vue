@@ -30,7 +30,7 @@
 			</view>
 		</view>
 		<view>
-			<navigator v-for="item in meArr" :key='item.title' :url="item.url" :open-type="item.url.match(/wallet/)?'navigate':'switchTab'">
+			<navigator v-for="item in meArr" :key='item.title' :url="item.url" :open-type="item.url.match(/wallet/)?'navigate':'switchTab'" @click="toPage(item)">
 				<image :src="item.image"></image>
 				{{item.title}}
 			</navigator>
@@ -60,7 +60,7 @@
 				meArr: [{
 					title: '我的发布',
 					image: '../../static/fabu1.png',
-					url: '/pages/index/index'
+					url: '/pages/record/record'
 				}, {
 					title: '我的购买',
 					image: '../../static/goumai.png',
@@ -92,7 +92,7 @@
 			};
 		},
 		computed:mapState(['userInfo','isLogged']),
-		onLoad() {
+		onShow() {
 			this.getuserInfo().then(()=>{
 				this.loadOver=true
 			})
@@ -100,6 +100,9 @@
 		},
 		methods: {
 			...mapActions(['getuserInfo']),
+			toPage(item){
+					uni.setStorageSync('RECORY_TYPE',item.title=='我的发布'?0:1)
+			}
 		}
 	}
 </script>

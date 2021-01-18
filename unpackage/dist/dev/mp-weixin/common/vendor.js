@@ -8302,9 +8302,6 @@ var store = new _vuex.default.Store({
                   _index.default.LOGIN(data));case 4:res = _context.sent;
                 uni.setStorageSync('TOKEN', res.token);
                 uni.setStorageSync('CATCH_KEY', res.cache_key);
-                // uni.navigateBack({
-                // 	delta: 1
-                // })
                 commit('loginSet', true);return _context.abrupt("return",
                 Promise.resolve(res));case 11:_context.prev = 11;_context.t0 = _context["catch"](1);return _context.abrupt("return",
 

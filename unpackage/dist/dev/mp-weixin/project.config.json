@@ -26,8 +26,8 @@
         {
           "name": "pages/record/record",
           "pathName": "pages/record/record",
-          "query": "type=share&id=23",
-          "scene": 1011
+          "query": "type=isbuy&id=6",
+          "scene": null
         }
       ]
     }

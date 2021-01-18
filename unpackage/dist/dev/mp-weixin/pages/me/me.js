@@ -148,7 +148,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
 
 
 
@@ -248,8 +248,12 @@ var _vuex = __webpack_require__(/*! vuex */ 22);function ownKeys(object, enumera
 //
 //
 //
-var a = '/pages/me/wallet';var b = a.match(/wallet/) ? 'navigate' : 'switchTab';console.log(b, 111);var _default = { data: function data() {return { loadOver: false, meArr: [{ title: '我的发布', image: '../../static/fabu1.png', url: '/pages/index/index' }, { title: '我的购买', image: '../../static/goumai.png', url: '/pages/record/record' }, { title: '我的钱包', image: '../../static/qianbao.png', url: '/pages/me/wallet?type=1' }], ulArr: [{ title: '实名认证', url: '/pages/me/name' }, { title: '我的关注', url: '/pages/me/follow' }, { title: '我的粉丝', url: '/pages/me/fans' }, { title: '常见问题', url: '/pages/me/questions' }, { title: '联系客服', url: '/pages/me/rich?title=联系客服' }, { title: '关于我们', url: '/pages/me/rich?title=关于我们' }] };}, computed: (0, _vuex.mapState)(['userInfo', 'isLogged']), onLoad: function onLoad() {var _this = this;this.getuserInfo().then(function () {_this.loadOver = true;});console.log(this.userInfo);}, methods: _objectSpread({},
-  (0, _vuex.mapActions)(['getuserInfo'])) };exports.default = _default;
+var a = '/pages/me/wallet';var b = a.match(/wallet/) ? 'navigate' : 'switchTab';console.log(b, 111);var _default = { data: function data() {return { loadOver: false, meArr: [{ title: '我的发布', image: '../../static/fabu1.png', url: '/pages/record/record' }, { title: '我的购买', image: '../../static/goumai.png', url: '/pages/record/record' }, { title: '我的钱包', image: '../../static/qianbao.png', url: '/pages/me/wallet?type=1' }], ulArr: [{ title: '实名认证', url: '/pages/me/name' }, { title: '我的关注', url: '/pages/me/follow' }, { title: '我的粉丝', url: '/pages/me/fans' }, { title: '常见问题', url: '/pages/me/questions' }, { title: '联系客服', url: '/pages/me/rich?title=联系客服' }, { title: '关于我们', url: '/pages/me/rich?title=关于我们' }] };}, computed: (0, _vuex.mapState)(['userInfo', 'isLogged']), onShow: function onShow() {var _this = this;this.getuserInfo().then(function () {_this.loadOver = true;});console.log(this.userInfo);}, methods: _objectSpread(_objectSpread({},
+  (0, _vuex.mapActions)(['getuserInfo'])), {}, {
+    toPage: function toPage(item) {
+      uni.setStorageSync('RECORY_TYPE', item.title == '我的发布' ? 0 : 1);
+    } }) };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 
