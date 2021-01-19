@@ -366,7 +366,7 @@ var _vuex = __webpack_require__(/*! vuex */ 22);function _toConsumableArray(arr)
       item.select = type;
       this.item = item; //分享用
       console.log(this.item);
-      if (item && item.result !== 0) {
+      if (item && item.result !== 0 && type == 'res') {
         uni.showToast({
           title: '结果已选',
           icon: 'none' });

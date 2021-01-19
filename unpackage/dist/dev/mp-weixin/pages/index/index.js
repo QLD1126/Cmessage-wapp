@@ -367,6 +367,17 @@ var _default = {
 
   },
   computed: {
+    // textareaClass(){
+    // 	if(this.re_list[2].value.length<5){
+    // 		uni.showToast({
+    // 			icon:'none',
+    // 			title:'内容长度至少为5'
+
+    // 		})
+    // 		return 'border: 1rpx solid #f00;'
+    // 	}
+
+    // },
     // ...mapState(['isLogged']),
     startDate: function startDate() {
       return this.getDate('start');

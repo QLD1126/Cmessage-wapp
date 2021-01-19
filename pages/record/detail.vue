@@ -3,9 +3,10 @@
 		<view>
 			<view>
 				<text class="t_32_333">{{info.title}}</text>
-				<text>{{info.status==-1?'发布失败':info.status==0?'审核中':info.status==1?'发布成功':info.status==2?'销售中':info.status==3?'销售截止':'销售完成'}}</text>
+				<!-- <text>{{info.status==-1?'发布失败':info.status==0?'审核中':info.status==1?'发布成功':info.status==2?'销售中':info.status==3?'销售截止':'销售完成'}}</text> -->
+				<text :style="{color:info.status<4?'red':'#ccc'}">{{info._status}}</text>
 			</view>
-			
+
 			<view>
 				<text>副标题：</text>
 				<text>{{info.subhead}}</text>
@@ -55,7 +56,7 @@
 			</view>
 		</view>
 		<navigator open-type="switchTab" url="/pages/index/index" class="btn_round" v-if="info.status==-1">重新填写</navigator>
-		<button type="warn" class="btn_round" @click="resShow=true" v-if="info.status==3">选结果</button>
+		<button type="warn" class="btn_round" @click="resShow=true" v-if="info.status==3&&info.is_return">选结果</button>
 		<van-action-sheet :show="resShow" :actions=" actions" @close="resShow=false" @select="onSelect" cancel-text="取消" />
 	</view>
 </template>
@@ -68,25 +69,35 @@
 				info: {},
 				resShow: false,
 				actions: [{
-						name: '结果正确',
-					},
-					{
-						name: '结果错误',
-					},
-				],
+					name: '结果正确',
+					value: '1'
+
+				}, {
+					name: '结果错误',
+					value: '2'
+				}]
 			}
 		},
 		onLoad(options) {
 			console.log(options)
-				this.$apis.SELL_INFO(options.id).then(res => {
+			this.getInfo(options.id)
+		},
+		methods: {
+			getInfo(id){
+				this.$apis.SELL_INFO(id).then(res => {
+					// res.is_return=1
 					this.info = res
 					this.loadOver = true
 				})
-		},
-		methods: {
-			lookImg(url){
+			},
+			onSelect(e){
+				this.$apis.FINISH(this.info.id, e.detail.value==1?1:-1).then(() => {
+					this.getInfo(this.info.id)
+				})
+			},
+			lookImg(url) {
 				uni.previewImage({
-					urls:[url]
+					urls: [url]
 				})
 			},
 			btnClick() {
@@ -96,3 +107,8 @@
 		}
 	}
 </script>
+<style>
+	button{
+		border-radius: 0;
+	}
+</style>

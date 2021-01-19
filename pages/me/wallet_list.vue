@@ -3,21 +3,21 @@
 		<van-empty description="暂无记录" v-if='datalist.length==0' />
 		<view class="" v-else>
 			
-		<view class="li_106 flex-between">
+		<view class="li_106 flex-between" v-for="item in datalist" :key='item.id'>
 			<view class="">
 				<view class="">
-					提现到微信
+					提现到{{item.extract_type=='wechat'?'微信':'支付宝'}}
 				</view>
 				<view class="t_24_9">
-					2020-08-08 12:30
+					{{item.add_time}}
 				</view>
 			</view>
 			<view class="">
 				<view class="">
-					-10000.00
+					{{item.extract_price}}
 				</view>
 				<view class="">
-					审核失败
+					{{item._status}}
 				</view>
 			</view>
 		</view>

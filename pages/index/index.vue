@@ -5,7 +5,7 @@
 				<view class="">
 					<text v-show="item.key!=='image'">*</text>{{item.key=='image'?item.name+'(1/'+fileList.length+')':item.name}}
 				</view>
-				<textarea v-model="item.value" placeholder="请输入信息内容" v-if="item.name=='信息内容'" :auto-blur='true' :adjust-position='false' />
+				<textarea v-model="item.value" :placeholder="item.placeholder" v-if="item.key=='content'" :auto-blur='true' :adjust-position='false'/>
 				<view class="unload" v-else-if="item.key=='image'">
 					<van-uploader :file-list="fileList" max-count="1" accept='image' :multiple='true' :deletable='true' capture="['album','camera']"
 					 @after-read="afterRead" @delete='deleteImg' />
@@ -30,7 +30,7 @@
 				
 					<view class="input" v-else>
 						
-				<input v-model="item.value" :style="{width:item.key=='price'?'60vw':'95vw'}" type="text" :placeholder="item.placeholder" :confirm-type="item.confirm_type" />
+				<input v-model="item.value" :style="{width:item.key=='price'?'60vw':null}" type="text" :placeholder="item.placeholder" :confirm-type="item.confirm_type" />
 				<button type="warn" v-if="item.name=='价格'" @click.stop="priceShow=true">快速定价</button>
 				</view>
 				<!-- </view> -->
@@ -203,6 +203,17 @@
 			})
 		},
 		computed:{
+			// textareaClass(){
+			// 	if(this.re_list[2].value.length<5){
+			// 		uni.showToast({
+			// 			icon:'none',
+			// 			title:'内容长度至少为5'
+						
+			// 		})
+			// 		return 'border: 1rpx solid #f00;'
+			// 	}
+				
+			// },
 			// ...mapState(['isLogged']),
 			  startDate() {
 					            return this.getDate('start');
@@ -384,9 +395,13 @@
 					border-radius: 10rpx;
 					margin-top: 20rpx;
 				}
+				textarea{
+					width: 670rpx;
+				}
 				.input{
 					width: 95vw;
 				>input{
+					font-weight: 400;
 					height: 68rpx;
 					padding: 0 22rpx;
 				}	
