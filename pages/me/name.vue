@@ -6,9 +6,9 @@
 				<view class="">
 					<text>*</text>{{item.name}}
 				</view>
-				<input v-model="item.value||userInfo[item.key]" type="text" :placeholder="item.placeholder" @blur="blur($event,index)"
-				 :disabled="userInfo.check_status>=0&&userInfo.real_name!==''" />
-				<!-- <input v-model="item.value||userInfo[item.key]" type="text" :placeholder="item.placeholder" @blur="blur($event,index)" /> -->
+				<!-- <input v-model="item.value||userInfo[item.key]" type="text" :placeholder="item.placeholder" @blur="blur($event,index)"
+				 :disabled="userInfo.check_status>=0&&userInfo.real_name!==''" /> -->
+				<input v-model="item.value" type="text" :placeholder="item.placeholder" @blur="blur($event,index)" :disabled="userInfo.check_status>=0&&userInfo.real_name!==''" />
 			</view>
 		</view>
 		<text>单笔提现金额超过4500元，将使用支付宝支付</text>
@@ -48,7 +48,19 @@
 			}
 		},
 		onLoad() {
-			this.getuserInfo()
+			this.getuserInfo().then(res => {
+				// 说明已经通提交过实名认证
+				if (res.check_status >= 0 && res.real_name !== '') {
+					// res.real_name = '烟雨'
+					// res.phone = '17628274150'
+					// res.alipay_account = '12345678765'
+					res.phone = String(res.phone).slice(0, 3) + '****' + String(res.phone).slice(-4)
+					res.alipay_account = String(res.alipay_account).slice(0, 3) + '****' + String(res.alipay_account).slice(-4)
+					this.re_list.forEach(item => {
+						item.value= res[item.key]
+					})
+				}
+			})
 		},
 		computed: mapState(['userInfo']),
 		methods: {

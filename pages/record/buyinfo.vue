@@ -27,7 +27,7 @@
 				<image :src="info.goods.image" mode="widthFix" @click="lookImg(info.goods.image)"></image>
 			</view>
 			<view class="nobuy" v-if="pageType=='share'">
-				购买详情后可见
+				购买后可查看详情
 			</view>
 		</view>
 		<view class="list_between_106">
@@ -52,12 +52,14 @@
 				<text>{{info.status==-1?'结果错误':'结果正确'}}</text>
 			</view>
 		</view>
-		<button type="warn" class="btn_round" @click="buy(info.goods.id)" v-if="pageType=='share'">购买</button>
+		<button type="warn" class="btn_round" @click="buy(info.goods.id,info.goods.price)" v-if="pageType=='share'">购买</button>
 		<!-- <button type="warn" class="btn_round" @click="buy(info.goods.id)">购买</button> -->
 	</view>
 </template>
 
 <script>
+	// let a = '0.01'
+	// console.log(Math.ceil(a))
 	export default {
 		data() {
 			return {
@@ -110,9 +112,9 @@
 					urls: [url]
 				})
 			},
-			buy(id) {
-				this.$apis.BUY_CREATE(id).then(res => {
-					if (res.jsConfig) {
+			buy(id, p) {
+				if (Math.ceil(p) > 0) {
+					this.$apis.BUY_CREATE(id).then(res => {
 						wx.requestPayment({
 							...res.jsConfig,
 							success: pay => {
@@ -130,13 +132,23 @@
 								});
 							},
 						})
-					} else {
-						// 免费订单无需支付
-						uni.reLaunch({
-							url: '/pages/record/buyinfo?type=isbuy&id=' + res.id
-						})
-					}
-				})
+					})
+				} else {
+					// 免费订单无需支付
+					uni.showModal({
+						title: '提示',
+						content: '确认购买?',
+						success: (tos) => {
+							if (tos.confirm) {
+								this.$apis.BUY_CREATE(id).then(res => {
+									uni.reLaunch({
+										url: '/pages/record/buyinfo?type=isbuy&id=' + res.id
+									})
+								})
+							}
+						}
+					})
+				}
 			},
 			follow(user) {
 				this.is_follow ? this.$apis.UNFOLLOW(user.uid) : this.$apis.ISFOLLOW(user.uid)
@@ -154,6 +166,7 @@
 	.t_32_333+view {
 		margin-top: 10rpx;
 	}
+
 	.container {
 		>view:first-child {
 			>.user {
@@ -171,6 +184,7 @@
 						margin-right: 20rpx;
 					}
 				}
+
 				>.btn_squre {
 					position: relative;
 					width: 140rpx;

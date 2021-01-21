@@ -33,7 +33,8 @@
   height: 370rpx;
   position: relative;
 }
-.container_0 > view:first-child > view, .container_0 > view:first-child navigator {
+.container_0 > view:first-child > view,
+.container_0 > view:first-child navigator {
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
@@ -42,14 +43,18 @@
           align-items: center;
   color: #fff;
 }
-.container_0 > view:first-child > view > image, .container_0 > view:first-child navigator > image {
+.container_0 > view:first-child > view > image,
+.container_0 > view:first-child navigator > image {
   width: 130rpx;
   height: 130rpx;
   border: 4rpx solid #fff;
   border-radius: 50%;
   margin-right: 20rpx;
 }
-.container_0 > view:first-child > view > text, .container_0 > view:first-child > view navigator, .container_0 > view:first-child navigator > text, .container_0 > view:first-child navigator navigator {
+.container_0 > view:first-child > view > text,
+.container_0 > view:first-child > view navigator,
+.container_0 > view:first-child navigator > text,
+.container_0 > view:first-child navigator navigator {
   font-weight: bold;
   font-size: 36rpx;
 }

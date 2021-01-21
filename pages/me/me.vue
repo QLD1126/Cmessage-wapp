@@ -30,7 +30,8 @@
 			</view>
 		</view>
 		<view>
-			<navigator v-for="item in meArr" :key='item.title' :url="item.url" :open-type="item.url.match(/wallet/)?'navigate':'switchTab'" @click="toPage(item)">
+			<navigator v-for="item in meArr" :key='item.title' :url="item.url" :open-type="item.url.match(/wallet/)?'navigate':'switchTab'"
+			 @click="toPage(item)">
 				<image :src="item.image"></image>
 				{{item.title}}
 			</navigator>
@@ -40,23 +41,24 @@
 				<view>
 					<text>{{item.title}}</text>
 				</view>
-				<text class="iconfont icon-fanhuizuojiantouxiangzuoshangyibuxianxing"></text>
+				<view class="">
+					<text v-if="item.title=='实名认证'">{{userInfo.check_status==-1?'未通过':userInfo.check_status==0?'待审核':'通过'}}</text>
+					<text class="iconfont icon-fanhuizuojiantouxiangzuoshangyibuxianxing"></text>
+				</view>
 			</navigator>
 		</view>
 	</view>
 </template>
 
 <script>
-	let a='/pages/me/wallet'
-	let b=a.match(/wallet/)?'navigate':'switchTab'
-	console.log(b,111)
 	import {
-		mapState,mapActions
+		mapState,
+		mapActions
 	} from 'vuex';
 	export default {
 		data() {
 			return {
-				loadOver:false,
+				loadOver: false,
 				meArr: [{
 					title: '我的发布',
 					image: '../../static/fabu1.png',
@@ -91,17 +93,17 @@
 				}]
 			};
 		},
-		computed:mapState(['userInfo','isLogged']),
+		computed: mapState(['userInfo', 'isLogged']),
 		onShow() {
-			this.getuserInfo().then(()=>{
-				this.loadOver=true
+			this.getuserInfo().then(() => {
+				this.loadOver = true
 			})
 			console.log(this.userInfo)
 		},
 		methods: {
 			...mapActions(['getuserInfo']),
-			toPage(item){
-					uni.setStorageSync('RECORY_TYPE',item.title=='我的发布'?0:1)
+			toPage(item) {
+				uni.setStorageSync('RECORY_TYPE', item.title == '我的发布' ? 0 : 1)
 			}
 		}
 	}
@@ -112,16 +114,19 @@
 		>view {
 			background: #fff;
 		}
+
 		>view:first-child {
 			background-image: linear-gradient(to bottom, #FF3D3B, #FE4543);
 			height: 370rpx;
 			// 头像部分
 			position: relative;
 
-			>view,navigator {
+			>view,
+			navigator {
 				display: flex;
 				align-items: center;
 				color: #fff;
+
 				>image {
 					width: 130rpx;
 					height: 130rpx;
@@ -129,12 +134,15 @@
 					border-radius: 50%;
 					margin-right: 20rpx;
 				}
-				>text,navigator {
+
+				>text,
+				navigator {
 					font-weight: bold;
 					font-size: 36rpx;
 				}
 			}
-			>navigator{
+
+			>navigator {
 				justify-content: center;
 			}
 

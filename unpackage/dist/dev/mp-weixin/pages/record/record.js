@@ -96,7 +96,7 @@ var components
 try {
   components = {
     uniLoadMore: function() {
-      return __webpack_require__.e(/*! import() | components/uni-load-more/uni-load-more */ "components/uni-load-more/uni-load-more").then(__webpack_require__.bind(null, /*! @/components/uni-load-more/uni-load-more.vue */ 126))
+      return __webpack_require__.e(/*! import() | components/uni-load-more/uni-load-more */ "components/uni-load-more/uni-load-more").then(__webpack_require__.bind(null, /*! @/components/uni-load-more/uni-load-more.vue */ 128))
     }
   }
 } catch (e) {
@@ -492,8 +492,8 @@ var _vuex = __webpack_require__(/*! vuex */ 22);function _toConsumableArray(arr)
     // 二维码
     //获取access_token
     getToken: function getToken() {var _this5 = this;
-      uni.showLoading({});
-
+      uni.showLoading({
+        title: '生成中...' });
 
       uni.request({
         url: 'https://api.weixin.qq.com/cgi-bin/token',

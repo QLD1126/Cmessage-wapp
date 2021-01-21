@@ -33,7 +33,7 @@
       },
       {
         "pagePath": "pages/record/record",
-        "text": "记录",
+        "text": "战绩",
         "selectedIconPath": "static/jilu_1.png",
         "iconPath": "static/jilu.png"
       },
@@ -45,6 +45,5 @@
       }
     ]
   },
-  "usingComponents": {},
-  "sitemapLocation": "sitemap53.json"
+  "usingComponents": {}
 }

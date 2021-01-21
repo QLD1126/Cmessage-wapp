@@ -24,9 +24,9 @@
     "miniprogram": {
       "list": [
         {
-          "name": "pages/index/index",
-          "pathName": "pages/index/index",
-          "query": "type=share&id=15",
+          "name": "pages/me/name",
+          "pathName": "pages/me/name",
+          "query": "type=share&id=16",
           "scene": null
         }
       ]

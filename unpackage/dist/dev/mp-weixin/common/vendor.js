@@ -7984,8 +7984,8 @@ api;exports.default = _default;
 
 
 function req(obj) {
-  uni.showLoading({});
-
+  uni.showLoading({
+    title: '加载中...' });
 
   return new Promise(function (resolve, reject) {
     var HOST = _public_data.public_data.host;
@@ -8037,7 +8037,7 @@ function req(obj) {
             reject(res.data);
           } else {
             uni.showToast({
-              title: res.data.msg + url,
+              title: res.data.msg,
               icon: 'none' });
 
             reject(res.data);
@@ -8313,17 +8313,17 @@ var store = new _vuex.default.Store({
                   _index.default.USERINFO());case 4:res = _context2.sent;
 
                 // 实名认证页面需要用到
-                if (res.phone !== '') {
-                  res.phone = String(res.phone).slice(0, 3) + '****' + String(res.phone).slice(-4);
-                }
-                if (res.alipay_account !== '') {
-                  res.alipay_account = String(res.alipay_account).slice(0, 3) + '****' + String(res.alipay_account).slice(-4);
-                }
+                // if(res.phone!==''){
+                // 	res.phone=String(res.phone).slice(0,3)+'****'+String(res.phone).slice(-4)
+                // }
+                // if(res.alipay_account!==''){
+                // 	res.alipay_account=String(res.alipay_account).slice(0,3)+'****'+String(res.alipay_account).slice(-4)
+                // }
                 uni.setStorageSync('USERINFO', res);
                 commit('userinfoSet', res);return _context2.abrupt("return",
-                Promise.resolve(res));case 12:_context2.prev = 12;_context2.t0 = _context2["catch"](1);return _context2.abrupt("return",
+                Promise.resolve(res));case 10:_context2.prev = 10;_context2.t0 = _context2["catch"](1);return _context2.abrupt("return",
 
-                Promise.reject(_context2.t0));case 15:case "end":return _context2.stop();}}}, _callee2, null, [[1, 12]]);}))();
+                Promise.reject(_context2.t0));case 13:case "end":return _context2.stop();}}}, _callee2, null, [[1, 10]]);}))();
 
     } },
 

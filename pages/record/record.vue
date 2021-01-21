@@ -30,7 +30,7 @@
 								<text class="t_24_9">{{item.add_time}}</text>
 							</view>
 							<view class="flex-around">
-								<button type="default" plain @click.stop="openPop('share',item)"><text class="iconfont icon-fenxiang">分享</text></button>
+								<button type="default" plain @click.stop="openPop('share',item)" :disabled="item.status<1"><text class="iconfont icon-fenxiang"  :style='{color:item.status<1?"#999":"#000"}'>分享</text></button>
 								<button type="default" plain @click.stop="remove(item.id,index)" :disabled="item.status==2||item.status==3"><text
 									 :style='{color:item.status==2||item.status==3?"#999":"#000"}' class="iconfont icon-delete2">删除</text></button>
 							</view>
@@ -114,7 +114,7 @@
 		},
 		computed: (mapState(['isLogged'])),
 		onLoad() {
-				this.getList(this.formdata)
+			this.getList(this.formdata)
 		},
 		onShow() {
 			console.log(this.isLogged)
@@ -133,7 +133,7 @@
 		onUnload() {
 			console.log('onUnload')
 		},
-		onHide(){
+		onHide() {
 			console.log('hide')
 			// uni.removeStorageSync('RECORY_TYPE')
 			// uni.setStorageSync('RECORY_TYPE',0)
@@ -197,7 +197,7 @@
 				item.select = type
 				this.item = item //分享用
 				console.log(this.item)
-				if (item && item.result !== 0&&type=='res') {
+				if (item && item.result !== 0 && type == 'res') {
 					uni.showToast({
 						title: '结果已选',
 						icon: 'none'
@@ -324,7 +324,7 @@
 			//获取access_token
 			getToken() {
 				uni.showLoading({
-
+					title: '生成中...'
 				})
 				uni.request({
 					url: 'https://api.weixin.qq.com/cgi-bin/token',
@@ -392,7 +392,7 @@
 		},
 		onPullDownRefresh() {
 			// if (this.loadStatus !== 'loading') {
-				this.getList(this.formdata)
+			this.getList(this.formdata)
 			// }
 		}
 	}
@@ -404,16 +404,20 @@
 		height: 90vh;
 		overflow-y: scroll;
 	}
+
 	.s-action {
 		button {
 			border-radius: 0;
 		}
 	}
+
 	.container_0 {
 		width: 100vw;
+
 		>view:first-child {
 			position: relative;
 			background: #fff;
+
 			>input {
 				width: 644rpx;
 				height: 54rpx;
@@ -430,6 +434,7 @@
 				}
 			}
 		}
+
 		.content {
 			.item {
 				width: 700rpx;

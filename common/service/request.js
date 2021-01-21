@@ -4,7 +4,7 @@ import {
 
 function req(obj) {
 	uni.showLoading({
-		
+		title:'加载中...'
 	})
 	return new Promise((resolve, reject) => {
 		const HOST = public_data.host
@@ -56,7 +56,7 @@ function req(obj) {
 						reject(res.data)
 					} else {
 						uni.showToast({
-							title: res.data.msg + url,
+							title: res.data.msg ,
 							icon: 'none'
 						})
 						reject(res.data)
