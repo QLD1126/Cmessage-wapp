@@ -3,7 +3,6 @@
 		<van-nav-bar title="我的钱包" @click-left="onClickLeft" custom-style='background: transparent;' title-class='natab' fixed
 		 :border='false' style='color: #fff !important;'>
 			<view class="iconfont icon-fanhuizuojiantouxiangzuoshangyibuxianxing1" slot='left'></view>
-			<left>111</left>
 		</van-nav-bar>
 		<image src="../../static/qbbg.png" mode=""></image>
 		<view class="top" :style="{'text-align':pageType==1?'center':'left'}">
@@ -25,6 +24,9 @@
 				<view class="money">
 					<text>¥</text>
 					{{userInfo.balance||0}}
+				</view>
+				<view class="">
+					{{userInfo.extract_remarks||''}}
 				</view>
 			</view>
 

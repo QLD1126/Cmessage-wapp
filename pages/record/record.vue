@@ -1,8 +1,10 @@
 <template>
 	<view class="container_0">
+		<!-- <image src="../../static/shareimg.png" mode=""></image> -->
 		<view class="">
 			<input type="text" v-model="formdata.keywords" placeholder="请输入搜索关键词" confirm-type="search" @confirm="getList(formdata)" />
 			<text class="iconfont icon-sousuo"></text>
+			<view @click="getList(formdata)">搜索</view>
 		</view>
 		<van-tabs class="content" swipeable @change='tabchange' animated :active='formdata.type'>
 			<!-- <van-tab v-for='item in datalist' :key='item.id' :title="item.type">{{item.content}}</van-tab> -->
@@ -12,10 +14,10 @@
 						<navigator class='item' v-for="(item,index) in datalist[0].content" :key="item.id" open-type="navigate" :url="'/pages/record/detail?id='+item.id">
 							<view class="flex-between">
 								<view class="">
-									<image src="../../static/fan.png" mode="" class="icon_44"></image>
+									<image v-if="item.is_return==1" src="../../static/fan.png" mode="" class="icon_44"></image>
 									<text class="t_32_333">{{item.title}}</text>
 								</view>
-								<view :class="item.result==1?'red':item.result==-1?'hui':'fff'" :style="{display:item.status==3?'inline':'none'}"
+								<view :class="item.result==0?'red':item.result==-1?'hui':'fff'" :style="{display:item.status==3?'inline':'none'}"
 								 @click.stop="openPop('res',item)">
 									{{item.result==-1?'错误':item.result==1?'正确':'选结果'}}
 									<!-- {{item.status==-1?'结果错误':item.status==0?'等待结果':'结果正确'}} -->
@@ -30,7 +32,8 @@
 								<text class="t_24_9">{{item.add_time}}</text>
 							</view>
 							<view class="flex-around">
-								<button type="default" plain @click.stop="openPop('share',item)" :disabled="item.status<1"><text class="iconfont icon-fenxiang"  :style='{color:item.status<1?"#999":"#000"}'>分享</text></button>
+								<button type="default" plain @click.stop="openPop('share',item)" :disabled="item.status<1"><text class="iconfont icon-fenxiang"
+									 :style='{color:item.status<1?"#999":"#000"}'>分享</text></button>
 								<button type="default" plain @click.stop="remove(item.id,index)" :disabled="item.status==2||item.status==3"><text
 									 :style='{color:item.status==2||item.status==3?"#999":"#000"}' class="iconfont icon-delete2">删除</text></button>
 							</view>
@@ -139,6 +142,9 @@
 			// uni.setStorageSync('RECORY_TYPE',0)
 		},
 		methods: {
+			aa(){
+				console.log(11111)
+			},
 			getList(data) {
 				data.page = 1
 				console.log(data)
@@ -376,7 +382,7 @@
 			return {
 				title: item.title,
 				desc: item.content,
-				imageUrl: item.image || null, //自定义图片路径，可以是本地文件路径、代码包文件路径或者网络图片路径。支持PNG及JPG。显示图片长宽比是 5:4。
+				imageUrl: '../../static/shareimg.png', //自定义图片路径，可以是本地文件路径、代码包文件路径或者网络图片路径。支持PNG及JPG。显示图片长宽比是 5:4。
 				path: '/pages/record/buyinfo?type=share&id=' + item.id,
 				success: function(res) {
 					console.log(res, '分享');
@@ -417,6 +423,8 @@
 		>view:first-child {
 			position: relative;
 			background: #fff;
+			display: flex;
+			align-items: center;
 
 			>input {
 				width: 644rpx;
@@ -425,13 +433,23 @@
 				margin: 0 auto;
 				background: #f3f3f3;
 				padding-left: 54rpx;
+			}
 
-				+text {
-					position: absolute;
-					left: 40rpx;
-					top: 12rpx;
-					color: #999;
-				}
+			>text,
+			view {
+				position: absolute;
+				color: #999;
+				z-index: 999;
+			}
+
+			>text {
+				left: 40rpx;
+			}
+
+			>view {
+				border-left: 1rpx solid #666;
+				padding-left: 20rpx;
+				right: 50rpx;
 			}
 		}
 

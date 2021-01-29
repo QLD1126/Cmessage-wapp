@@ -24,7 +24,10 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-.container_0 .rich {
+.container {
+  margin-top: 0;
+}
+.container .rich {
   margin-top: 20rpx;
   background: #fff;
 }

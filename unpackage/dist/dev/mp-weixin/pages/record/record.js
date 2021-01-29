@@ -248,6 +248,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
 var _vuex = __webpack_require__(/*! vuex */ 22);function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}function _unsupportedIterableToArray(o, minLen) {if (!o) return;if (typeof o === "string") return _arrayLikeToArray(o, minLen);var n = Object.prototype.toString.call(o).slice(8, -1);if (n === "Object" && o.constructor) n = o.constructor.name;if (n === "Map" || n === "Set") return Array.from(o);if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);}function _iterableToArray(iter) {if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) return _arrayLikeToArray(arr);}function _arrayLikeToArray(arr, len) {if (len == null || len > arr.length) len = arr.length;for (var i = 0, arr2 = new Array(len); i < len; i++) {arr2[i] = arr[i];}return arr2;}var _default =
 
 
@@ -308,6 +311,9 @@ var _vuex = __webpack_require__(/*! vuex */ 22);function _toConsumableArray(arr)
     // uni.setStorageSync('RECORY_TYPE',0)
   },
   methods: {
+    aa: function aa() {
+      console.log(11111);
+    },
     getList: function getList(data) {var _this2 = this;
       data.page = 1;
       console.log(data);
@@ -545,7 +551,7 @@ var _vuex = __webpack_require__(/*! vuex */ 22);function _toConsumableArray(arr)
     return {
       title: item.title,
       desc: item.content,
-      imageUrl: item.image || null, //自定义图片路径，可以是本地文件路径、代码包文件路径或者网络图片路径。支持PNG及JPG。显示图片长宽比是 5:4。
+      imageUrl: '../../static/shareimg.png', //自定义图片路径，可以是本地文件路径、代码包文件路径或者网络图片路径。支持PNG及JPG。显示图片长宽比是 5:4。
       path: '/pages/record/buyinfo?type=share&id=' + item.id,
       success: function success(res) {
         console.log(res, '分享');

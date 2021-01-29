@@ -58,8 +58,6 @@
 </template>
 
 <script>
-	// let a = '0.01'
-	// console.log(Math.ceil(a))
 	export default {
 		data() {
 			return {
@@ -151,8 +149,16 @@
 				}
 			},
 			follow(user) {
-				this.is_follow ? this.$apis.UNFOLLOW(user.uid) : this.$apis.ISFOLLOW(user.uid)
-				this.is_follow = !this.is_follow
+				if (user.uid == uni.getStorageSync('USERINFO') .uid) {
+					uni.showToast({
+						title: '自己不能关注自己',
+						icon: 'none'
+					})
+					return
+				} else {
+					this.is_follow ? this.$apis.UNFOLLOW(user.uid) : this.$apis.ISFOLLOW(user.uid)
+					this.is_follow = !this.is_follow
+				}
 			},
 			btnClick() {
 				// 不同状态不同操作
