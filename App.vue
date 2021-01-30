@@ -7,13 +7,13 @@
 		},
 		onLaunch: function() {
 			uni.setStorageSync('RECORY_TYPE',0)
-			console.log('App Launch')
+			// console.log('App Launch')
 		},
 		onShow: function() {
-			console.log('App Show')
+			// console.log('App Show')
 		},
 		onHide: function() {
-			console.log('App Hide')
+			// console.log('App Hide')
 		}
 	}
 </script>

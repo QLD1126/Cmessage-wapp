@@ -5,7 +5,8 @@
 				<view class="">
 					<text v-show="item.key!=='image'">*</text>{{item.key=='image'?item.name+'(1/'+fileList.length+')':item.name}}
 				</view>
-				<textarea v-model="item.value" :placeholder="item.placeholder" v-if="item.key=='content'" :auto-blur='true' :adjust-position='false'/>
+				<textarea v-model="item.value" :placeholder="item.placeholder" v-if="item.key=='content'" :auto-blur='true'
+				 :adjust-position='false' />
 				<view class="unload" v-else-if="item.key=='image'">
 					<van-uploader :file-list="fileList" max-count="1" accept='image' :multiple='true' :deletable='true' capture="['album','camera']"
 					 @after-read="afterRead" @delete='deleteImg' />
@@ -22,19 +23,14 @@
 										
 										<image src="../../static/date.png" mode="" class="icon_44" v-if="o_item.value==''||o_item.value==undefined"></image>
 						<text v-else>{{o_item.value}}</text>
-						<!-- <text v-else>{{getTime}}</text> -->
 						</picker>
 				</view>
 				</view>
-				<!-- <view class="input_item" v-else> -->
-				
 					<view class="input" v-else>
 						
 				<input v-model="item.value" :style="{width:item.key=='price'?'60vw':null}" type="text" :placeholder="item.placeholder" :confirm-type="item.confirm_type" />
 				<button type="warn" v-if="item.name=='价格'" @click.stop="priceShow=true">快速定价</button>
 				</view>
-				<!-- </view> -->
-				<!-- <button type="warn" v-if="item.name=='价格'" @click.stop="priceShow=true">快速定价</button> -->
 			</view>
 		</view>
 	
@@ -71,6 +67,9 @@
 </template>
 
 <script>
+	// let a=Date.parse("2018-09-09 12:30")
+	// let b=Date.parse("2020-09-09 12:30")
+	// console.log(a,b,'time')
 	import {mapState} from 'vuex'
 		let dateTimePicker = require('../../common/dateTimePicker.js');
 		// console.log()
@@ -187,7 +186,14 @@
 		},
 		onLoad() {
 			 var obj1 = dateTimePicker.dateTimePicker(this.startYear, this.endYear);
-			this.Optional[2].value=obj1.defaultDate_1
+			// this.Optional[2].value=obj1.defaultDate_1
+			// Object.assign(this.Optional[2])
+			let open_time=this.Optional[2]
+			let end_time=this.Optional[1]
+			let timeStamp=Date.parse(obj1.defaultDate_1)
+			// 当前时间的时间戳
+			 // console.log(nowTime,timestamp,'onlaod')
+			this.Optional.splice(2,1,Object.assign(open_time,{timeStamp:timeStamp,value:obj1.defaultDate_1}))
 			this.dateTimeArray1=obj1.dateTimeArray,
 			this.dateTime1= obj1.dateTime
 		},
@@ -203,18 +209,6 @@
 			})
 		},
 		computed:{
-			// textareaClass(){
-			// 	if(this.re_list[2].value.length<5){
-			// 		uni.showToast({
-			// 			icon:'none',
-			// 			title:'内容长度至少为5'
-						
-			// 		})
-			// 		return 'border: 1rpx solid #f00;'
-			// 	}
-				
-			// },
-			// ...mapState(['isLogged']),
 			  startDate() {
 					            return this.getDate('start');
 					        },
@@ -223,11 +217,6 @@
 					        }
 		},
 		methods: {
-			// 文本域
-			confirm(e){
-				console.log(e)
-			},
-		
 			// 时间选择开始
 			getDate(type) {
 						            const date = new Date();
@@ -240,25 +229,53 @@
 						            } else if (type === 'end') {
 						                year = year + 2;
 						            }
-						            month = month > 9 ? month : '0' + month;;
+						            month = month > 9 ? month : '0' + month;
 						            day = day > 9 ? day : '0' + day;
 						            return `${year}-${month}-${day}`;
 						        },
 								// 确定最终结果
 						 changeDateTime1(e) {
 						    // this.dateTime1= e.detail.value ;
-							if(this.currentDate.length==0){
-								uni.showToast({
-									title:'截止时间应大于当前',
-									icon:'none'
+							new Promise((resolve,reject)=>{
+								console.log(this.currentDate,this.Optional[2].value,222)
+								let currentDate=this.currentDate==''?this.Optional[2].value:this.currentDate
+								console.log(currentDate,this.Optional[2].value,333)
+								// 当前选中时间戳
+								let currentDateStamp=Date.parse(currentDate)
+								// 截止时间戳
+								let endStamp=this.Optional[1].timeStamp
+								// 公开时间戳
+								let openStamp=this.Optional[2].timeStamp
+								if(this.timetype=='open_time'){
+									if(currentDateStamp<=openStamp||currentDateStamp>endStamp){
+										reject('open_time')
+									}else{
+										resolve([currentDate,currentDateStamp])
+									}
+								}else{
+									if(currentDateStamp<=openStamp){
+										reject('end_time')
+									}else{
+										resolve([currentDate,currentDateStamp])
+									}
+								}
+							}).then(res=>{
+								// console.log(currentDateStamp)
+								this.Optional.forEach(item=>{
+								 		if(item.key==this.timetype){
+								 			item.value=res[0]
+											item.timeStamp=res[1]
+								 		}
+								 	})
+							}).catch(err=>{
+								console.log(err,'err')
+								uni.showModal({
+									title:'提示',
+									content:err=='open_time'?'公开时间应大于当前时间且小于截止时间':'截止时间应大于公开时间',
+										showCancel:false
 								})
-							}
-							console.log('最终',this.currentDate,this.currentDate.length)
-							this.Optional.forEach(item=>{
-							 		if(item.key==this.timetype){
-							 			item.value=this.currentDate
-							 		}
-							 	})
+								
+							})
 						  },
 						  // 改变行
 						 changeDateTimeColumn1(e) {

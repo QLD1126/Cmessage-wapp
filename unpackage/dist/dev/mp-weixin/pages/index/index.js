@@ -234,7 +234,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 var _vuex = __webpack_require__(/*! vuex */ 22);function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}
 var dateTimePicker = __webpack_require__(/*! ../../common/dateTimePicker.js */ 29);
 // console.log()
@@ -351,7 +350,14 @@ var _default = {
   },
   onLoad: function onLoad() {
     var obj1 = dateTimePicker.dateTimePicker(this.startYear, this.endYear);
-    this.Optional[2].value = obj1.defaultDate_1;
+    // this.Optional[2].value=obj1.defaultDate_1
+    // Object.assign(this.Optional[2])
+    var open_time = this.Optional[2];
+    var end_time = this.Optional[1];
+    var timeStamp = Date.parse(obj1.defaultDate_1);
+    // 当前时间的时间戳
+    // console.log(nowTime,timestamp,'onlaod')
+    this.Optional.splice(2, 1, Object.assign(open_time, { timeStamp: timeStamp, value: obj1.defaultDate_1 }));
     this.dateTimeArray1 = obj1.dateTimeArray,
     this.dateTime1 = obj1.dateTime;
   },
@@ -367,18 +373,6 @@ var _default = {
 
   },
   computed: {
-    // textareaClass(){
-    // 	if(this.re_list[2].value.length<5){
-    // 		uni.showToast({
-    // 			icon:'none',
-    // 			title:'内容长度至少为5'
-
-    // 		})
-    // 		return 'border: 1rpx solid #f00;'
-    // 	}
-
-    // },
-    // ...mapState(['isLogged']),
     startDate: function startDate() {
       return this.getDate('start');
     },
@@ -387,11 +381,6 @@ var _default = {
     } },
 
   methods: {
-    // 文本域
-    confirm: function confirm(e) {
-      console.log(e);
-    },
-
     // 时间选择开始
     getDate: function getDate(type) {
       var date = new Date();
@@ -404,24 +393,52 @@ var _default = {
       } else if (type === 'end') {
         year = year + 2;
       }
-      month = month > 9 ? month : '0' + month;;
+      month = month > 9 ? month : '0' + month;
       day = day > 9 ? day : '0' + day;
       return "".concat(year, "-").concat(month, "-").concat(day);
     },
     // 确定最终结果
     changeDateTime1: function changeDateTime1(e) {var _this2 = this;
       // this.dateTime1= e.detail.value ;
-      if (this.currentDate.length == 0) {
-        uni.showToast({
-          title: '截止时间应大于当前',
-          icon: 'none' });
-
-      }
-      console.log('最终', this.currentDate, this.currentDate.length);
-      this.Optional.forEach(function (item) {
-        if (item.key == _this2.timetype) {
-          item.value = _this2.currentDate;
+      new Promise(function (resolve, reject) {
+        console.log(_this2.currentDate, _this2.Optional[2].value, 222);
+        var currentDate = _this2.currentDate == '' ? _this2.Optional[2].value : _this2.currentDate;
+        console.log(currentDate, _this2.Optional[2].value, 333);
+        // 当前选中时间戳
+        var currentDateStamp = Date.parse(currentDate);
+        // 截止时间戳
+        var endStamp = _this2.Optional[1].timeStamp;
+        // 公开时间戳
+        var openStamp = _this2.Optional[2].timeStamp;
+        if (_this2.timetype == 'open_time') {
+          if (currentDateStamp <= openStamp || currentDateStamp > endStamp) {
+            reject('open_time');
+          } else {
+            resolve([currentDate, currentDateStamp]);
+          }
+        } else {
+          if (currentDateStamp <= openStamp) {
+            reject('end_time');
+          } else {
+            resolve([currentDate, currentDateStamp]);
+          }
         }
+      }).then(function (res) {
+        // console.log(currentDateStamp)
+        _this2.Optional.forEach(function (item) {
+          if (item.key == _this2.timetype) {
+            item.value = res[0];
+            item.timeStamp = res[1];
+          }
+        });
+      }).catch(function (err) {
+        console.log(err, 'err');
+        uni.showModal({
+          title: '提示',
+          content: err == 'open_time' ? '公开时间应大于当前时间且小于截止时间' : '截止时间应大于公开时间',
+          showCancel: false });
+
+
       });
     },
     // 改变行
