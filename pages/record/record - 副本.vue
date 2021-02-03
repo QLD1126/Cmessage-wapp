@@ -263,23 +263,24 @@
 
 	.pop {
 		width: 486rpx;
-		height: 658rpx;
+		height: 794rpx;
 		text-align: center;
-
+		
+		background: #f00;
+		>image{
+			width: 406rpx;
+			position: absolute;
+			top: 40rpx;
+		}
 		>view {
-			height: 490rpx;
+			height: 794rpx;
 			padding: 30rpx 0;
 			display: flex;
 			flex-flow: column wrap;
 			justify-content: space-around;
 			align-items: center;
-			background: #fff;
+			background: #f00;
 			border-radius: 10rpx;
-
-			>text:first-child {
-				// margin-top: 40rpx;
-			}
-
 			>image {
 				width: 294rpx;
 			}

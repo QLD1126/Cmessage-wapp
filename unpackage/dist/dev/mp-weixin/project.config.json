@@ -12,21 +12,23 @@
   "appid": "wxff7578518bec0a09",
   "projectname": "Cmessage_Wapp",
   "condition": {
-    "search": {
-      "current": -1,
-      "list": []
-    },
-    "conversation": {
-      "current": -1,
+    "plugin": {
       "list": []
     },
     "game": {
-      "current": -1,
+      "list": []
+    },
+    "gamePlugin": {
       "list": []
     },
     "miniprogram": {
-      "current": -1,
-      "list": []
+      "list": [
+        {
+          "name": "pages/record/record",
+          "pathName": "pages/record/record",
+          "scene": null
+        }
+      ]
     }
   }
 }

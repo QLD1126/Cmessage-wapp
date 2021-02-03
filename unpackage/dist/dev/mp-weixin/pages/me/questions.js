@@ -154,13 +154,7 @@ var _default =
       _this.loadStatus = 'noMore';
     }).catch(function () {
     });
-  }
-  // methods:{
-  // 	toPage(id){
-  // 		uni.nav
-  // 	}
-  // }
-};exports.default = _default;
+  } };exports.default = _default;
 
 /***/ }),
 

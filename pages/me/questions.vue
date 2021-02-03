@@ -23,11 +23,6 @@
 				}).catch(()=>{
 				})
 			},
-			// methods:{
-			// 	toPage(id){
-			// 		uni.nav
-			// 	}
-			// }
 		}
 </script>
 

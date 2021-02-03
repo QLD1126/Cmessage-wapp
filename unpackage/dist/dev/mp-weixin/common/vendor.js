@@ -8066,10 +8066,8 @@ req;exports.default = _default;
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });exports.public_data = void 0;var public_data = {
-  // host:'http://192.168.3.48:8084',
-  host: 'https://www.wenliao8.com'
-  // upload:'/api/upload/image'
-};exports.public_data = public_data;
+  host: 'http://192.168.3.48:8084',
+  upload: '/api/upload/image' };exports.public_data = public_data;
 
 /***/ }),
 /* 14 */

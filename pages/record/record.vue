@@ -69,11 +69,23 @@
 		<van-popup :show="ewmShow" @close="ewmShow=false">
 			<view class="pop">
 				<view class="">
-					<text class="t_32_333">必须红</text>
-					<!-- <image :src="wxaCode" mode="widthFix"></image> -->
-					<image :src="item.wxaCode" mode="widthFix"></image>
-					<text class="t_24_9">信息发布小程序</text>
-					<button class="btn_round_line" @click.stop="saveBase64">保存</button>
+					<image src="../../static/sbg.png"></image>
+					<view class="">
+						<text class="t_32_333">{{item.title}}</text>
+						<text class="">{{item.subhead}}</text>
+						<!-- <image src="../../static/WechatIMG884.jpg" mode="widthFix"></image> -->
+						<image :src="item.wxaCode" mode="heightFix"></image>
+						<text class="t_24_9">信息发布小程序</text>
+						<view class="flex-between">
+							<view class="">
+								¥58.00
+							</view>
+							<view class="">
+								{{item.is_return==1?'不对返还':''}}
+							</view>
+						</view>
+						<button class="btn_round_line" @click.stop="saveBase64">保存</button>
+					</view>
 				</view>
 				<image src="../../static/indexclose.png" mode="widthFix" @click.stop="ewmShow=false"></image>
 			</view>
@@ -142,7 +154,7 @@
 			// uni.setStorageSync('RECORY_TYPE',0)
 		},
 		methods: {
-			aa(){
+			aa() {
 				console.log(11111)
 			},
 			getList(data) {
@@ -530,25 +542,72 @@
 
 	.pop {
 		width: 486rpx;
-		height: 658rpx;
+		font-size: 24rpx;
+		height: 900rpx;
 		text-align: center;
-
 		>view {
-			height: 490rpx;
-			padding: 30rpx 0;
-			display: flex;
-			flex-flow: column wrap;
-			justify-content: space-around;
-			align-items: center;
 			background: #fff;
-			border-radius: 10rpx;
-
-			>text:first-child {
-				// margin-top: 40rpx;
+			height: 794rpx;
+			border-radius:10rpx ;
+			// display: flex;
+			// flex-flow: column wrap;
+			// justify-content: space-around;
+			// align-items: center;
+			// position: relative;
+			>image:first-child {
+				width: 406rpx;
+				height: 586rpx;
+				// height: 44vh;
+				// height: 73.8%;
+				position: absolute;
+				top: 40rpx;
+				left: 40rpx;
+				// z-index: -1;
 			}
-
-			>image {
-				width: 294rpx;
+			>view {
+				height: 794rpx;
+				// height: 75.6vh;
+				padding: 30rpx 0;
+				display: flex;
+				flex-flow: column wrap;
+				justify-content: flex-start;
+				align-items: center;
+				position: relative;
+				z-index: 888;
+				>text:first-child {
+					color: #fff;
+					// margin-top: 40rpx;
+					margin: 20rpx auto;
+					+text {
+						color: #F2D539;
+					}
+				}
+				>image {
+					height: 294rpx;
+					border-radius: 10rpx;
+					margin: 20rpx 0;
+					+text {
+						color: #fff;
+					}
+				}
+				>view {
+					padding: 0 20rpx;
+					height: 64rpx;
+					line-height: 64rpx;
+					background: #fff;
+					color: #E92C2A;
+					width: 326rpx;
+					border-radius: 10rpx;
+					margin: 20rpx auto 40rpx;
+				}
+				>.btn_round_line {
+					height: 88rpx;
+					line-height: 88rpx;
+					width: 406rpx;
+					border-radius: 88rpx;
+					background: #FA3D06;
+					margin-top: 40rpx;
+				}
 			}
 		}
 
