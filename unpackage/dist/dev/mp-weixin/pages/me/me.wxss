@@ -27,14 +27,15 @@
 .container_0 > view {
   background: #fff;
 }
-.container_0 > view:first-child {
+.container_0 > view:nth-child(1) {
   background-image: -webkit-linear-gradient(top, #FF3D3B, #FE4543);
   background-image: linear-gradient(to bottom, #FF3D3B, #FE4543);
   height: 370rpx;
+  padding-top: 220rpx;
   position: relative;
 }
-.container_0 > view:first-child > view,
-.container_0 > view:first-child navigator {
+.container_0 > view:nth-child(1) > view,
+.container_0 > view:nth-child(1) navigator {
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
@@ -43,27 +44,79 @@
           align-items: center;
   color: #fff;
 }
-.container_0 > view:first-child > view > image,
-.container_0 > view:first-child navigator > image {
+.container_0 > view:nth-child(1) > view > image:not(:first-child),
+.container_0 > view:nth-child(1) navigator > image:not(:first-child) {
+  position: absolute;
+  z-index: 99;
+}
+.container_0 > view:nth-child(1) > view > image:first-child,
+.container_0 > view:nth-child(1) navigator > image:first-child {
+  position: relative !important;
   width: 130rpx;
   height: 130rpx;
   border: 4rpx solid #fff;
   border-radius: 50%;
   margin-right: 20rpx;
 }
-.container_0 > view:first-child > view > text,
-.container_0 > view:first-child > view navigator,
-.container_0 > view:first-child navigator > text,
-.container_0 > view:first-child navigator navigator {
+.container_0 > view:nth-child(1) > view > .metop2,
+.container_0 > view:nth-child(1) navigator > .metop2 {
+  width: 371rpx;
+  height: 136rpx;
+  top: 50rpx;
+  left: 192rpx;
+}
+.container_0 > view:nth-child(1) > view > .metop1,
+.container_0 > view:nth-child(1) navigator > .metop1 {
+  width: 80rpx;
+  height: 80rpx;
+  right: 30rpx;
+  bottom: 178rpx;
+}
+.container_0 > view:nth-child(1) > view > .metop3,
+.container_0 > view:nth-child(1) navigator > .metop3 {
+  width: 547rpx;
+  height: 57rpx;
+  left: 50rpx;
+  bottom: 170rpx;
+}
+.container_0 > view:nth-child(1) > view > text,
+.container_0 > view:nth-child(1) > view navigator,
+.container_0 > view:nth-child(1) navigator > text,
+.container_0 > view:nth-child(1) navigator navigator {
   font-weight: bold;
   font-size: 36rpx;
 }
-.container_0 > view:first-child > navigator {
+.container_0 > view:nth-child(1) > view > .bg-txt,
+.container_0 > view:nth-child(1) navigator > .bg-txt {
+  position: absolute;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+  -webkit-box-align: end;
+  -webkit-align-items: flex-end;
+          align-items: flex-end;
+  position: absolute;
+  right: 30rpx;
+  bottom: 190rpx;
+}
+.container_0 > view:nth-child(1) > view > .bg-txt > text:first-child,
+.container_0 > view:nth-child(1) navigator > .bg-txt > text:first-child {
+  font-size: 60rpx;
+}
+.container_0 > view:nth-child(1) > view > .bg-txt > text:first-child + text,
+.container_0 > view:nth-child(1) navigator > .bg-txt > text:first-child + text {
+  font-size: 40rpx;
+}
+.container_0 > view:nth-child(1) > navigator {
   -webkit-box-pack: center;
   -webkit-justify-content: center;
           justify-content: center;
 }
-.container_0 > view:first-child > view:last-child {
+.container_0 > view:nth-child(1) > view:last-child {
   position: absolute;
   bottom: 0;
   width: 700rpx;
@@ -72,20 +125,20 @@
   background: #2C3240;
   left: 25rpx;
 }
-.container_0 > view:first-child > view:last-child > view {
+.container_0 > view:nth-child(1) > view:last-child > view {
   -webkit-box-flex: 0;
   -webkit-flex: 0 0 50%;
           flex: 0 0 50%;
   text-align: center;
 }
-.container_0 > view:first-child > view:last-child > view > view:first-child {
+.container_0 > view:nth-child(1) > view:last-child > view > view:first-child {
   font-size: 24rpx;
 }
-.container_0 > view:first-child > view:last-child > view > view:first-child + view {
+.container_0 > view:nth-child(1) > view:last-child > view > view:first-child + view {
   font-size: 48rpx;
   font-weight: bold;
 }
-.container_0 > view:first-child > view:last-child > view:first-child {
+.container_0 > view:nth-child(1) > view:last-child > view:first-child {
   border-right: 1rpx solid #fff;
 }
 .container_0 > view:nth-child(2) {

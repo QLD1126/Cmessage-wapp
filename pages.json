@@ -60,8 +60,7 @@
 			"path": "pages/me/me",
 			"style": {
 				"navigationBarTitleText": "我的",
-				"navigationBarBackgroundColor": "#FF3D3B",
-				"navigationBarTextStyle": "#fff",
+				"navigationStyle": "custom",
 				"enablePullDownRefresh": false
 			}
 		},

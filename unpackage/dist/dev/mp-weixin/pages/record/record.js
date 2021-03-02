@@ -269,6 +269,7 @@ var _vuex = __webpack_require__(/*! vuex */ 22);function _toConsumableArray(arr)
 {
   data: function data() {
     return {
+      sys: uni.getStorageSync('SYS'),
       wxaCode: '',
       item: {},
       // 加载列表
@@ -296,7 +297,7 @@ var _vuex = __webpack_require__(/*! vuex */ 22);function _toConsumableArray(arr)
       actions: [] };
 
   },
-  computed: (0, _vuex.mapState)(['isLogged']),
+  computed: (0, _vuex.mapState)(['isLogged', 'userInfo']),
   onLoad: function onLoad() {
     this.getList(this.formdata);
   },

@@ -1,9 +1,13 @@
 <template>
 	<view class="container_0" v-show="loadOver">
+
 		<view>
 			<view v-if="isLogged">
 				<image :src="userInfo.avatar"></image>
 				<text>{{userInfo.nickname}}</text>
+				<image src="../../static/metop2.png" mode="" class="metop2"></image>
+				<image src="../../static/metop1.png" mode="" class="metop1"></image>
+				<image src="../../static/metop3.png" mode="" class="metop3"></image>
 			</view>
 			<navigator v-else open-type="navigate" url="/pages/login/login">
 				<text>
@@ -93,7 +97,7 @@
 				}]
 			};
 		},
-		computed: mapState(['userInfo', 'isLogged']),
+		computed: mapState(['userInfo', 'isLogged', 'SYS']),
 		onShow() {
 			this.getuserInfo().then(() => {
 				this.loadOver = true
@@ -115,9 +119,10 @@
 			background: #fff;
 		}
 
-		>view:first-child {
+		>view:nth-child(1) {
 			background-image: linear-gradient(to bottom, #FF3D3B, #FE4543);
 			height: 370rpx;
+			padding-top: 220rpx;
 			// 头像部分
 			position: relative;
 
@@ -127,7 +132,13 @@
 				align-items: center;
 				color: #fff;
 
-				>image {
+				>image:not(:first-child) {
+					position: absolute;
+					z-index: 99;
+				}
+
+				>image:first-child {
+					position: relative !important;
 					width: 130rpx;
 					height: 130rpx;
 					border: 4rpx solid #fff;
@@ -135,10 +146,51 @@
 					margin-right: 20rpx;
 				}
 
+				>.metop2 {
+					width: 371rpx;
+					height: 136rpx;
+					top: 50rpx;
+					left: 192rpx;
+				}
+
+				>.metop1 {
+					width: 80rpx;
+					height: 80rpx;
+					right: 30rpx;
+					bottom: 178rpx;
+				}
+
+				>.metop3 {
+					width: 547rpx;
+					height: 57rpx;
+					left: 50rpx;
+					bottom: 170rpx;
+				}
+
+
 				>text,
 				navigator {
 					font-weight: bold;
 					font-size: 36rpx;
+				}
+
+				>.bg-txt {
+					position: absolute;
+					display: flex;
+					flex-flow: column nowrap;
+					align-items: flex-end;
+					position: absolute;
+					right: 30rpx;
+					bottom: 190rpx;
+
+					>text:first-child {
+						font-size: 60rpx;
+
+						+text {
+							font-size: 40rpx;
+						}
+					}
+
 				}
 			}
 

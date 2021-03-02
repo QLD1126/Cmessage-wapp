@@ -239,13 +239,12 @@ var _default =
   methods: {
     getInfo: function getInfo(id) {var _this = this;
       this.$apis.SELL_INFO(id).then(function (res) {
-        // res.is_return=1
         _this.info = res;
         _this.loadOver = true;
       });
     },
     onSelect: function onSelect(e) {var _this2 = this;
-      this.$apis.FINISH(this.info.id, e.detail.value == 1 ? 1 : -1).then(function () {
+      this.$apis.FINISH(this.info.id, e.detail.value == 1 ? 1 : 2).then(function () {
         _this2.getInfo(_this2.info.id);
       });
     },

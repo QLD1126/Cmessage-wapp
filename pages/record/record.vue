@@ -17,9 +17,9 @@
 									<image v-if="item.is_return==1" src="../../static/fan.png" mode="" class="icon_44"></image>
 									<text class="t_32_333">{{item.title}}</text>
 								</view>
-								<view :class="item.result==0?'red':item.result==-1?'hui':'fff'" :style="{display:item.status==3?'inline':'none'}"
+								<view :class="item.result==1?'red':item.result==-1?'hui':'fff'" :style="{display:item.status>=3?'inline':'none'}"
 								 @click.stop="openPop('res',item)">
-									{{item.result==-1?'错误':item.result==1?'正确':'选结果'}}
+									{{item.result==-1?'黑':item.result==1?'红':'选结果'}}
 									<!-- {{item.status==-1?'结果错误':item.status==0?'等待结果':'结果正确'}} -->
 								</view>
 
@@ -46,7 +46,7 @@
 									<text class="t_32_333">{{item.title}}</text>
 								</view>
 								<view :class="item.status==1?'red':item.status==-1?'hui':'fff'">
-									{{item.status==-1?'错误':item.status==0?'等待结果':'正确'}}
+									{{item.status==-1?'':item.status==0?'等待结果':'红'}}
 								</view>
 
 							</view>
@@ -75,10 +75,10 @@
 						<text class="">{{item.subhead}}</text>
 						<!-- <image src="../../static/WechatIMG884.jpg" mode="widthFix"></image> -->
 						<image :src="item.wxaCode" mode="heightFix"></image>
-						<text class="t_24_9">信息发布小程序</text>
+						<text class="t_24_9">{{sys.site_name}}</text>
 						<view class="flex-between">
 							<view class="">
-								¥58.00
+								¥{{item.price}}
 							</view>
 							<view class="">
 								{{item.is_return==1?'不对返还':''}}
@@ -100,6 +100,7 @@
 	export default {
 		data() {
 			return {
+				sys:uni.getStorageSync('SYS'),
 				wxaCode: '',
 				item: {},
 				// 加载列表
@@ -127,7 +128,7 @@
 				actions: [],
 			};
 		},
-		computed: (mapState(['isLogged'])),
+		computed: (mapState(['isLogged','userInfo'])),
 		onLoad() {
 			this.getList(this.formdata)
 		},

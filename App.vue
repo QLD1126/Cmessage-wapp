@@ -19,9 +19,8 @@
 </script>
 
 <style lang="scss">
-	@import url("./static/iconfont.css");
 	@import "/wxcomponents/vant/dist/common/index.wxss";
-
+	@import './static/iconfont.css';
 	page {
 		width: 750rpx;
 		font-size: 28rpx;

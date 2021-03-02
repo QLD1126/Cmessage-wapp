@@ -85,13 +85,12 @@
 		methods: {
 			getInfo(id){
 				this.$apis.SELL_INFO(id).then(res => {
-					// res.is_return=1
 					this.info = res
 					this.loadOver = true
 				})
 			},
 			onSelect(e){
-				this.$apis.FINISH(this.info.id, e.detail.value==1?1:-1).then(() => {
+				this.$apis.FINISH(this.info.id, e.detail.value==1?1:2).then(() => {
 					this.getInfo(this.info.id)
 				})
 			},

@@ -1,11 +1,11 @@
 <template>
-	<view>
+	<view v-if="loadover">
 		<view class="login">
 			<!-- <image :src="logo" mode=""></image> -->
 			<view class="">
 
-				<image :src="logo" mode=""></image>
-				信息发布
+				<image :src="sys.logo_url" mode=""></image>
+				{{sys.site_name}}
 			</view>
 			<view class="t_32_333">
 				{{getphone?'登录后该应用将获得以下权限':'授权后将获得您的手机号'}}
@@ -25,26 +25,26 @@
 <script>
 	import {
 		mapActions,
-		mapState
 	} from 'vuex'
 	export default {
 		data() {
 			return {
 				getphone: true,
 				loginData: {},
-				logo: '',
+				sys: uni.getStorageSync('SYS')||{},
+				loadover:false
 			};
 		},
 		onShow() {
-			// console.log(this.$apis)
 			this.$apis.LOGO().then(res => {
-				this.logo = res.logo_url
-				console.log('show')
+				Object.assign(this.sys, res)
+				uni.setStorageSync('SYS', res)
+				this.loadover=true
 			}).catch(err => {
 				console.log(err, '失败')
 			})
 		},
-		computed: mapState(['userInfo']),
+		// computed: mapState(['userInfo']),
 		methods: {
 			...mapActions(['login', 'getuserInfo']),
 			//微信授权登录
@@ -93,7 +93,7 @@
 							}
 							getApp().globalData.hasLogin = true
 							this.getuserInfo().then(info => {
-								if (info.phone!=='') {
+								if (info.phone !== '') {
 									this.getuserInfo()
 									this.onClickLeft()
 								} else {

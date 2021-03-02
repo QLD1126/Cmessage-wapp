@@ -24,8 +24,9 @@
     "miniprogram": {
       "list": [
         {
-          "name": "pages/record/record",
-          "pathName": "pages/record/record",
+          "name": "pages/me/me",
+          "pathName": "pages/me/me",
+          "query": "",
           "scene": null
         }
       ]
