@@ -48,10 +48,11 @@ function getNewDateArry() {
 		mont = withData(newDate.getMonth() + 1),
 		date = withData(newDate.getDate()),
 		hour = withData(newDate.getHours()),
-		minu = withData(newDate.getMinutes()),
-		seco = withData(newDate.getSeconds());
+		minu = withData(newDate.getMinutes());
+		// seco = withData(newDate.getSeconds());
 
-	return [year, mont, date, hour, minu, seco];
+	// return [year, mont, date, hour, minu, seco];
+	return [year, mont, date, hour, minu];
 }
 
 function dateTimePicker(startYear, endYear, date) {
@@ -79,7 +80,7 @@ function dateTimePicker(startYear, endYear, date) {
 	dateTimeArray[2] = getMonthDay(defaultDate[0], defaultDate[1]);
 	dateTimeArray[3] = getLoopArray(0, 23);
 	dateTimeArray[4] = getLoopArray(0, 59);
-	dateTimeArray[5] = getLoopArray(0, 59);
+	// dateTimeArray[5] = getLoopArray(0, 59);
 
 	dateTimeArray.forEach((current, index) => {
 		dateTime.push(current.indexOf(defaultDate[index]));

@@ -6,6 +6,7 @@
     "van-popup": "/wxcomponents/vant/dist/popup/index",
     "van-datetime-picker": "/wxcomponents/vant/dist/datetime-picker/index",
     "van-transition": "/wxcomponents/vant/dist/transition/index",
-    "van-switch": "/wxcomponents/vant/dist/switch/index"
+    "van-switch": "/wxcomponents/vant/dist/switch/index",
+    "rui-date-picker": "/components/rattenking-dtpicker/rattenking-dtpicker"
   }
 }

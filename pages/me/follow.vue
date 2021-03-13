@@ -2,15 +2,15 @@
 	<view class="container">
 		<van-empty description="暂无关注" v-if='datalist.length==0' />
 		<view class="" v-else>
-			<view class="li_106 flex-between" v-for="item in datalist" :key='item.id'>
+			<navigator :url="'/pages/me/followList?id='+i.follow_uid" class="li_106 flex-between" v-for="i in datalist" :key='i.id'>
 				<view class="">
-					<image :src="item.follow.avatar" mode=""></image>
+					<image :src="i.follow.avatar" mode=""></image>
 					<view class="">
-						{{item.follow.nickname}}
+						{{i.follow.nickname}}
 					</view>
 				</view>
-				<button :type="item.status==1?'default':'warn'"  @click="unfollow(item.follow.uid)">{{item.status==1?'取消关注':'互相关注'}}</button>
-			</view>
+				<button :type="i.status==1?'default':'warn'"  @click.stop="unfollow(i.follow.uid)">{{i.status==1?'取消关注':'互相关注'}}</button>
+			</navigator>
 			<uni-load-more :status="loadstate"></uni-load-more>
 		</view>
 	</view>

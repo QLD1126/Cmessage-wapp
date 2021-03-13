@@ -53,7 +53,9 @@
 .content > .input > view > view > text {
   color: #FE4543;
 }
-.content > .input > view > input, .content > .input > view textarea, .content > .input > view .input {
+.content > .input > view > input,
+.content > .input > view textarea,
+.content > .input > view .input {
   background: #fff;
   width: 95vw;
   font-size: 26rpx;
@@ -173,7 +175,14 @@
   width: 64rpx;
   margin-top: 40rpx;
 }
-.van-action-sheet__cancel, .van-action-sheet__item {
+.van-action-sheet__cancel,
+.van-action-sheet__item {
   border-radius: 0;
+}
+.rui-picker {
+  width: 60vw;
+  height: 106rpx;
+  line-height: 106rpx;
+  background: #FF6034;
 }
 

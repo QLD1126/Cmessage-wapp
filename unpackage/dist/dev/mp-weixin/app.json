@@ -10,6 +10,7 @@
     "pages/me/wallet_list",
     "pages/me/name",
     "pages/me/follow",
+    "pages/me/followList",
     "pages/me/fans",
     "pages/me/questions",
     "pages/me/rich"
@@ -45,5 +46,6 @@
       }
     ]
   },
-  "usingComponents": {}
+  "usingComponents": {},
+  "sitemapLocation": "sitemap72.json"
 }

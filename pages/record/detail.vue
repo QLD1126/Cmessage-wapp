@@ -2,9 +2,8 @@
 	<view class="container sell_info" v-show="loadOver">
 		<view>
 			<view>
-				<text class="t_32_333">{{info.title}}</text>
-				<!-- <text>{{info.status==-1?'发布失败':info.status==0?'审核中':info.status==1?'发布成功':info.status==2?'销售中':info.status==3?'销售截止':'销售完成'}}</text> -->
-				<text :style="{color:info.status<4?'red':'#ccc'}">{{info._status}}</text>
+				<text class="t_32_333" style="flex: 0 0 80%;">{{info.title}}</text>
+				<text :style="{color:info.status<3?'red':'#ccc'}">{{info._status}}</text>
 			</view>
 
 			<view>
@@ -25,11 +24,11 @@
 				<text>价格</text>
 				<text>¥ {{info.price}}</text>
 			</view>
-			<view v-if="info.status>=2">
+			<view v-if="info.status>=1">
 				<text>销量</text>
 				<text>{{info.sales}}</text>
 			</view>
-			<view v-if="info.status>=2">
+			<view v-if="info.status>=1">
 				<text>收益</text>
 				<text>¥ {{Number(info.price)*Number(info.sales)}}</text>
 			</view>
@@ -50,13 +49,13 @@
 				<text>{{info.check_mark||'暂无'}}</text>
 			</view>
 
-			<view v-if="info.status==4">
+			<view v-if="info.status==2">
 				<text>选择结果</text>
 				<text>{{info.result==-1?'结果错误':'结果正确'}}</text>
 			</view>
 		</view>
 		<navigator open-type="switchTab" url="/pages/index/index" class="btn_round" v-if="info.status==-1">重新填写</navigator>
-		<button type="warn" class="btn_round" @click="resShow=true" v-if="info.status==3&&info.is_return">选结果</button>
+		<button type="warn" class="btn_round" @click="resShow=true" v-if="info.status==2&&info.is_return">选结果</button>
 		<van-action-sheet :show="resShow" :actions=" actions" @close="resShow=false" @select="onSelect" cancel-text="取消" />
 	</view>
 </template>
@@ -80,11 +79,11 @@
 		},
 		onLoad(options) {
 			console.log(options)
-			this.getInfo(options.id)
+			this.getInfo(options.id,options.api)
 		},
 		methods: {
-			getInfo(id){
-				this.$apis.SELL_INFO(id).then(res => {
+			getInfo(id,api){
+				this.$apis[api||'SELL_INFO'](id).then(res => {
 					this.info = res
 					this.loadOver = true
 				})
@@ -106,7 +105,7 @@
 		}
 	}
 </script>
-<style>
+<style scoped>
 	button{
 		border-radius: 0;
 	}

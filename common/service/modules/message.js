@@ -51,5 +51,16 @@ export default ({
 		return request({
 			url:`/api/sell/finish/${id}/${r}`
 		})
-	}
+	},
+	FOLLOW_SALE_LIST(id,params){
+		return request({
+			url:'/api/home/sell/'+id,
+			params
+		})
+	},
+	FOLLOW_SALE_INFO(id){
+		return request({
+			url:'/api/home/sellDetail/'+id
+		})
+	},
 })

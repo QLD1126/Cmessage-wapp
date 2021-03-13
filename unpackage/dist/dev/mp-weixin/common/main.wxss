@@ -352,6 +352,75 @@ page {
   color: #333;
   background: #F8F8F8;
 }
+.sell-content .item {
+  width: 700rpx;
+  background: #fff;
+  margin: 20rpx 0;
+  padding: 0 25rpx;
+}
+.sell-content .item > view,
+.sell-content .item text {
+  margin: 17rpx 0;
+}
+.sell-content .item > view:first-child {
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  height: 88rpx;
+}
+.sell-content .item > view:first-child > view {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+}
+.sell-content .item > view:first-child > view > image {
+  margin-right: 10rpx;
+}
+.sell-content .item > view:first-child > view:last-child {
+  display: inline;
+  text-align: right;
+  border-radius: 20rpx;
+  padding: 0 20rpx;
+  min-width: 100rpx;
+  text-align: center;
+}
+.sell-content .item > .flex-between {
+  font-size: 24rpx;
+}
+.sell-content .item > .flex-between > text:first-child {
+  color: #f00;
+  font-size: 24rpx;
+}
+.sell-content .item > .flex-between .t_24_9 + text {
+  color: #999;
+}
+.sell-content .item > .flex-around {
+  width: 100vw;
+  height: 104rpx;
+  line-height: 104rpx;
+  margin-left: -25rpx;
+}
+.sell-content .item > .flex-around > button {
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 50%;
+          flex: 0 0 50%;
+  border: 1rpx solid #F3f3f3;
+  border-radius: 0;
+}
+.sell-content .item > .flex-around > button > text {
+  font-size: 24rpx;
+  color: #333;
+}
 .sell_info > view {
   background-color: #fff;
 }

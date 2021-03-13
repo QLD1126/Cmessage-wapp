@@ -189,6 +189,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 var _default =
 {
   data: function data() {
@@ -209,29 +210,30 @@ var _default =
   },
   onLoad: function onLoad(options) {var _this = this;
     // console.log(options)
-    this.pageType = options.type;
+    this.pageType = options.type;var
+
+    api =
+    options.api;
+
     // 刷新页面用
     if (options.type == 'isbuy') {
-      this.$apis.BUY_INFO(options.id).then(function (res) {
-        // this.info = res
-        Object.assign(_this.info, _objectSpread({
-          id: options.id },
-        res));
-
-        _this.is_follow = res.mch_user.is_follow;
-        _this.loadOver = true;
+      this.$apis[api || 'BUY_INFO'](options.id).then(function (res) {
+        res.goods = api ? _objectSpread({}, res) : res.goods;
+        Object.assign(_this.info, options, res);
         // console.log(this.info)
+        _this.is_follow = api ? true : res.mch_user.is_follow;
+        _this.loadOver = true;
       });
     } else {
-      this.$apis.BUY_SHARE_INFO(options.id).then(function (res) {
-        var goods = _objectSpread({}, res);
+      this.$apis['BUY_SHARE_INFO'](options.id).then(function (res) {
+        var goods = _objectSpread({},
+        res);
 
-        Object.assign(_this.info, {
-          id: options.id,
+        Object.assign(_this.info, options, {
           mch_user: res.user,
           goods: goods });
 
-        _this.is_follow = res.user.is_follow;
+        _this.is_follow = api ? true : res.user.is_follow;
         _this.loadOver = true;
       });
     }

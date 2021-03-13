@@ -15,6 +15,7 @@ export default({
 			data
 		})
 	},
+	
 	LOGO(){
 		return request({
 			url:'/api/wechat/get_logo'

@@ -9,9 +9,9 @@
 					<view>{{info.goods.title}}</view>
 
 				</view>
-				<text :style="{color:info.goods.status>3?'#999':'#FE4543'}">{{info.goods._status}}</text>
+				<text :style="{color:info.goods.status>2?'#999':'#FE4543'}">{{info.goods._status}}</text>
 			</view>
-			<view class="user">
+			<view class="user" v-if="!info.api">
 				<view class="">
 					<image :src="info.mch_user.avatar" mode=""></image>
 					{{info.mch_user.nickname}}
@@ -47,12 +47,13 @@
 				<text>内容公开时间</text>
 				<text>{{info.goods.open_time}}</text>
 			</view>
-			<view v-if="info.goods.status==4&&pageType=='isbuy'">
+			<view v-if="info.goods.status==3&&pageType=='isbuy'">
 				<text>结果</text>
 				<text>{{info.status==-1?'结果错误':'结果正确'}}</text>
 			</view>
 		</view>
-		<button type="warn" class="btn_round" @click="buy(info.goods.id,info.goods.price)" v-if="pageType=='share'">购买</button>
+		<button type="warn" class="btn_round" @click="buy(info.goods.id,info.goods.price)"
+			v-if="pageType=='share'">购买</button>
 		<!-- <button type="warn" class="btn_round" @click="buy(info.goods.id)">购买</button> -->
 	</view>
 </template>
@@ -78,28 +79,29 @@
 		onLoad(options) {
 			// console.log(options)
 			this.pageType = options.type
+			let {
+				api
+			} = options
+
 			// 刷新页面用
 			if (options.type == 'isbuy') {
-				this.$apis.BUY_INFO(options.id).then(res => {
-					// this.info = res
-					Object.assign(this.info, {
-						id: options.id,
-						...res
-					})
-					this.is_follow = res.mch_user.is_follow
-					this.loadOver = true
+				this.$apis[api || 'BUY_INFO'](options.id).then(res => {
+					res.goods=api?{...res}:res.goods
+					Object.assign(this.info, options, res)
 					// console.log(this.info)
+					this.is_follow = api ? true : res.mch_user.is_follow
+					this.loadOver = true
 				})
 			} else {
-				this.$apis.BUY_SHARE_INFO(options.id).then(res => {
-					let goods = { ...res
+				this.$apis['BUY_SHARE_INFO'](options.id).then(res => {
+					let goods = {
+						...res
 					}
-					Object.assign(this.info, {
-						id: options.id,
+					Object.assign(this.info, options,{
 						mch_user: res.user,
 						goods: goods,
 					})
-					this.is_follow = res.user.is_follow
+					this.is_follow = api ? true : res.user.is_follow
 					this.loadOver = true
 				})
 			}
@@ -149,7 +151,7 @@
 				}
 			},
 			follow(user) {
-				if (user.uid == uni.getStorageSync('USERINFO') .uid) {
+				if (user.uid == uni.getStorageSync('USERINFO').uid) {
 					uni.showToast({
 						title: '自己不能关注自己',
 						icon: 'none'

@@ -1,6 +1,6 @@
-(global["webpackJsonp"] = global["webpackJsonp"] || []).push([["common/vendor"],[
-/* 0 */,
-/* 1 */
+(global["webpackJsonp"] = global["webpackJsonp"] || []).push([["common/vendor"],{
+
+/***/ 1:
 /*!************************************************************!*\
   !*** ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js ***!
   \************************************************************/
@@ -822,7 +822,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"VUE_APP_NAME":"Cmessage_Wapp","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"Cmessage_Wapp","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -1792,7 +1792,842 @@ var uni$1 = uni;var _default =
 uni$1;exports.default = _default;
 
 /***/ }),
-/* 2 */
+
+/***/ 10:
+/*!**********************************************************************************************************!*\
+  !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/runtime/componentNormalizer.js ***!
+  \**********************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return normalizeComponent; });
+/* globals __VUE_SSR_CONTEXT__ */
+
+// IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
+// This module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle.
+
+function normalizeComponent (
+  scriptExports,
+  render,
+  staticRenderFns,
+  functionalTemplate,
+  injectStyles,
+  scopeId,
+  moduleIdentifier, /* server only */
+  shadowMode, /* vue-cli only */
+  components, // fixed by xxxxxx auto components
+  renderjs // fixed by xxxxxx renderjs
+) {
+  // Vue.extend constructor export interop
+  var options = typeof scriptExports === 'function'
+    ? scriptExports.options
+    : scriptExports
+
+  // fixed by xxxxxx auto components
+  if (components) {
+    if (!options.components) {
+      options.components = {}
+    }
+    var hasOwn = Object.prototype.hasOwnProperty
+    for (var name in components) {
+      if (hasOwn.call(components, name) && !hasOwn.call(options.components, name)) {
+        options.components[name] = components[name]
+      }
+    }
+  }
+  // fixed by xxxxxx renderjs
+  if (renderjs) {
+    (renderjs.beforeCreate || (renderjs.beforeCreate = [])).unshift(function() {
+      this[renderjs.__module] = this
+    });
+    (options.mixins || (options.mixins = [])).push(renderjs)
+  }
+
+  // render functions
+  if (render) {
+    options.render = render
+    options.staticRenderFns = staticRenderFns
+    options._compiled = true
+  }
+
+  // functional template
+  if (functionalTemplate) {
+    options.functional = true
+  }
+
+  // scopedId
+  if (scopeId) {
+    options._scopeId = 'data-v-' + scopeId
+  }
+
+  var hook
+  if (moduleIdentifier) { // server build
+    hook = function (context) {
+      // 2.3 injection
+      context =
+        context || // cached call
+        (this.$vnode && this.$vnode.ssrContext) || // stateful
+        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
+      // 2.2 with runInNewContext: true
+      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+        context = __VUE_SSR_CONTEXT__
+      }
+      // inject component styles
+      if (injectStyles) {
+        injectStyles.call(this, context)
+      }
+      // register component module identifier for async chunk inferrence
+      if (context && context._registeredComponents) {
+        context._registeredComponents.add(moduleIdentifier)
+      }
+    }
+    // used by ssr in case component is cached and beforeCreate
+    // never gets called
+    options._ssrRegister = hook
+  } else if (injectStyles) {
+    hook = shadowMode
+      ? function () { injectStyles.call(this, this.$root.$options.shadowRoot) }
+      : injectStyles
+  }
+
+  if (hook) {
+    if (options.functional) {
+      // for template-only hot-reload because in that case the render fn doesn't
+      // go through the normalizer
+      options._injectStyles = hook
+      // register for functioal component in vue file
+      var originalRender = options.render
+      options.render = function renderWithStyleInjection (h, context) {
+        hook.call(context)
+        return originalRender(h, context)
+      }
+    } else {
+      // inject component registration as beforeCreate hook
+      var existing = options.beforeCreate
+      options.beforeCreate = existing
+        ? [].concat(existing, hook)
+        : [hook]
+    }
+  }
+
+  return {
+    exports: scriptExports,
+    options: options
+  }
+}
+
+
+/***/ }),
+
+/***/ 11:
+/*!********************************************************!*\
+  !*** D:/Project/Cmessage_Wapp/common/service/index.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _request = _interopRequireDefault(__webpack_require__(/*! ./request.js */ 12));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var files = __webpack_require__(14);
+var apiGenerators = files.keys().map(function (key) {return files(key).default;});
+var api = {};
+apiGenerators.forEach(function (generator) {
+  var apiInstance = generator({
+    request: _request.default });
+
+  for (var apiName in apiInstance) {
+    if (apiInstance.hasOwnProperty(apiName)) {
+      api[apiName] = apiInstance[apiName];
+    }
+  }
+});var _default =
+api;exports.default = _default;
+
+/***/ }),
+
+/***/ 12:
+/*!**********************************************************!*\
+  !*** D:/Project/Cmessage_Wapp/common/service/request.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _public_data = __webpack_require__(/*! ../public_data.js */ 13);
+
+
+
+function req(obj) {
+  uni.showLoading({
+    title: '加载中...' });
+
+  return new Promise(function (resolve, reject) {
+    var HOST = _public_data.public_data.host;
+    var method = obj.method || "GET";
+    var url = HOST + obj.url || "";
+    var data = obj.data || {};
+    var params = obj.params || {};
+    var token = uni.getStorageSync('TOKEN');
+    var header = obj.header || {
+      'Content-Type': obj.contentType || 'application/json',
+      'Authori-zation': 'Bearer ' + token };
+
+    // console.log(header,'aaaaaa')
+    var success = obj.success; // 成功回调函数
+    var fail = obj.fail; //表示失败后，要执行的回调函数
+    uni.request({
+      url: url,
+      data: method == 'post' ? data : params,
+      header: header,
+      method: method,
+      success: function success(res) {
+        if (res.statusCode === 200) {
+          var status = res.data.status;
+          if (status == 200) {
+            uni.hideLoading();
+            resolve(res.data.data);
+          } else if ([410000, 410001, 410002].indexOf(status) >= 0) {
+            uni.showToast({
+              title: res.data.msg,
+              icon: 'none' });
+
+            uni.clearStorage();
+            uni.navigateTo({
+              url: '/pages/login/login' });
+
+            reject(res.data);
+          } else {
+            uni.showToast({
+              title: res.data.msg,
+              icon: 'none' });
+
+            reject(res.data);
+          }
+        } else if (res.statusCode === 500) {
+          uni.showToast({
+            title: res.data.msg,
+            icon: 'none' });
+
+          reject();
+        } else {
+          uni.showToast({
+            title: '网络错误',
+            icon: 'none' });
+
+          reject();
+          // 错误处理，返回登录页
+          // uni.reLaunch({
+          // 	url: '/pages/index/index'
+          // })
+        }
+      },
+      fail: function fail(err) {
+        reject(err);
+        uni.showToast({
+          title: err });
+
+      } });
+
+  });
+}var _default =
+req;exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+
+/***/ 13:
+/*!******************************************************!*\
+  !*** D:/Project/Cmessage_Wapp/common/public_data.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.public_data = void 0;var public_data = {
+  // host:'http://192.168.3.48:8084',
+  host: 'https://www.wenliao8.com',
+  upload: '/api/upload/image' };exports.public_data = public_data;
+
+/***/ }),
+
+/***/ 14:
+/*!*******************************************************************************!*\
+  !*** D:/Project/Cmessage_Wapp/common/service/modules sync nonrecursive \.js$ ***!
+  \*******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var map = {
+	"./article.js": 15,
+	"./message.js": 16,
+	"./user.js": 17
+};
+
+
+function webpackContext(req) {
+	var id = webpackContextResolve(req);
+	return __webpack_require__(id);
+}
+function webpackContextResolve(req) {
+	if(!__webpack_require__.o(map, req)) {
+		var e = new Error("Cannot find module '" + req + "'");
+		e.code = 'MODULE_NOT_FOUND';
+		throw e;
+	}
+	return map[req];
+}
+webpackContext.keys = function webpackContextKeys() {
+	return Object.keys(map);
+};
+webpackContext.resolve = webpackContextResolve;
+module.exports = webpackContext;
+webpackContext.id = 14;
+
+/***/ }),
+
+/***/ 141:
+/*!**************************************************************************!*\
+  !*** D:/Project/Cmessage_Wapp/components/rattenking-dtpicker/GetDate.js ***!
+  \**************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}function _unsupportedIterableToArray(o, minLen) {if (!o) return;if (typeof o === "string") return _arrayLikeToArray(o, minLen);var n = Object.prototype.toString.call(o).slice(8, -1);if (n === "Object" && o.constructor) n = o.constructor.name;if (n === "Map" || n === "Set") return Array.from(o);if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);}function _iterableToArray(iter) {if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) return _arrayLikeToArray(arr);}function _arrayLikeToArray(arr, len) {if (len == null || len > arr.length) len = arr.length;for (var i = 0, arr2 = new Array(len); i < len; i++) {arr2[i] = arr[i];}return arr2;}var GetDate = {
+  withData: function withData(num) {
+    var param = parseInt(num);
+    return param < 10 ? '0' + param : '' + param;
+  },
+  getTimes: function getTimes(str) {
+    var strs = str.split(' ');
+    var strs1 = strs[0] ? strs[0].split('-') : '2000-01-01'.split('-');
+    var strs2 = strs[1] ? strs[1].split(':') : '00:00:00'.split(':');
+    var year = strs1[0] ? strs1[0] : 2000;
+    var month = strs1[1] ? strs1[1] : 1;
+    var day = strs1[2] ? strs1[2] : 1;
+    var hour = strs2[0] ? strs2[0] : 0;
+    var minute = strs2[1] ? strs2[1] : 0;
+    var second = strs2[2] ? strs2[2] : 0;
+    var newstr = year + '/' + month + '/' + day + ' ' + hour + ':' + minute + ':' + second;
+    return new Date(newstr.replace(/-/g, '/')).getTime();
+  },
+  getCurrentTimes: function getCurrentTimes() {var time = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Date();
+    var date = new Date(time);
+    var year = date.getFullYear();
+    var month = date.getMonth() + 1;
+    var day = date.getDate();
+    var hour = date.getHours();
+    var minute = date.getMinutes();
+    var second = date.getSeconds();
+    return {
+      detail: {
+        year: year,
+        month: month,
+        day: day,
+        hour: hour,
+        minute: minute,
+        second: second } };
+
+
+  },
+  format: function format(arr) {
+    var curarr = [];
+    var curarr0 = [];
+    var str = '';
+    arr.forEach(function (cur, index) {
+      var o = GetDate.withData(cur);
+      if (index > 2) {
+        curarr.push(o);
+      } else {
+        curarr0.push(o);
+      }
+    });
+    if (arr.length < 4) {
+      str = curarr0.join('-');
+    } else {
+      str = curarr0.join('-') + ' ' + curarr.join(':');
+    }
+    return str;
+  },
+  getCurrentStringValue: function getCurrentStringValue(str) {
+    var newstr = str.split(' ');
+    if (newstr && newstr[1]) {
+      var arr = [].concat(_toConsumableArray(newstr[0].split('-')), _toConsumableArray(newstr[1].split(':')));
+      return arr;
+    }
+    return newstr[0].split('-');
+  },
+  getCompare: function getCompare(curp, startp, endp, timesp) {
+    var cur = GetDate.getTimes(curp);
+    var start = GetDate.getTimes(startp);
+    var end = GetDate.getTimes(endp);
+    if (cur < start) {
+      return GetDate.getTimeIndex(timesp, GetDate.getCurrentStringValue(startp));
+    } else if (cur > end) {
+      return GetDate.getTimeIndex(timesp, GetDate.getCurrentStringValue(endp));
+    } else {
+      return GetDate.getTimeIndex(timesp, GetDate.getCurrentStringValue(curp));
+    }
+  },
+  getChooseArr: function getChooseArr(times, indexs) {
+    var arr = [];
+    times.forEach(function (cur, index) {return arr.push(cur[indexs[index]]);});
+    return arr;
+  },
+  getNewArray: function getNewArray(arr) {
+    var newarr = [];
+    arr.forEach(function (cur) {return newarr.push(cur);});
+    return newarr;
+  },
+  getLoopArray: function getLoopArray(start, end) {
+    var start = start || 0;
+    var end = end || 1;
+    var array = [];
+    for (var i = start; i <= end; i++) {
+      array.push(GetDate.withData(i));
+    }
+    return array;
+  },
+  getMonthDay: function getMonthDay(year, month) {
+    var flag = year % 400 == 0 || year % 4 == 0 && year % 100 != 0,array = null;
+
+    switch (month) {
+      case '01':
+      case '03':
+      case '05':
+      case '07':
+      case '08':
+      case '10':
+      case '12':
+        array = GetDate.getLoopArray(1, 31);
+        break;
+      case '04':
+      case '06':
+      case '09':
+      case '11':
+        array = GetDate.getLoopArray(1, 30);
+        break;
+      case '02':
+        array = flag ? GetDate.getLoopArray(1, 29) : GetDate.getLoopArray(1, 28);
+        break;
+      default:
+        array = GetDate.getLoopArray(1, 31);}
+
+    return array;
+  },
+  getIndependentTimes: function getIndependentTimes(opts) {var
+
+    startTimes =
+
+
+
+    opts.startTimes,endTimes = opts.endTimes,curTimes = opts.curTimes,fields = opts.fields;var _startTimes$year =
+
+
+
+
+
+
+
+    startTimes.year,startyear = _startTimes$year === void 0 ? 2021 : _startTimes$year,_startTimes$month = startTimes.month,startmonth = _startTimes$month === void 0 ? 1 : _startTimes$month,_startTimes$day = startTimes.day,startday = _startTimes$day === void 0 ? 1 : _startTimes$day,_startTimes$hour = startTimes.hour,starthour = _startTimes$hour === void 0 ? 0 : _startTimes$hour,_startTimes$minute = startTimes.minute,startminute = _startTimes$minute === void 0 ? 0 : _startTimes$minute,_startTimes$second = startTimes.second,startsecond = _startTimes$second === void 0 ? 0 : _startTimes$second;var _endTimes$year =
+
+
+
+
+
+
+
+    endTimes.year,endyear = _endTimes$year === void 0 ? 2021 : _endTimes$year,_endTimes$month = endTimes.month,endmonth = _endTimes$month === void 0 ? 1 : _endTimes$month,_endTimes$day = endTimes.day,endday = _endTimes$day === void 0 ? 1 : _endTimes$day,_endTimes$hour = endTimes.hour,endhour = _endTimes$hour === void 0 ? 0 : _endTimes$hour,_endTimes$minute = endTimes.minute,endminute = _endTimes$minute === void 0 ? 0 : _endTimes$minute,_endTimes$second = endTimes.second,endsecond = _endTimes$second === void 0 ? 0 : _endTimes$second;var _curTimes$year =
+
+
+
+
+
+
+
+    curTimes.year,curyear = _curTimes$year === void 0 ? 2021 : _curTimes$year,_curTimes$month = curTimes.month,curmonth = _curTimes$month === void 0 ? 1 : _curTimes$month,_curTimes$day = curTimes.day,curday = _curTimes$day === void 0 ? 1 : _curTimes$day,_curTimes$hour = curTimes.hour,curhour = _curTimes$hour === void 0 ? 0 : _curTimes$hour,_curTimes$minute = curTimes.minute,curminute = _curTimes$minute === void 0 ? 0 : _curTimes$minute,_curTimes$second = curTimes.second,cursecond = _curTimes$second === void 0 ? 0 : _curTimes$second;
+    return {
+      startyear: startyear,
+      startmonth: startmonth,
+      startday: startday,
+      starthour: starthour,
+      startminute: startminute,
+      startsecond: startsecond,
+      endyear: endyear,
+      endmonth: endmonth,
+      endday: endday,
+      endhour: endhour,
+      endminute: endminute,
+      endsecond: endsecond,
+      curyear: curyear,
+      curmonth: curmonth,
+      curday: curday,
+      curhour: curhour,
+      curminute: curminute,
+      cursecond: cursecond };
+
+  },
+  getYears: function getYears(opts) {
+    var years = GetDate.getLoopArray(opts.startyear, opts.endyear);
+    return years;
+  },
+  getMonths: function getMonths(opts) {
+    var months = GetDate.getLoopArray(1, 12);
+    if (opts.curyear == opts.startyear) {
+      months = months.filter(function (cur) {return cur >= opts.startmonth;});
+    }
+    if (opts.curyear == opts.endyear) {
+      months = months.filter(function (cur) {return cur <= opts.endmonth;});
+    }
+    return months;
+  },
+  getDays: function getDays(opts) {
+    var days = GetDate.getMonthDay(opts.curyear, GetDate.withData(opts.curmonth));
+    if (opts.curyear == opts.startyear && opts.curmonth == opts.startmonth) {
+      days = days.filter(function (cur) {return cur >= opts.startday;});
+    }
+    if (opts.curyear == opts.endyear && opts.curmonth == opts.endmonth) {
+      days = days.filter(function (cur) {return cur <= opts.endday;});
+    }
+    return days;
+  },
+  getHours: function getHours(opts) {
+    var hours = GetDate.getLoopArray(0, 23);
+    if (opts.curyear == opts.startyear && opts.curmonth == opts.startmonth && opts.curday == opts.startday) {
+      hours = hours.filter(function (cur) {return cur >= opts.starthour;});
+    }
+    if (opts.curyear == opts.endyear && opts.curmonth == opts.endmonth && opts.curday == opts.endday) {
+      hours = hours.filter(function (cur) {return cur <= opts.endhour;});
+    }
+    return hours;
+  },
+  getMinutes: function getMinutes(opts) {
+    var minutes = GetDate.getLoopArray(0, 59);
+    if (opts.curyear == opts.startyear && opts.curmonth == opts.startmonth && opts.curday == opts.startday && opts.curhour == opts.starthour) {
+      minutes = minutes.filter(function (cur) {return cur >= opts.startminute;});
+    }
+    if (opts.curyear == opts.endyear && opts.curmonth == opts.endmonth && opts.curday == opts.endday && opts.curhour == opts.endhour) {
+      minutes = minutes.filter(function (cur) {return cur <= opts.endminute;});
+    }
+    return minutes;
+  },
+  getSeconds: function getSeconds(opts) {
+    var seconds = GetDate.getLoopArray(0, 59);
+    if (opts.curyear == opts.startyear && opts.curmonth == opts.startmonth && opts.curday == opts.startday && opts.curhour == opts.starthour && opts.curminute == opts.startminute) {
+      seconds = seconds.filter(function (cur) {return cur >= opts.startsecond;});
+    }
+    if (opts.curyear == opts.endyear && opts.curmonth == opts.endmonth && opts.curday == opts.endday && opts.curhour == opts.endhour && opts.curminute == opts.endminute) {
+      seconds = seconds.filter(function (cur) {return cur <= opts.endsecond;});
+    }
+    return seconds;
+  },
+  getDateTimes: function getDateTimes(opts) {
+    var alltimes = GetDate.getIndependentTimes(opts);
+    var years = GetDate.getYears(alltimes);
+    var months = GetDate.getMonths(alltimes);
+    var days = GetDate.getDays(alltimes);
+    var hours = GetDate.getHours(alltimes);
+    var minutes = GetDate.getMinutes(alltimes);
+    var seconds = GetDate.getSeconds(alltimes);
+    var times = {
+      year: [years],
+      month: [years, months],
+      day: [years, months, days],
+      hour: [years, months, days, hours],
+      minute: [years, months, days, hours, minutes],
+      second: [years, months, days, hours, minutes, seconds] };
+
+    return times[opts.fields] || times.second;
+  },
+  getIndex: function getIndex(arr, target) {
+    var len = arr.length;
+    for (var i = 0; i < len; i++) {
+      if (arr[i] == target) {
+        return i;
+      }
+    }
+  },
+  getTimeIndex: function getTimeIndex(arrs, targets) {
+    var len = arrs.length;
+    var arr = [];
+    for (var i = 0; i < len; i++) {
+      arr.push(GetDate.getIndex(arrs[i], targets[i]));
+    }
+    return arr;
+  },
+  error: function error(str) {
+    console.error(str);
+  } };
+
+
+module.exports = GetDate;
+
+/***/ }),
+
+/***/ 15:
+/*!******************************************************************!*\
+  !*** D:/Project/Cmessage_Wapp/common/service/modules/article.js ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = function _default(_ref) {var request = _ref.request;return {
+    ARTICLE_LIST: function ARTICLE_LIST(id) {
+      return request({
+        url: '/api/article/list/' + id });
+
+    },
+    ARTICLE: function ARTICLE(id) {
+      return request({
+        url: '/api/article/detail/' + id });
+
+    } };};exports.default = _default;
+
+/***/ }),
+
+/***/ 16:
+/*!******************************************************************!*\
+  !*** D:/Project/Cmessage_Wapp/common/service/modules/message.js ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = function _default(_ref) {var
+  request = _ref.request;return (
+    {
+      SELL: function SELL(data) {
+        return request({
+          url: '/api/sell/issue',
+          method: 'post',
+          data: data });
+
+      },
+      SELL_LIST: function SELL_LIST(params) {
+        return request({
+          url: '/api/sell/list',
+          params: params });
+
+      },
+      SELL_INFO: function SELL_INFO(id) {
+        return request({
+          url: '/api/sell/detail/' + id });
+
+      },
+      SELL_DEL: function SELL_DEL(id) {
+        return request({
+          url: '/api/sell/del/' + id });
+
+      },
+      //
+      BUY_LIST: function BUY_LIST(params) {
+        return request({
+          url: '/api/order/list',
+          params: params });
+
+      },
+
+      BUY_INFO: function BUY_INFO(id) {
+        return request({
+          url: '/api/order/detail/' + id });
+
+      },
+      BUY_CREATE: function BUY_CREATE(id) {
+        return request({
+          url: '/api/order/create/' + id });
+
+      },
+      BUY_SHARE_INFO: function BUY_SHARE_INFO(id) {
+        return request({
+          url: '/api/buy/detail/' + id });
+
+      },
+      FINISH: function FINISH(id, r) {
+        return request({
+          url: "/api/sell/finish/".concat(id, "/").concat(r) });
+
+      },
+      FOLLOW_SALE_LIST: function FOLLOW_SALE_LIST(id, params) {
+        return request({
+          url: '/api/home/sell/' + id,
+          params: params });
+
+      },
+      FOLLOW_SALE_INFO: function FOLLOW_SALE_INFO(id) {
+        return request({
+          url: '/api/home/sellDetail/' + id });
+
+      } });};exports.default = _default;
+
+/***/ }),
+
+/***/ 17:
+/*!***************************************************************!*\
+  !*** D:/Project/Cmessage_Wapp/common/service/modules/user.js ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = function _default(_ref) {var
+  request = _ref.request;return (
+    {
+      LOGIN: function LOGIN(data) {
+        return request({
+          url: '/api/wechat/mp_auth',
+          method: 'post',
+          data: data });
+
+      },
+      PHONE: function PHONE(data) {
+        return request({
+          url: '/api/wechat/decryptData',
+          method: 'post',
+          data: data });
+
+      },
+
+      LOGO: function LOGO() {
+        return request({
+          url: '/api/wechat/get_logo' });
+
+      },
+      USERINFO: function USERINFO() {
+        return request({
+          url: '/api/user/info' });
+
+      },
+      NAME: function NAME(data) {
+        return request({
+          url: '/api/user/real_name',
+          method: 'post',
+          data: data });
+
+      },
+      WALLET_LIST: function WALLET_LIST(params) {
+        return request({
+          url: '/api/user/bill',
+          params: params });
+
+      },
+      ISFOLLOW: function ISFOLLOW(id) {
+        return request({
+          url: '/api/user/follow/' + id });
+
+      },
+      UNFOLLOW: function UNFOLLOW(id) {
+        return request({
+          url: '/api/user/unfollow/' + id });
+
+      },
+      FOLLOW_LIST: function FOLLOW_LIST(params) {
+        return request({
+          url: '/api/user/myFollow',
+          params: params });
+
+      },
+      FANS: function FANS(params) {
+        return request({
+          url: '/api/user/myFans',
+          params: params });
+
+      },
+      CASH: function CASH(data) {
+        return request({
+          url: '/api/extract/cash',
+          method: 'post',
+          data: data });
+
+      },
+      CASH_LIST: function CASH_LIST(params) {
+        return request({
+          url: '/api/extract/list',
+          params: params });
+
+      } });};exports.default = _default;
+
+/***/ }),
+
+/***/ 18:
+/*!***********************************************!*\
+  !*** D:/Project/Cmessage_Wapp/store/index.js ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 19));var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _vuex = _interopRequireDefault(__webpack_require__(/*! vuex */ 22));
+var _index = _interopRequireDefault(__webpack_require__(/*! ../common/service/index.js */ 11));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}
+_vue.default.use(_vuex.default);
+var store = new _vuex.default.Store({
+  state: {
+    isLogged: uni.getStorageSync('TOKEN') == '' ? false : true,
+    userInfo: {} },
+
+  actions: {
+    login: function login(_ref,
+
+    data) {return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var commit, res;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:commit = _ref.commit;_context.prev = 1;_context.next = 4;return (
+
+
+                  _index.default.LOGIN(data));case 4:res = _context.sent;
+                uni.setStorageSync('TOKEN', res.token);
+                uni.setStorageSync('CATCH_KEY', res.cache_key);
+                commit('loginSet', true);return _context.abrupt("return",
+                Promise.resolve(res));case 11:_context.prev = 11;_context.t0 = _context["catch"](1);return _context.abrupt("return",
+
+                Promise.reject(_context.t0));case 14:case "end":return _context.stop();}}}, _callee, null, [[1, 11]]);}))();
+
+    },
+    getuserInfo: function getuserInfo(_ref2) {return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var commit, res;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:commit = _ref2.commit;_context2.prev = 1;_context2.next = 4;return (
+
+                  _index.default.USERINFO());case 4:res = _context2.sent;
+
+                // 实名认证页面需要用到
+                // if(res.phone!==''){
+                // 	res.phone=String(res.phone).slice(0,3)+'****'+String(res.phone).slice(-4)
+                // }
+                // if(res.alipay_account!==''){
+                // 	res.alipay_account=String(res.alipay_account).slice(0,3)+'****'+String(res.alipay_account).slice(-4)
+                // }
+                uni.setStorageSync('USERINFO', res);
+                commit('userinfoSet', res);return _context2.abrupt("return",
+                Promise.resolve(res));case 10:_context2.prev = 10;_context2.t0 = _context2["catch"](1);return _context2.abrupt("return",
+
+                Promise.reject(_context2.t0));case 13:case "end":return _context2.stop();}}}, _callee2, null, [[1, 10]]);}))();
+
+    } },
+
+  mutations: {
+    loginSet: function loginSet(state, value) {
+      state.isLogged = value;
+    },
+    userinfoSet: function userinfoSet(state, value) {
+      state.userInfo = value;
+    } } });var _default =
+
+
+store;exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+
+/***/ 19:
+/*!**********************************************************!*\
+  !*** ./node_modules/@babel/runtime/regenerator/index.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! regenerator-runtime */ 20);
+
+/***/ }),
+
+/***/ 2:
 /*!******************************************************************************************!*\
   !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js ***!
   \******************************************************************************************/
@@ -7318,7 +8153,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"VUE_APP_NAME":"Cmessage_Wapp","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"NODE_ENV":"development","VUE_APP_NAME":"Cmessage_Wapp","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -7339,14 +8174,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"VUE_APP_NAME":"Cmessage_Wapp","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"Cmessage_Wapp","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"VUE_APP_NAME":"Cmessage_Wapp","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"Cmessage_Wapp","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -7432,7 +8267,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = this.$shouldDiffData === false ? data : diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"VUE_APP_NAME":"Cmessage_Wapp","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"Cmessage_Wapp","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));
@@ -7839,583 +8674,8 @@ internalMixin(Vue);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../webpack/buildin/global.js */ 3)))
 
 /***/ }),
-/* 3 */
-/*!***********************************!*\
-  !*** (webpack)/buildin/global.js ***!
-  \***********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
 
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || new Function("return this")();
-} catch (e) {
-	// This works if the window reference is available
-	if (typeof window === "object") g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-/* 4 */
-/*!*******************************************!*\
-  !*** D:/Project/Cmessage_Wapp/pages.json ***!
-  \*******************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-
-
-/***/ }),
-/* 5 */,
-/* 6 */,
-/* 7 */,
-/* 8 */,
-/* 9 */,
-/* 10 */
-/*!**********************************************************************************************************!*\
-  !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/runtime/componentNormalizer.js ***!
-  \**********************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return normalizeComponent; });
-/* globals __VUE_SSR_CONTEXT__ */
-
-// IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
-// This module is a runtime utility for cleaner component module output and will
-// be included in the final webpack user bundle.
-
-function normalizeComponent (
-  scriptExports,
-  render,
-  staticRenderFns,
-  functionalTemplate,
-  injectStyles,
-  scopeId,
-  moduleIdentifier, /* server only */
-  shadowMode, /* vue-cli only */
-  components, // fixed by xxxxxx auto components
-  renderjs // fixed by xxxxxx renderjs
-) {
-  // Vue.extend constructor export interop
-  var options = typeof scriptExports === 'function'
-    ? scriptExports.options
-    : scriptExports
-
-  // fixed by xxxxxx auto components
-  if (components) {
-    if (!options.components) {
-      options.components = {}
-    }
-    var hasOwn = Object.prototype.hasOwnProperty
-    for (var name in components) {
-      if (hasOwn.call(components, name) && !hasOwn.call(options.components, name)) {
-        options.components[name] = components[name]
-      }
-    }
-  }
-  // fixed by xxxxxx renderjs
-  if (renderjs) {
-    (renderjs.beforeCreate || (renderjs.beforeCreate = [])).unshift(function() {
-      this[renderjs.__module] = this
-    });
-    (options.mixins || (options.mixins = [])).push(renderjs)
-  }
-
-  // render functions
-  if (render) {
-    options.render = render
-    options.staticRenderFns = staticRenderFns
-    options._compiled = true
-  }
-
-  // functional template
-  if (functionalTemplate) {
-    options.functional = true
-  }
-
-  // scopedId
-  if (scopeId) {
-    options._scopeId = 'data-v-' + scopeId
-  }
-
-  var hook
-  if (moduleIdentifier) { // server build
-    hook = function (context) {
-      // 2.3 injection
-      context =
-        context || // cached call
-        (this.$vnode && this.$vnode.ssrContext) || // stateful
-        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
-      // 2.2 with runInNewContext: true
-      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
-        context = __VUE_SSR_CONTEXT__
-      }
-      // inject component styles
-      if (injectStyles) {
-        injectStyles.call(this, context)
-      }
-      // register component module identifier for async chunk inferrence
-      if (context && context._registeredComponents) {
-        context._registeredComponents.add(moduleIdentifier)
-      }
-    }
-    // used by ssr in case component is cached and beforeCreate
-    // never gets called
-    options._ssrRegister = hook
-  } else if (injectStyles) {
-    hook = shadowMode
-      ? function () { injectStyles.call(this, this.$root.$options.shadowRoot) }
-      : injectStyles
-  }
-
-  if (hook) {
-    if (options.functional) {
-      // for template-only hot-reload because in that case the render fn doesn't
-      // go through the normalizer
-      options._injectStyles = hook
-      // register for functioal component in vue file
-      var originalRender = options.render
-      options.render = function renderWithStyleInjection (h, context) {
-        hook.call(context)
-        return originalRender(h, context)
-      }
-    } else {
-      // inject component registration as beforeCreate hook
-      var existing = options.beforeCreate
-      options.beforeCreate = existing
-        ? [].concat(existing, hook)
-        : [hook]
-    }
-  }
-
-  return {
-    exports: scriptExports,
-    options: options
-  }
-}
-
-
-/***/ }),
-/* 11 */
-/*!********************************************************!*\
-  !*** D:/Project/Cmessage_Wapp/common/service/index.js ***!
-  \********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _request = _interopRequireDefault(__webpack_require__(/*! ./request.js */ 12));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-var files = __webpack_require__(14);
-var apiGenerators = files.keys().map(function (key) {return files(key).default;});
-var api = {};
-apiGenerators.forEach(function (generator) {
-  var apiInstance = generator({
-    request: _request.default });
-
-  for (var apiName in apiInstance) {
-    if (apiInstance.hasOwnProperty(apiName)) {
-      api[apiName] = apiInstance[apiName];
-    }
-  }
-});var _default =
-api;exports.default = _default;
-
-/***/ }),
-/* 12 */
-/*!**********************************************************!*\
-  !*** D:/Project/Cmessage_Wapp/common/service/request.js ***!
-  \**********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _public_data = __webpack_require__(/*! ../public_data.js */ 13);
-
-
-
-function req(obj) {
-  uni.showLoading({
-    title: '加载中...' });
-
-  return new Promise(function (resolve, reject) {
-    var HOST = _public_data.public_data.host;
-    var method = obj.method || "GET";
-    var url = HOST + obj.url || "";
-    var data = obj.data || {};
-    var params = obj.params || {};
-    var token = uni.getStorageSync('TOKEN');
-    var header = obj.header || {
-      'Content-Type': obj.contentType || 'application/json',
-      'Authori-zation': 'Bearer ' + token };
-
-    // console.log(header,'aaaaaa')
-    var success = obj.success; // 成功回调函数
-    var fail = obj.fail; //表示失败后，要执行的回调函数
-    uni.request({
-      url: url,
-      data: method == 'post' ? data : params,
-      header: header,
-      method: method,
-      success: function success(res) {
-        if (res.statusCode === 403 || res.statusCode === 401) {
-          // 错误处理，返回登录页
-          uni.reLaunch({
-            url: '/pages/index/index' });
-
-        } else if (res.statusCode === 500) {
-          uni.showToast({
-            title: res.data.msg,
-            icon: 'none' });
-
-
-        } else {
-          var status = res.data.status;
-          if (status == 200) {
-            uni.hideLoading();
-            resolve(res.data.data);
-          } else if ([410000, 410001, 410002].indexOf(status) >= 0) {
-            uni.showToast({
-              title: res.data.msg,
-              icon: 'none' });
-
-            uni.removeStorageSync('TOKEN');
-            uni.removeStorageSync('USERINFO');
-            uni.removeStorageSync('CATCH_KEY');
-            uni.navigateTo({
-              url: '/pages/login/login' });
-
-            reject(res.data);
-          } else {
-            uni.showToast({
-              title: res.data.msg,
-              icon: 'none' });
-
-            reject(res.data);
-          }
-        }
-      },
-      fail: function fail(err) {
-        reject(err);
-        uni.showToast({
-          title: err });
-
-      } });
-
-  });
-}var _default =
-req;exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
-
-/***/ }),
-/* 13 */
-/*!******************************************************!*\
-  !*** D:/Project/Cmessage_Wapp/common/public_data.js ***!
-  \******************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.public_data = void 0;var public_data = {
-  // host:'http://192.168.3.48:8084',
-  host: 'https://www.wenliao8.com',
-  upload: '/api/upload/image' };exports.public_data = public_data;
-
-/***/ }),
-/* 14 */
-/*!*******************************************************************************!*\
-  !*** D:/Project/Cmessage_Wapp/common/service/modules sync nonrecursive \.js$ ***!
-  \*******************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var map = {
-	"./article.js": 15,
-	"./message.js": 16,
-	"./user.js": 17
-};
-
-
-function webpackContext(req) {
-	var id = webpackContextResolve(req);
-	return __webpack_require__(id);
-}
-function webpackContextResolve(req) {
-	if(!__webpack_require__.o(map, req)) {
-		var e = new Error("Cannot find module '" + req + "'");
-		e.code = 'MODULE_NOT_FOUND';
-		throw e;
-	}
-	return map[req];
-}
-webpackContext.keys = function webpackContextKeys() {
-	return Object.keys(map);
-};
-webpackContext.resolve = webpackContextResolve;
-module.exports = webpackContext;
-webpackContext.id = 14;
-
-/***/ }),
-/* 15 */
-/*!******************************************************************!*\
-  !*** D:/Project/Cmessage_Wapp/common/service/modules/article.js ***!
-  \******************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = function _default(_ref) {var request = _ref.request;return {
-    ARTICLE_LIST: function ARTICLE_LIST(id) {
-      return request({
-        url: '/api/article/list/' + id });
-
-    },
-    ARTICLE: function ARTICLE(id) {
-      return request({
-        url: '/api/article/detail/' + id });
-
-    } };};exports.default = _default;
-
-/***/ }),
-/* 16 */
-/*!******************************************************************!*\
-  !*** D:/Project/Cmessage_Wapp/common/service/modules/message.js ***!
-  \******************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = function _default(_ref) {var
-  request = _ref.request;return (
-    {
-      SELL: function SELL(data) {
-        return request({
-          url: '/api/sell/issue',
-          method: 'post',
-          data: data });
-
-      },
-      SELL_LIST: function SELL_LIST(params) {
-        return request({
-          url: '/api/sell/list',
-          params: params });
-
-      },
-      SELL_INFO: function SELL_INFO(id) {
-        return request({
-          url: '/api/sell/detail/' + id });
-
-      },
-      SELL_DEL: function SELL_DEL(id) {
-        return request({
-          url: '/api/sell/del/' + id });
-
-      },
-      //
-      BUY_LIST: function BUY_LIST(params) {
-        return request({
-          url: '/api/order/list',
-          params: params });
-
-      },
-
-      BUY_INFO: function BUY_INFO(id) {
-        return request({
-          url: '/api/order/detail/' + id });
-
-      },
-      BUY_CREATE: function BUY_CREATE(id) {
-        return request({
-          url: '/api/order/create/' + id });
-
-      },
-      BUY_SHARE_INFO: function BUY_SHARE_INFO(id) {
-        return request({
-          url: '/api/buy/detail/' + id });
-
-      },
-      FINISH: function FINISH(id, r) {
-        return request({
-          url: "/api/sell/finish/".concat(id, "/").concat(r) });
-
-      } });};exports.default = _default;
-
-/***/ }),
-/* 17 */
-/*!***************************************************************!*\
-  !*** D:/Project/Cmessage_Wapp/common/service/modules/user.js ***!
-  \***************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = function _default(_ref) {var
-  request = _ref.request;return (
-    {
-      LOGIN: function LOGIN(data) {
-        return request({
-          url: '/api/wechat/mp_auth',
-          method: 'post',
-          data: data });
-
-      },
-      PHONE: function PHONE(data) {
-        return request({
-          url: '/api/wechat/decryptData',
-          method: 'post',
-          data: data });
-
-      },
-      LOGO: function LOGO() {
-        return request({
-          url: '/api/wechat/get_logo' });
-
-      },
-      USERINFO: function USERINFO() {
-        return request({
-          url: '/api/user/info' });
-
-      },
-      NAME: function NAME(data) {
-        return request({
-          url: '/api/user/real_name',
-          method: 'post',
-          data: data });
-
-      },
-      WALLET_LIST: function WALLET_LIST(params) {
-        return request({
-          url: '/api/user/bill',
-          params: params });
-
-      },
-      ISFOLLOW: function ISFOLLOW(id) {
-        return request({
-          url: '/api/user/follow/' + id });
-
-      },
-      UNFOLLOW: function UNFOLLOW(id) {
-        return request({
-          url: '/api/user/unfollow/' + id });
-
-      },
-      FOLLOW_LIST: function FOLLOW_LIST(params) {
-        return request({
-          url: '/api/user/myFollow',
-          params: params });
-
-      },
-      FANS: function FANS(params) {
-        return request({
-          url: '/api/user/myFans',
-          params: params });
-
-      },
-      CASH: function CASH(data) {
-        return request({
-          url: '/api/extract/cash',
-          method: 'post',
-          data: data });
-
-      },
-      CASH_LIST: function CASH_LIST(params) {
-        return request({
-          url: '/api/extract/list',
-          params: params });
-
-      } });};exports.default = _default;
-
-/***/ }),
-/* 18 */
-/*!***********************************************!*\
-  !*** D:/Project/Cmessage_Wapp/store/index.js ***!
-  \***********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 19));var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _vuex = _interopRequireDefault(__webpack_require__(/*! vuex */ 22));
-var _index = _interopRequireDefault(__webpack_require__(/*! ../common/service/index.js */ 11));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}
-_vue.default.use(_vuex.default);
-var store = new _vuex.default.Store({
-  state: {
-    isLogged: uni.getStorageSync('TOKEN') == '' ? false : true,
-    userInfo: {} },
-
-  actions: {
-    login: function login(_ref,
-
-    data) {return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var commit, res;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:commit = _ref.commit;_context.prev = 1;_context.next = 4;return (
-
-
-                  _index.default.LOGIN(data));case 4:res = _context.sent;
-                uni.setStorageSync('TOKEN', res.token);
-                uni.setStorageSync('CATCH_KEY', res.cache_key);
-                commit('loginSet', true);return _context.abrupt("return",
-                Promise.resolve(res));case 11:_context.prev = 11;_context.t0 = _context["catch"](1);return _context.abrupt("return",
-
-                Promise.reject(_context.t0));case 14:case "end":return _context.stop();}}}, _callee, null, [[1, 11]]);}))();
-
-    },
-    getuserInfo: function getuserInfo(_ref2) {return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var commit, res;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:commit = _ref2.commit;_context2.prev = 1;_context2.next = 4;return (
-
-                  _index.default.USERINFO());case 4:res = _context2.sent;
-
-                // 实名认证页面需要用到
-                // if(res.phone!==''){
-                // 	res.phone=String(res.phone).slice(0,3)+'****'+String(res.phone).slice(-4)
-                // }
-                // if(res.alipay_account!==''){
-                // 	res.alipay_account=String(res.alipay_account).slice(0,3)+'****'+String(res.alipay_account).slice(-4)
-                // }
-                uni.setStorageSync('USERINFO', res);
-                commit('userinfoSet', res);return _context2.abrupt("return",
-                Promise.resolve(res));case 10:_context2.prev = 10;_context2.t0 = _context2["catch"](1);return _context2.abrupt("return",
-
-                Promise.reject(_context2.t0));case 13:case "end":return _context2.stop();}}}, _callee2, null, [[1, 10]]);}))();
-
-    } },
-
-  mutations: {
-    loginSet: function loginSet(state, value) {
-      state.isLogged = value;
-    },
-    userinfoSet: function userinfoSet(state, value) {
-      state.userInfo = value;
-    } } });var _default =
-
-
-store;exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
-
-/***/ }),
-/* 19 */
-/*!**********************************************************!*\
-  !*** ./node_modules/@babel/runtime/regenerator/index.js ***!
-  \**********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(/*! regenerator-runtime */ 20);
-
-/***/ }),
-/* 20 */
+/***/ 20:
 /*!************************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime-module.js ***!
   \************************************************************/
@@ -8462,7 +8722,8 @@ if (hadRuntime) {
 
 
 /***/ }),
-/* 21 */
+
+/***/ 21:
 /*!*****************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime.js ***!
   \*****************************************************/
@@ -9193,7 +9454,8 @@ if (hadRuntime) {
 
 
 /***/ }),
-/* 22 */
+
+/***/ 22:
 /*!********************************************!*\
   !*** ./node_modules/vuex/dist/vuex.esm.js ***!
   \********************************************/
@@ -10305,13 +10567,8 @@ var index = {
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../webpack/buildin/global.js */ 3)))
 
 /***/ }),
-/* 23 */,
-/* 24 */,
-/* 25 */,
-/* 26 */,
-/* 27 */,
-/* 28 */,
-/* 29 */
+
+/***/ 29:
 /*!*********************************************************!*\
   !*** D:/Project/Cmessage_Wapp/common/dateTimePicker.js ***!
   \*********************************************************/
@@ -10368,10 +10625,11 @@ function getNewDateArry() {
   mont = withData(newDate.getMonth() + 1),
   date = withData(newDate.getDate()),
   hour = withData(newDate.getHours()),
-  minu = withData(newDate.getMinutes()),
-  seco = withData(newDate.getSeconds());
+  minu = withData(newDate.getMinutes());
+  // seco = withData(newDate.getSeconds());
 
-  return [year, mont, date, hour, minu, seco];
+  // return [year, mont, date, hour, minu, seco];
+  return [year, mont, date, hour, minu];
 }
 
 function dateTimePicker(startYear, endYear, date) {
@@ -10399,7 +10657,7 @@ function dateTimePicker(startYear, endYear, date) {
   dateTimeArray[2] = getMonthDay(defaultDate[0], defaultDate[1]);
   dateTimeArray[3] = getLoopArray(0, 23);
   dateTimeArray[4] = getLoopArray(0, 59);
-  dateTimeArray[5] = getLoopArray(0, 59);
+  // dateTimeArray[5] = getLoopArray(0, 59);
 
   dateTimeArray.forEach(function (current, index) {
     dateTime.push(current.indexOf(defaultDate[index]));
@@ -10418,6 +10676,49 @@ module.exports = {
 // export default dateTimePicker
 // export default getMonthDay
 
+/***/ }),
+
+/***/ 3:
+/*!***********************************!*\
+  !*** (webpack)/buildin/global.js ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || new Function("return this")();
+} catch (e) {
+	// This works if the window reference is available
+	if (typeof window === "object") g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+
+/***/ 4:
+/*!*******************************************!*\
+  !*** D:/Project/Cmessage_Wapp/pages.json ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+
+
 /***/ })
-]]);
+
+}]);
 //# sourceMappingURL=../../.sourcemap/mp-weixin/common/vendor.js.map

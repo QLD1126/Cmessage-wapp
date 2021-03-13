@@ -1,24 +1,27 @@
 <template>
-	<view class="container_0">
+	<view class="container_0 sell-list">
 		<!-- <image src="../../static/shareimg.png" mode=""></image> -->
 		<view class="">
-			<input type="text" v-model="formdata.keywords" placeholder="请输入搜索关键词" confirm-type="search" @confirm="getList(formdata)" />
+			<input type="text" v-model="formdata.keywords" placeholder="请输入搜索关键词" confirm-type="search"
+				@confirm="getList(formdata)" />
 			<text class="iconfont icon-sousuo"></text>
 			<view @click="getList(formdata)">搜索</view>
 		</view>
-		<van-tabs class="content" swipeable @change='tabchange' animated :active='formdata.type'>
+		<van-tabs class="sell-content" swipeable @change='tabchange' animated :active='formdata.type'>
 			<!-- <van-tab v-for='item in datalist' :key='item.id' :title="item.type">{{item.content}}</van-tab> -->
 			<van-tab v-for='(item,index) in datalist' :key='item.id' :title="item.type">
 				<view v-if="item.content.length>0">
 					<view v-if="formdata.type==0">
-						<navigator class='item' v-for="(item,index) in datalist[0].content" :key="item.id" open-type="navigate" :url="'/pages/record/detail?id='+item.id">
+						<navigator class='item' v-for="(item,index) in datalist[0].content" :key="item.id"
+							open-type="navigate" :url="'/pages/record/detail?id='+item.id">
 							<view class="flex-between">
 								<view class="">
-									<image v-if="item.is_return==1" src="../../static/fan.png" mode="" class="icon_44"></image>
+									<image v-if="item.is_return==1" src="../../static/fan.png" mode="" class="icon_44">
+									</image>
 									<text class="t_32_333">{{item.title}}</text>
 								</view>
-								<view :class="item.result==1?'red':item.result==-1?'hui':'fff'" :style="{display:item.status>=3?'inline':'none'}"
-								 @click.stop="openPop('res',item)">
+								<view :class="item.result==1?'red':item.result==-1?'hui':'fff'"
+									:style="{display:item.status>=3?'inline':'none'}" @click.stop="openPop('res',item)">
 									{{item.result==-1?'黑':item.result==1?'红':'选结果'}}
 									<!-- {{item.status==-1?'结果错误':item.status==0?'等待结果':'结果正确'}} -->
 								</view>
@@ -28,19 +31,24 @@
 							<view class="flex-between">
 								<text>{{item._status}}</text>
 								<!-- <text v-if="item.status==2">已售份</text> -->
-								<view class="t_24_9" v-if="item.status>=2">已售<text style="color: #f00;">{{item.sales}}</text> 份</view>
+								<view class="t_24_9" v-if="item.status>=1">已售<text
+										style="color: #f00;">{{item.sales}}</text> 份</view>
 								<text class="t_24_9">{{item.add_time}}</text>
 							</view>
 							<view class="flex-around">
-								<button type="default" plain @click.stop="openPop('share',item)" :disabled="item.status<1"><text class="iconfont icon-fenxiang"
-									 :style='{color:item.status<1?"#999":"#000"}'>分享</text></button>
-								<button type="default" plain @click.stop="remove(item.id,index)" :disabled="item.status==2||item.status==3"><text
-									 :style='{color:item.status==2||item.status==3?"#999":"#000"}' class="iconfont icon-delete2">删除</text></button>
+								<button type="default" plain @click.stop="openPop('share',item)"
+									:disabled="item.status<1"><text class="iconfont icon-fenxiang"
+										:style='{color:item.status<1?"#999":"#000"}'>分享</text></button>
+								<button type="default" plain @click.stop="remove(item.id,index)"
+									:disabled="item.status==2||item.status==1"><text
+										:style='{color:item.status==2||item.status==1?"#999":"#000"}'
+										class="iconfont icon-delete2">删除</text></button>
 							</view>
 						</navigator>
 					</view>
 					<view class='' v-else-if="formdata.type==1">
-						<navigator class="item" v-for="(item,index) in datalist[1].content" :key='itme.id' open-type="navigate" :url="'/pages/record/buyinfo?type=isbuy&id='+item.id">
+						<navigator class="item" v-for="(item,index) in datalist[1].content" :key='itme.id'
+							open-type="navigate" :url="'/pages/record/buyinfo?type=isbuy&id='+item.id">
 							<view class="flex-between">
 								<view class="">
 									<text class="t_32_333">{{item.title}}</text>
@@ -63,8 +71,8 @@
 				<van-empty description="暂无记录" v-else />
 			</van-tab>
 		</van-tabs>
-		<van-action-sheet :safe-area-inset-bottom='false' :show="shareShow" :actions="actions" @close="shareShow=false"
-		 @select="onSelect" cancel-text="取消" class='s-action' />
+		<van-action-sheet :safe-area-inset-bottom='false' :show="shareShow" :actions="actions" @close="shareShow=false" 
+			@select="onSelect" cancel-text="取消" class='s-action' />
 		<!-- 二维码弹窗 -->
 		<van-popup :show="ewmShow" @close="ewmShow=false">
 			<view class="pop">
@@ -100,7 +108,7 @@
 	export default {
 		data() {
 			return {
-				sys:uni.getStorageSync('SYS'),
+				sys: uni.getStorageSync('SYS'),
 				wxaCode: '',
 				item: {},
 				// 加载列表
@@ -128,7 +136,7 @@
 				actions: [],
 			};
 		},
-		computed: (mapState(['isLogged','userInfo'])),
+		computed: (mapState(['isLogged', 'userInfo'])),
 		onLoad() {
 			this.getList(this.formdata)
 		},
@@ -155,9 +163,6 @@
 			// uni.setStorageSync('RECORY_TYPE',0)
 		},
 		methods: {
-			aa() {
-				console.log(11111)
-			},
 			getList(data) {
 				data.page = 1
 				console.log(data)
@@ -360,7 +365,8 @@
 						// wx.setStorageSync('access_token', res.data.access_token)
 						let access_token = res.data.access_token
 						wx.request({
-							url: 'https://api.weixin.qq.com/cgi-bin/wxaapp/createwxaqrcode?access_token=' + access_token,
+							url: 'https://api.weixin.qq.com/cgi-bin/wxaapp/createwxaqrcode?access_token=' +
+								access_token,
 							method: 'POST',
 							responseType: 'arraybuffer',
 							data: {
@@ -403,7 +409,6 @@
 			};
 		},
 		onReachBottom() {
-			console.log('触底')
 			if (this.loadStatus == 'more') {
 				this.formdata.page++
 				this.loadMore(this.formdata)
@@ -417,9 +422,8 @@
 	}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	van-tab {
-		// background: #f00;
 		height: 90vh;
 		overflow-y: scroll;
 	}
@@ -430,7 +434,7 @@
 		}
 	}
 
-	.container_0 {
+	.sell-list {
 		width: 100vw;
 
 		>view:first-child {
@@ -465,79 +469,21 @@
 				right: 50rpx;
 			}
 		}
+		// 按钮
+		.red {
+			color: #fff;
+			background: red;
+			border: 0;
+		}
 
-		.content {
-			.item {
-				width: 700rpx;
-				background: #fff;
-				margin: 20rpx 0;
-				padding: 0 25rpx;
+		.hui {
+			background: #666;
+			color: #fff;
+		}
 
-				>view,
-				text {
-					margin: 17rpx 0;
-				}
-
-				>view:first-child {
-					position: relative;
-					display: flex;
-					align-items: center;
-					height: 88rpx;
-
-					>view {
-						display: flex;
-						align-items: center;
-						justify-content: space-between;
-
-						>image {
-							margin-right: 10rpx;
-						}
-					}
-
-					>view:last-child {
-						display: inline;
-						text-align: right;
-						border-radius: 20rpx;
-						padding: 0 20rpx;
-						min-width: 100rpx;
-						text-align: center;
-					}
-				}
-
-				>.flex-between {
-					font-size: 24rpx;
-
-					>text:first-child {
-						color: #f00;
-						font-size: 24rpx;
-					}
-
-					// >view{
-					// 	color: ;
-					// }
-					.t_24_9+text {
-						color: #999;
-					}
-				}
-
-				>.flex-around {
-					width: 100vw;
-					height: 104rpx;
-					line-height: 104rpx;
-					margin-left: -25rpx;
-
-					>button {
-						flex: 0 0 50%;
-						border: 1rpx solid #F3f3f3;
-						border-radius: 0;
-
-						>text {
-							font-size: 24rpx;
-							color: #333;
-						}
-					}
-				}
-			}
+		.fff {
+			background: #fff;
+			border: 1rpx solid #ccc;
 		}
 	}
 
@@ -546,28 +492,21 @@
 		font-size: 24rpx;
 		height: 900rpx;
 		text-align: center;
+
 		>view {
 			background: #fff;
 			height: 794rpx;
-			border-radius:10rpx ;
-			// display: flex;
-			// flex-flow: column wrap;
-			// justify-content: space-around;
-			// align-items: center;
-			// position: relative;
+			border-radius: 10rpx;
 			>image:first-child {
 				width: 406rpx;
 				height: 586rpx;
-				// height: 44vh;
-				// height: 73.8%;
 				position: absolute;
 				top: 40rpx;
 				left: 40rpx;
-				// z-index: -1;
 			}
+
 			>view {
 				height: 794rpx;
-				// height: 75.6vh;
 				padding: 30rpx 0;
 				display: flex;
 				flex-flow: column wrap;
@@ -575,10 +514,11 @@
 				align-items: center;
 				position: relative;
 				z-index: 888;
+
 				>text:first-child {
 					color: #fff;
-					// margin-top: 40rpx;
 					margin: 20rpx auto;
+
 					+text {
 						color: #F2D539;
 					}
@@ -587,10 +527,12 @@
 					height: 294rpx;
 					border-radius: 10rpx;
 					margin: 20rpx 0;
+
 					+text {
 						color: #fff;
 					}
 				}
+
 				>view {
 					padding: 0 20rpx;
 					height: 64rpx;
@@ -601,6 +543,7 @@
 					border-radius: 10rpx;
 					margin: 20rpx auto 40rpx;
 				}
+
 				>.btn_round_line {
 					height: 88rpx;
 					line-height: 88rpx;
@@ -617,22 +560,5 @@
 			width: 64rpx;
 		}
 
-	}
-
-	// 按钮
-	.red {
-		color: #fff;
-		background: red;
-		border: 0;
-	}
-
-	.hui {
-		background: #666;
-		color: #fff;
-	}
-
-	.fff {
-		background: #fff;
-		border: 1rpx solid #ccc;
 	}
 </style>

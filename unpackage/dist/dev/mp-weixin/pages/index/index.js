@@ -232,20 +232,31 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+var _vuex = __webpack_require__(/*! vuex */ 22);function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var ruiDatePicker = function ruiDatePicker() {Promise.all(/*! require.ensure | components/rattenking-dtpicker/rattenking-dtpicker */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/rattenking-dtpicker/rattenking-dtpicker")]).then((function () {return resolve(__webpack_require__(/*! @/components/rattenking-dtpicker/rattenking-dtpicker.vue */ 136));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
 
 
-var _vuex = __webpack_require__(/*! vuex */ 22);function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}
 var dateTimePicker = __webpack_require__(/*! ../../common/dateTimePicker.js */ 29);
 // console.log()
 var _default = {
+  components: {
+    ruiDatePicker: ruiDatePicker },
+
   data: function data() {var _ref;
     // 时间选择
     var currentDate = this.getDate({
       format: true });
 
     return _ref = {
-      // nowtime:'',
-      formdata: {},
+      formdata: {
+        price: '',
+        image: '',
+        title: '',
+        subhead: '',
+        content: '',
+        end_time: '',
+        open_time: '',
+        is_return: 1 },
+
       // 上传
       fileList: [],
       // 时间选择器
@@ -256,12 +267,10 @@ var _default = {
       dateTime1: null,
       // date: currentDate,
       time: '12:01',
-      timetype: 'end_time',
       loginShow: uni.getStorageSync('TOKEN') == '' ? true : false,
       // 价格选择下拉菜单
       priceShow: false,
-      priceAction: [
-      {
+      priceAction: [{
         name: '免费',
         value: '0' //避免选了之后没有结果
       },
@@ -294,71 +303,59 @@ var _default = {
 
     [{
       name: '开启不对返还',
-      value: 1,
       key: 'is_return' },
     {
-      name: '销售截止时间',
-      value: '',
-      key: 'end_time' },
-    {
       name: '内容公开时间',
-      value: '',
-      key: 'open_time' }]), _defineProperty(_ref, "re_list",
+      key: 'open_time' },
+    {
+      name: '销售截止时间',
+      key: 'end_time' }]), _defineProperty(_ref, "re_list",
 
     [{
       placeholder: '请输入信息标题',
-      value: '',
       key: 'title',
-      name: '信息标题',
-      confirm_type: 'next' },
+      name: '信息标题' },
 
     {
       placeholder: '请输入信息副标题',
-      value: '',
       key: 'subhead',
-      name: '信息副标题',
-      confirm_type: 'next' },
+      name: '信息副标题' },
 
     {
       placeholder: '请输入信息内容',
-      value: '',
       key: 'content',
-      name: '信息内容',
-      confirm_type: 'done' },
+      name: '信息内容' },
 
     {
-      value: '',
       key: 'image',
       name: '信息图片' },
 
     {
       placeholder: '请输入价格或点击右侧按钮快速定价',
-      value: '',
       key: 'price',
-      name: '价格',
-      confirm_type: 'down' },
+      name: '价格' },
 
     {
-      value: '',
       key: 'Optional',
       name: '可选功能' }]), _defineProperty(_ref, "title",
 
 
-    'Hello'), _ref;
-
+    'Hello'), _defineProperty(_ref, "timetype",
+    'end_time'), _defineProperty(_ref, "nowTime",
+    ''), _defineProperty(_ref, "nowTimeStamp",
+    0), _defineProperty(_ref, "currentDateStamp",
+    0), _ref;
 
   },
   onLoad: function onLoad() {
     var obj1 = dateTimePicker.dateTimePicker(this.startYear, this.endYear);
-    // this.Optional[2].value=obj1.defaultDate_1
-    // Object.assign(this.Optional[2])
-    var open_time = this.Optional[2];
-    var end_time = this.Optional[1];
-    var timeStamp = Date.parse(obj1.defaultDate_1);
-    // 当前时间的时间戳
-    // console.log(nowTime,timestamp,'onlaod')
-    this.Optional.splice(2, 1, Object.assign(open_time, { timeStamp: timeStamp, value: obj1.defaultDate_1 }));
-    this.dateTimeArray1 = obj1.dateTimeArray,
+    Object.assign(this.formdata, {
+      open_time: obj1.defaultDate_1,
+      end_time: obj1.defaultDate_1 });
+
+    this.nowTime = obj1.defaultDate_1;
+    this.nowTimeStamp = Date.parse(obj1.defaultDate_1);
+    this.dateTimeArray1 = obj1.dateTimeArray;
     this.dateTime1 = obj1.dateTime;
   },
   onShow: function onShow() {var _this = this;
@@ -381,6 +378,9 @@ var _default = {
     } },
 
   methods: {
+    changeTime: function changeTime(e) {
+      this.formdata[this.nowTime] = e;
+    },
     // 时间选择开始
     getDate: function getDate(type) {
       var date = new Date();
@@ -401,41 +401,38 @@ var _default = {
     changeDateTime1: function changeDateTime1(e) {var _this2 = this;
       // this.dateTime1= e.detail.value ;
       new Promise(function (resolve, reject) {
-        console.log(_this2.currentDate, _this2.Optional[2].value, 222);
-        var currentDate = _this2.currentDate == '' ? _this2.Optional[2].value : _this2.currentDate;
-        console.log(currentDate, _this2.Optional[2].value, 333);
+        var currentDate = _this2.currentDate;
         // 当前选中时间戳
+        var nowTimeStamp = _this2.nowTimeStamp;
         var currentDateStamp = Date.parse(currentDate);
         // 截止时间戳
-        var endStamp = _this2.Optional[1].timeStamp;
+        var endStamp = Date.parse(_this2.formdata.end_time);
         // 公开时间戳
-        var openStamp = _this2.Optional[2].timeStamp;
-        if (_this2.timetype == 'open_time') {
-          if (currentDateStamp <= openStamp || currentDateStamp > endStamp) {
-            reject('open_time');
-          } else {
-            resolve([currentDate, currentDateStamp]);
-          }
+        var openStamp = Date.parse(_this2.formdata.open_time);
+        // console.log(nowTimeStamp, endStamp, openStamp, currentDateStamp, 777)
+        if (currentDateStamp < nowTimeStamp) {
+          reject('now_time');
         } else {
-          if (currentDateStamp <= openStamp) {
-            reject('end_time');
+          if (_this2.timetype == 'open_time') {
+            currentDateStamp > endStamp ? resolve([currentDate, currentDateStamp]) : reject(
+            'open_time');
           } else {
-            resolve([currentDate, currentDateStamp]);
+            currentDateStamp < openStamp ? resolve([currentDate, currentDateStamp]) : reject(
+            'end_time');
           }
         }
       }).then(function (res) {
-        // console.log(currentDateStamp)
-        _this2.Optional.forEach(function (item) {
-          if (item.key == _this2.timetype) {
-            item.value = res[0];
-            item.timeStamp = res[1];
-          }
-        });
+        _this2.formdata[_this2.timetype] = res[0];
+        // if (item.key == this.timetype) {
+        // 	item.value = res[0]
+        // 	item.timeStamp = res[1]
+        // }
       }).catch(function (err) {
         console.log(err, 'err');
         uni.showModal({
           title: '提示',
-          content: err == 'open_time' ? '公开时间应大于当前时间且小于截止时间' : '截止时间应大于公开时间',
+          content: err == 'open_time' ? '公开时间应大于截止时间' : err == 'end_time' ? '截止时间应小于公开时间' :
+          '所选时间应大于当前时间',
           showCancel: false });
 
 
@@ -443,33 +440,22 @@ var _default = {
     },
     // 改变行
     changeDateTimeColumn1: function changeDateTimeColumn1(e) {
-      console.log('滚动', e);
       var arr = this.dateTime1,
       dateArr = this.dateTimeArray1;
       arr[e.detail.column] = e.detail.value;
       dateArr[2] = dateTimePicker.getMonthDay(dateArr[0][arr[0]], dateArr[1][arr[1]]);
       this.dateTimeArray1 = dateArr;
       this.dateTime1 = arr;
-      this.currentDate = dateArr[0][arr[0]] + '-' + dateArr[1][arr[1]] + '-' + dateArr[2][arr[2]] + ' ' + dateArr[3][arr[3]] + ':' + dateArr[4][arr[4]];
-      // console.log(currentDate,888)
+      this.currentDate = dateArr[0][arr[0]] + '-' + dateArr[1][arr[1]] + '-' + dateArr[2][arr[2]] + ' ' +
+      dateArr[3][arr[3]] + ':' + dateArr[4][arr[4]];
+      // console.log(this.currentDate, 888)
       // this.currentDate=currentDate
       // this.formdata.visit_at=dateArr[0][arr[0]]+'-'+dateArr[1][arr[1]]+'-'+dateArr[2][arr[2]]+' '+dateArr[3][arr[3]]+':'+dateArr[4][arr[4]]
 
     },
     // 发布
     sure: function sure() {var _this3 = this;
-      var formdata = {};
-      this.re_list.map(function (item) {
-        var key = item.key;
-        var value = item.value;
-        formdata[key] = value;
-      });
-      this.Optional.map(function (item) {
-        // let
-        formdata[item.key] = item.value;
-      });
-      console.log(formdata);
-      this.$apis.SELL(formdata).then(function (res) {
+      this.$apis.SELL(this.formdata).then(function (res) {
         _this3.re_list.forEach(function (item) {
           item.value = '';
         });
@@ -485,9 +471,13 @@ var _default = {
     change: function change(e, index) {
       if (index == 0) {
         //额外
-        Object.assign(this.Optional[index], { value: e.detail.value ? 1 : 0 });
+        Object.assign(this.Optional[index], {
+          value: e.detail.value ? 1 : 0 });
+
       } else {
-        Object.assign(this.re_list[index], { value: e.detail.value });
+        Object.assign(this.re_list[index], {
+          value: e.detail.value });
+
       }
       console.log(this.re_list, this.Optional);
     },
@@ -524,7 +514,9 @@ var _default = {
             // const { fileList = [] } = this.data;
             _this4.fileList.push(JSON.parse(uploadFileRes.data).data);
 
-            Object.assign(_this4.re_list[3], { value: JSON.parse(uploadFileRes.data).data.url });
+            Object.assign(_this4.re_list[3], {
+              value: JSON.parse(uploadFileRes.data).data.url });
+
             console.log(_this4.re_list);
             uni.hideLoading();
           } });
