@@ -385,12 +385,19 @@ var _vuex = __webpack_require__(/*! vuex */ 22);function _toConsumableArray(arr)
       this.getList(this.formdata);
       console.log(e.detail, e);
     },
-    openPop: function openPop(type, item) {
+    openPop: function openPop(type, i) {
       // this.btntype=type
-      item.select = type;
-      this.item = item; //分享用
+      i.select = type;
+      i.path = i.status == 1 ? "/pages/record/buyinfo?type=share&id=".concat(
+      i.id) : "/pages/record/detail?id=".concat(
+      i.id, "&api=FOLLOW_SALE_INFO");
+      this.item = i; //分享用
       console.log(this.item);
-      if (item && item.result !== 0 && type == 'res') {
+      // let path=item.status == 1 ?
+      // 				`/pages/record/buyinfo?type=${item.is_buy?'isbuy':'share'}&id=${item.id}` :
+      // 				`/pages/record/detail?id=${item.id}`;
+      // 				console.log(item,path)
+      if (i && i.result !== 0 && type == 'res') {
         uni.showToast({
           title: '结果已选',
           icon: 'none' });
@@ -539,7 +546,7 @@ var _vuex = __webpack_require__(/*! vuex */ 22);function _toConsumableArray(arr)
             method: 'POST',
             responseType: 'arraybuffer',
             data: {
-              path: "pages/record/buyinfo?type=share&id=" + _this5.item.id,
+              path: _this5.item.path,
               width: 200 },
 
             success: function success(res) {
@@ -566,14 +573,14 @@ var _vuex = __webpack_require__(/*! vuex */ 22);function _toConsumableArray(arr)
 
   onShareAppMessage: function onShareAppMessage() {
     var item = this.item;
-    console.log(item);
+    // console.log(item)
     return {
       title: item.title,
       desc: item.content,
       imageUrl: '../../static/shareimg.png', //自定义图片路径，可以是本地文件路径、代码包文件路径或者网络图片路径。支持PNG及JPG。显示图片长宽比是 5:4。
-      path: '/pages/record/buyinfo?type=share&id=' + item.id,
+      path: item.path,
       success: function success(res) {
-        console.log(res, '分享');
+        console.log(res, '分享', path);
       } };
 
   },

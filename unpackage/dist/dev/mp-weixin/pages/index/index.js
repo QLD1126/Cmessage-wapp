@@ -342,9 +342,9 @@ var _default = {
 
     'Hello'), _defineProperty(_ref, "timetype",
     'end_time'), _defineProperty(_ref, "nowTime",
-    ''), _defineProperty(_ref, "nowTimeStamp",
-    0), _defineProperty(_ref, "currentDateStamp",
-    0), _ref;
+    ''), _ref;
+
+
 
   },
   onLoad: function onLoad() {
@@ -354,7 +354,7 @@ var _default = {
       end_time: obj1.defaultDate_1 });
 
     this.nowTime = obj1.defaultDate_1;
-    this.nowTimeStamp = Date.parse(obj1.defaultDate_1);
+    // this.nowTimeStamp =new Date(obj1.defaultDate_1)
     this.dateTimeArray1 = obj1.dateTimeArray;
     this.dateTime1 = obj1.dateTime;
   },
@@ -387,7 +387,6 @@ var _default = {
       var year = date.getFullYear();
       var month = date.getMonth() + 1;
       var day = date.getDate();
-
       if (type === 'start') {
         year = year - 60;
       } else if (type === 'end') {
@@ -397,19 +396,34 @@ var _default = {
       day = day > 9 ? day : '0' + day;
       return "".concat(year, "-").concat(month, "-").concat(day);
     },
+    // 改变行
+    changeDateTimeColumn1: function changeDateTimeColumn1(e) {
+      var arr = this.dateTime1,
+      dateArr = this.dateTimeArray1;
+      arr[e.detail.column] = e.detail.value;
+      dateArr[2] = dateTimePicker.getMonthDay(dateArr[0][arr[0]], dateArr[1][arr[1]]);
+      this.dateTimeArray1 = dateArr;
+      this.dateTime1 = arr;
+      this.currentDate = "".concat(
+      dateArr[0][arr[0]], "/").concat(dateArr[1][arr[1]], "/").concat(dateArr[2][arr[2]], " ").concat(dateArr[3][arr[3]], ":").concat(dateArr[4][arr[4]]);
+      console.log(this.currentDate, '改变行');
+    },
     // 确定最终结果
     changeDateTime1: function changeDateTime1(e) {var _this2 = this;
+      // console.log(data.currentDate,'确定时间')
       // this.dateTime1= e.detail.value ;
       new Promise(function (resolve, reject) {
+        // 当前时间戳
+        var nowTimeStamp = new Date(_this2.nowTime).getTime();
         var currentDate = _this2.currentDate;
-        // 当前选中时间戳
-        var nowTimeStamp = _this2.nowTimeStamp;
-        var currentDateStamp = Date.parse(currentDate);
+        // 选中时间戳
+        var currentDateStamp = new Date(currentDate).getTime();
         // 截止时间戳
-        var endStamp = Date.parse(_this2.formdata.end_time);
+        var endStamp = new Date(_this2.formdata.end_time).getTime();
         // 公开时间戳
-        var openStamp = Date.parse(_this2.formdata.open_time);
-        // console.log(nowTimeStamp, endStamp, openStamp, currentDateStamp, 777)
+        var openStamp = new Date(_this2.formdata.open_time).getTime();
+        // console.log(nowTimeStamp, endStamp, openStamp, currentDate,currentDateStamp, 777,new Date(currentDate).getTime())
+        console.log(currentDate, currentDateStamp, new Date('2021-03-15 00:08').getTime(), new Date('2021/03/15 00:08').getTime(), 777, _this2.nowTime);
         if (currentDateStamp < nowTimeStamp) {
           reject('now_time');
         } else {
@@ -423,12 +437,10 @@ var _default = {
         }
       }).then(function (res) {
         _this2.formdata[_this2.timetype] = res[0];
-        // if (item.key == this.timetype) {
-        // 	item.value = res[0]
-        // 	item.timeStamp = res[1]
-        // }
       }).catch(function (err) {
         console.log(err, 'err');
+        // this.formdata[this.timetype] = err[0]
+
         uni.showModal({
           title: '提示',
           content: err == 'open_time' ? '公开时间应大于截止时间' : err == 'end_time' ? '截止时间应小于公开时间' :
@@ -438,21 +450,7 @@ var _default = {
 
       });
     },
-    // 改变行
-    changeDateTimeColumn1: function changeDateTimeColumn1(e) {
-      var arr = this.dateTime1,
-      dateArr = this.dateTimeArray1;
-      arr[e.detail.column] = e.detail.value;
-      dateArr[2] = dateTimePicker.getMonthDay(dateArr[0][arr[0]], dateArr[1][arr[1]]);
-      this.dateTimeArray1 = dateArr;
-      this.dateTime1 = arr;
-      this.currentDate = dateArr[0][arr[0]] + '-' + dateArr[1][arr[1]] + '-' + dateArr[2][arr[2]] + ' ' +
-      dateArr[3][arr[3]] + ':' + dateArr[4][arr[4]];
-      // console.log(this.currentDate, 888)
-      // this.currentDate=currentDate
-      // this.formdata.visit_at=dateArr[0][arr[0]]+'-'+dateArr[1][arr[1]]+'-'+dateArr[2][arr[2]]+' '+dateArr[3][arr[3]]+':'+dateArr[4][arr[4]]
 
-    },
     // 发布
     sure: function sure() {var _this3 = this;
       this.$apis.SELL(this.formdata).then(function (res) {
@@ -468,18 +466,8 @@ var _default = {
 
       });
     },
-    change: function change(e, index) {
-      if (index == 0) {
-        //额外
-        Object.assign(this.Optional[index], {
-          value: e.detail.value ? 1 : 0 });
-
-      } else {
-        Object.assign(this.re_list[index], {
-          value: e.detail.value });
-
-      }
-      console.log(this.re_list, this.Optional);
+    change: function change(e, type) {
+      this.formdata[type] = e.detail.value;
     },
     // 上拉价格菜单
     // onSelect(e){

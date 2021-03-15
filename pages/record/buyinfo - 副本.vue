@@ -1,15 +1,17 @@
 <template>
 	<view class="container sell_info" v-show="loadOver">
+		<!-- {{JSON.stringify( info.mch_user)}} -->
 		<view>
 			<view>
 				<view class="">
+
 					<text class="t_32_333">{{info.goods.title}}</text>
 					<view>{{info.goods.title}}</view>
 
 				</view>
 				<text :style="{color:info.goods.status>2?'#999':'#FE4543'}">{{info.goods._status}}</text>
 			</view>
-			<view class="user" v-if="info.api!=='FOLLOW_SALE_INFO'">
+			<view class="user" v-if="!info.api">
 				<view class="">
 					<image :src="info.mch_user.avatar" mode=""></image>
 					{{info.mch_user.nickname}}
@@ -77,7 +79,6 @@
 		onLoad(options) {
 			// console.log(options)
 			this.pageType = options.type
-			console.log(options,this.pageType,'onload')
 			let {
 				api
 			} = options
@@ -88,22 +89,19 @@
 					res.goods = api ? {
 						...res
 					} : res.goods
-					if(res.user){
-						res.mch_user=res.user
-					}
 					Object.assign(this.info, options, res)
-					console.log(this.info)
+					// console.log(this.info)
 					this.is_follow = api ? true : res.mch_user.is_follow
 					this.loadOver = true
 				})
 			} else {
 				this.$apis['BUY_SHARE_INFO'](options.id).then(res => {
 					console.log(res,999)
-					if (res.is_buy) {
-						uni.reLaunch({
-							url: `/pages/record/buyinfo?type=isbuy&id=${res.id}&api=BUY_SHARE_INFO`
-						})
-					} else {
+					// if (res.is_buy) {
+					// 	uni.reLaunch({
+					// 		url: '/pages/record/buyinfo?type=isbuy&id=' + res.id
+					// 	})
+					// } else {
 						let goods = {
 							...res
 						}
@@ -113,7 +111,7 @@
 						})
 						this.is_follow = api ? true : res.user.is_follow
 						this.loadOver = true
-					}
+					// }
 				})
 			}
 		},
@@ -212,8 +210,6 @@
 					padding: 0;
 					font-size: 24rpx;
 					margin: 0;
-					top: 0;
-					left: 0;
 				}
 			}
 

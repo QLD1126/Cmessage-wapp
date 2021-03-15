@@ -14,19 +14,21 @@
 				</view>
 
 				<view class="" v-else-if="item.name=='可选功能'">
-					<view class="flex-between li_106" v-for="o_item in Optional" :key='o_item.key'
-						@click="timetype=o_item.key">
+					<view class="flex-between li_106" v-for="o_item in Optional" :key='o_item.key'>
 						<text>{{o_item.name}}</text>
 						<!-- 不返还 -->
 						<switch :checked=" formdata[ o_item.key]" @change="change($event,'is_return')"
 							v-if="o_item.key=='is_return'" class="switch" />
 						<!-- 截止时间/内容公开时间 -->
 						<picker v-else mode="multiSelector" v-model="dateTime1" @change="changeDateTime1"
-							@columnchange="changeDateTimeColumn1" class="pickertime" :range="dateTimeArray1">
+							@click="timetype=o_item.key" @columnchange="changeDateTimeColumn1" class="pickertime"
+							:range="dateTimeArray1">
 
 							<image src="../../static/date.png" mode="" class="icon_44"
 								v-if="formdata[ o_item.key]==''||  formdata[ o_item.key]==undefined"></image>
 							<text v-else>{{formdata[o_item.key]}}</text>
+							<!-- <text>{{JSON.stringify( dateTime1)}}</text> -->
+							<!-- <text>{{formdata[o_item.key]}}</text> -->
 						</picker>
 					</view>
 				</view>
@@ -40,8 +42,8 @@
 		</view>
 
 		<button type="warn" class="btn_round" @click="sure">发布</button>
-		<van-action-sheet :show="priceShow" :actions=" priceAction" @close="priceShow=false" @select="change($event,'price')"
-			:safe-area-inset-bottom='false' />
+		<van-action-sheet :show="priceShow" :actions=" priceAction" @close="priceShow=false"
+			@select="change($event,'price')" :safe-area-inset-bottom='false' />
 		<van-popup :show="loginShow" @close="loginShow=false">
 			<view class="pop">
 				<image src="../../static/denglutishi.png" mode="widthFix"></image>
@@ -95,14 +97,7 @@
 				},
 				// 上传
 				fileList: [],
-				// 时间选择器
-				startYear: 2000,
-				currentDate: '',
-				endYear: 2050,
-				dateTimeArray1: null,
-				dateTime1: null,
-				// date: currentDate,
-				time: '12:01',
+
 				loginShow: uni.getStorageSync('TOKEN') == '' ? true : false,
 				// 价格选择下拉菜单
 				priceShow: false,
@@ -176,9 +171,17 @@
 						name: '可选功能',
 					},
 				],
-				title: 'Hello',
+				title: '',
 				timetype: 'end_time',
 				nowTime: '',
+				// 时间选择器
+				startYear: 2000,
+				currentDate: '',
+				currentDateStamp: '',
+				endYear: 2050,
+				dateTimeArray1: null,
+				dateTime1: null,
+				time: '12:01',
 				// nowTimeStamp: 0,
 				// currentDateStamp: 0,
 			}
@@ -190,9 +193,10 @@
 				end_time: obj1.defaultDate_1
 			})
 			this.nowTime = obj1.defaultDate_1
-			// this.nowTimeStamp =new Date(obj1.defaultDate_1)
+			// this.nowTimeStamp = Date.parse(obj1.defaultDate_1)
 			this.dateTimeArray1 = obj1.dateTimeArray;
 			this.dateTime1 = obj1.dateTime
+			console.log(obj1, this.formdata, 'onload')
 		},
 		onShow() {
 			// this.loginShow=true
@@ -214,9 +218,6 @@
 			}
 		},
 		methods: {
-			changeTime(e) {
-				this.formdata[this.nowTime] = e
-			},
 			// 时间选择开始
 			getDate(type) {
 				const date = new Date();
@@ -241,25 +242,26 @@
 				this.dateTimeArray1 = dateArr;
 				this.dateTime1 = arr;
 				this.currentDate =
-					`${dateArr[0][arr[0]]}/${dateArr[1][arr[1]]}/${dateArr[2][arr[2]]} ${dateArr[3][arr[3]]}:${ dateArr[4][arr[4]]}`;
-					console.log(this.currentDate,'改变行');
+					`${dateArr[0][arr[0]]}-${dateArr[1][arr[1]]}-${dateArr[2][arr[2]]} ${dateArr[3][arr[3]]}:${ dateArr[4][arr[4]]}`;
+				console.log(this.currentDate, '改变行');
 			},
 			// 确定最终结果
 			changeDateTime1(e) {
-				// console.log(data.currentDate,'确定时间')
-				// this.dateTime1= e.detail.value ;
 				new Promise((resolve, reject) => {
-						// 当前时间戳
-			let nowTimeStamp = new Date(this.nowTime).getTime()
-					let currentDate = this.currentDate
-					// 选中时间戳
-					let currentDateStamp =new Date(currentDate).getTime()
+					let value = e.detail.value
+					// 当前时间戳
+					let nowTimeStamp = Date.parse(this.nowTime)
+					// 选中时间/戳
+					let currentDate =
+						`20${value[0]}-${ value[1] < 9 ? '0'+(value[1] + 1) : value[1] + 1}-${ value[2] < 9 ? '0' +(value[2] + 1) : value[2] + 1} ${value[3]<9?'0'+value[3]:value[3]}:${value[4]<9?'0'+value[4]:value[4]}`
+
+					let currentDateStamp = Date.parse(currentDate);
 					// 截止时间戳
-					let endStamp =new Date(this.formdata.end_time).getTime()
+					let endStamp = Date.parse(this.formdata.end_time)
 					// 公开时间戳
-					let openStamp =new Date(this.formdata.open_time).getTime()
-					// console.log(nowTimeStamp, endStamp, openStamp, currentDate,currentDateStamp, 777,new Date(currentDate).getTime())
-					console.log(currentDate,currentDateStamp, new Date('2021-03-15 00:08').getTime(),new Date('2021/03/15 00:08').getTime(),777,this.nowTime)
+					let openStamp = Date.parse(this.formdata.open_time)
+					console.log(nowTimeStamp, endStamp, openStamp, currentDate, Date.parse(currentDate), currentDateStamp, '选中',this.timetype)
+					// console.log(888, Date.parse('2021-03-15 12:02'))
 					if (currentDateStamp < nowTimeStamp) {
 						reject('now_time')
 					} else {
@@ -272,6 +274,7 @@
 						}
 					}
 				}).then(res => {
+					this.dateTime1 = e.detail.value;
 					this.formdata[this.timetype] = res[0]
 				}).catch(err => {
 					console.log(err, 'err')
@@ -283,10 +286,9 @@
 							'所选时间应大于当前时间',
 						showCancel: false
 					})
-
 				})
 			},
-			
+
 			// 发布
 			sure() {
 				this.$apis.SELL(this.formdata).then(res => {
@@ -303,7 +305,7 @@
 				})
 			},
 			change(e, type) {
-				this.formdata[type]=e.detail.value
+				this.formdata[type] = e.detail.value
 			},
 			// 上拉价格菜单
 			// onSelect(e){
@@ -446,7 +448,7 @@
 				width: 95%;
 
 				.pickertime {
-					flex: 0 0 65%;
+					flex: 0 0 70%;
 					text-align: right;
 				}
 			}

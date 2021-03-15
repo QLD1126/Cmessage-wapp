@@ -13,10 +13,16 @@
     "miniprogram": {
       "list": [
         {
+          "name": "pages/record/detail",
+          "pathName": "pages/record/detail",
+          "query": "id=50",
+          "scene": null
+        },
+        {
           "name": "pages/index/index",
           "pathName": "pages/index/index",
-          "query": "id=26&type=isbuy",
-          "scene": null
+          "query": "id=81&type=share",
+          "scene": 1007
         }
       ]
     }

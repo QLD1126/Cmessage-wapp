@@ -74,12 +74,17 @@
 				}, {
 					name: '结果错误',
 					value: '2'
-				}]
+				}],
+				options:{},
 			}
 		},
 		onLoad(options) {
-			console.log(options)
-			this.getInfo(options.id,options.api)
+			this.options=options
+		},
+		onShow() {
+			console.log(this.options,'onhsow')
+			
+			this.getInfo(this.options.id,this.options.api)
 		},
 		methods: {
 			getInfo(id,api){

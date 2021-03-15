@@ -66,11 +66,11 @@ function dateTimePicker(startYear, endYear, date) {
 			[]
 		];
 	var defaultDate_1 =
-		`${getNewDateArry()[0]}/${getNewDateArry()[1]}/${getNewDateArry()[2]} ${getNewDateArry()[3]}:${getNewDateArry()[4]}`;
+		`${getNewDateArry()[0]}-${getNewDateArry()[1]}-${getNewDateArry()[2]} ${getNewDateArry()[3]}:${getNewDateArry()[4]}`;
 	var start = startYear || 1978;
 	var end = endYear || 2100;
 	// 默认开始显示数据
-	var defaultDate = date ? [...date.split(' ')[0].split('/'), ...date.split(' ')[1].split(':')] : getNewDateArry();
+	var defaultDate = date ? [...date.split(' ')[0].split('-'), ...date.split(' ')[1].split(':')] : getNewDateArry();
 	// console.log('default', defaultDate, defaultDate_1)
 	// 处理联动列表数据
 	/*年月日 时分秒*/

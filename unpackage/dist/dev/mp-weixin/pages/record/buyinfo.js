@@ -188,8 +188,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 var _default =
 {
   data: function data() {
@@ -210,7 +208,8 @@ var _default =
   },
   onLoad: function onLoad(options) {var _this = this;
     // console.log(options)
-    this.pageType = options.type;var
+    this.pageType = options.type;
+    console.log(options, this.pageType, 'onload');var
 
     api =
     options.api;
@@ -218,23 +217,35 @@ var _default =
     // 刷新页面用
     if (options.type == 'isbuy') {
       this.$apis[api || 'BUY_INFO'](options.id).then(function (res) {
-        res.goods = api ? _objectSpread({}, res) : res.goods;
+        res.goods = api ? _objectSpread({},
+        res) :
+        res.goods;
+        if (res.user) {
+          res.mch_user = res.user;
+        }
         Object.assign(_this.info, options, res);
-        // console.log(this.info)
+        console.log(_this.info);
         _this.is_follow = api ? true : res.mch_user.is_follow;
         _this.loadOver = true;
       });
     } else {
       this.$apis['BUY_SHARE_INFO'](options.id).then(function (res) {
-        var goods = _objectSpread({},
-        res);
+        console.log(res, 999);
+        if (res.is_buy) {
+          uni.reLaunch({
+            url: "/pages/record/buyinfo?type=isbuy&id=".concat(res.id, "&api=BUY_SHARE_INFO") });
 
-        Object.assign(_this.info, options, {
-          mch_user: res.user,
-          goods: goods });
+        } else {
+          var goods = _objectSpread({},
+          res);
 
-        _this.is_follow = api ? true : res.user.is_follow;
-        _this.loadOver = true;
+          Object.assign(_this.info, options, {
+            mch_user: res.user,
+            goods: goods });
+
+          _this.is_follow = api ? true : res.user.is_follow;
+          _this.loadOver = true;
+        }
       });
     }
   },

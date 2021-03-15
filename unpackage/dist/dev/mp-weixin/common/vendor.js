@@ -822,7 +822,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"Cmessage_Wapp","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_NAME":"Cmessage_Wapp","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -1964,6 +1964,7 @@ function req(obj) {
   uni.showLoading({
     title: '加载中...' });
 
+  console.log(obj, '参数');
   return new Promise(function (resolve, reject) {
     var HOST = _public_data.public_data.host;
     var method = obj.method || "GET";
@@ -8153,7 +8154,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"NODE_ENV":"development","VUE_APP_NAME":"Cmessage_Wapp","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"VUE_APP_NAME":"Cmessage_Wapp","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -8174,14 +8175,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"Cmessage_Wapp","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_NAME":"Cmessage_Wapp","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"Cmessage_Wapp","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_NAME":"Cmessage_Wapp","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -8267,7 +8268,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = this.$shouldDiffData === false ? data : diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"Cmessage_Wapp","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_NAME":"Cmessage_Wapp","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));
@@ -10625,11 +10626,10 @@ function getNewDateArry() {
   mont = withData(newDate.getMonth() + 1),
   date = withData(newDate.getDate()),
   hour = withData(newDate.getHours()),
-  minu = withData(newDate.getMinutes());
-  // seco = withData(newDate.getSeconds());
+  minu = withData(newDate.getMinutes()),
+  seco = withData(newDate.getSeconds());
 
-  // return [year, mont, date, hour, minu, seco];
-  return [year, mont, date, hour, minu];
+  return [year, mont, date, hour, minu, seco];
 }
 
 function dateTimePicker(startYear, endYear, date) {
@@ -10644,11 +10644,11 @@ function dateTimePicker(startYear, endYear, date) {
   []];
 
   var defaultDate_1 = "".concat(
-  getNewDateArry()[0], "-").concat(getNewDateArry()[1], "-").concat(getNewDateArry()[2], " ").concat(getNewDateArry()[3], ":").concat(getNewDateArry()[4]);
+  getNewDateArry()[0], "/").concat(getNewDateArry()[1], "/").concat(getNewDateArry()[2], " ").concat(getNewDateArry()[3], ":").concat(getNewDateArry()[4]);
   var start = startYear || 1978;
   var end = endYear || 2100;
   // 默认开始显示数据
-  var defaultDate = date ? [].concat(_toConsumableArray(date.split(' ')[0].split('-')), _toConsumableArray(date.split(' ')[1].split(':'))) : getNewDateArry();
+  var defaultDate = date ? [].concat(_toConsumableArray(date.split(' ')[0].split('/')), _toConsumableArray(date.split(' ')[1].split(':'))) : getNewDateArry();
   // console.log('default', defaultDate, defaultDate_1)
   // 处理联动列表数据
   /*年月日 时分秒*/
@@ -10657,7 +10657,7 @@ function dateTimePicker(startYear, endYear, date) {
   dateTimeArray[2] = getMonthDay(defaultDate[0], defaultDate[1]);
   dateTimeArray[3] = getLoopArray(0, 23);
   dateTimeArray[4] = getLoopArray(0, 59);
-  // dateTimeArray[5] = getLoopArray(0, 59);
+  dateTimeArray[5] = getLoopArray(0, 59);
 
   dateTimeArray.forEach(function (current, index) {
     dateTime.push(current.indexOf(defaultDate[index]));

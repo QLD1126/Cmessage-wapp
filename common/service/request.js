@@ -6,6 +6,7 @@ function req(obj) {
 	uni.showLoading({
 		title: '加载中...'
 	})
+	console.log(obj,'参数')
 	return new Promise((resolve, reject) => {
 		const HOST = public_data.host
 		var method = obj.method || "GET";

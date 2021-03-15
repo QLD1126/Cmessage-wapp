@@ -227,13 +227,18 @@ var _default =
 
       {
         name: '结果错误',
-        value: '2' }] };
+        value: '2' }],
 
+      options: {} };
 
   },
   onLoad: function onLoad(options) {
-    console.log(options);
-    this.getInfo(options.id, options.api);
+    this.options = options;
+  },
+  onShow: function onShow() {
+    console.log(this.options, 'onhsow');
+
+    this.getInfo(this.options.id, this.options.api);
   },
   methods: {
     getInfo: function getInfo(id, api) {var _this = this;
