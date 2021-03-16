@@ -323,14 +323,6 @@ var _vuex = __webpack_require__(/*! vuex */ 22);function _toConsumableArray(arr)
     }
     // tabs的active绑定了当前选中值，会自动发送请求
   },
-  onUnload: function onUnload() {
-    console.log('onUnload');
-  },
-  onHide: function onHide() {
-    console.log('hide');
-    // uni.removeStorageSync('RECORY_TYPE')
-    // uni.setStorageSync('RECORY_TYPE',0)
-  },
   methods: {
     getList: function getList(data) {var _this2 = this;
       data.page = 1;
@@ -393,10 +385,6 @@ var _vuex = __webpack_require__(/*! vuex */ 22);function _toConsumableArray(arr)
       i.id, "&api=FOLLOW_SALE_INFO");
       this.item = i; //分享用
       console.log(this.item);
-      // let path=item.status == 1 ?
-      // 				`/pages/record/buyinfo?type=${item.is_buy?'isbuy':'share'}&id=${item.id}` :
-      // 				`/pages/record/detail?id=${item.id}`;
-      // 				console.log(item,path)
       if (i && i.result !== 0 && type == 'res') {
         uni.showToast({
           title: '结果已选',

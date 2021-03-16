@@ -13,9 +13,9 @@
     "miniprogram": {
       "list": [
         {
-          "name": "pages/record/detail",
-          "pathName": "pages/record/detail",
-          "query": "id=50",
+          "name": "pages/index/index",
+          "pathName": "pages/index/index",
+          "query": "api=FOLLOW_SALE_INFO&id=7",
           "scene": null
         },
         {

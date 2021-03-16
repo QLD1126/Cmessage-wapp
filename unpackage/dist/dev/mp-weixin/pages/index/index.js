@@ -98,7 +98,11 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   if (!_vm._isMounted) {
-    _vm.e0 = function($event, o_item) {
+    _vm.e0 = function($event) {
+      _vm.formdata.image = ""
+    }
+
+    _vm.e1 = function($event, o_item) {
       var _temp = arguments[arguments.length - 1].currentTarget.dataset,
         _temp2 = _temp.eventParams || _temp["event-params"],
         o_item = _temp2.o_item
@@ -108,17 +112,13 @@ var render = function() {
       _vm.timetype = o_item.key
     }
 
-    _vm.e1 = function($event) {
+    _vm.e2 = function($event) {
       $event.stopPropagation()
       _vm.priceShow = true
     }
 
-    _vm.e2 = function($event) {
-      _vm.priceShow = false
-    }
-
     _vm.e3 = function($event) {
-      _vm.loginShow = false
+      _vm.priceShow = false
     }
 
     _vm.e4 = function($event) {
@@ -126,6 +126,10 @@ var render = function() {
     }
 
     _vm.e5 = function($event) {
+      _vm.loginShow = false
+    }
+
+    _vm.e6 = function($event) {
       _vm.loginShow = false
     }
   }
@@ -163,6 +167,15 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
+
+
+
+
+
+
+
+
+
 
 
 
@@ -270,13 +283,10 @@ var _default = {
       loginShow: uni.getStorageSync('TOKEN') == '' ? true : false,
       // 价格选择下拉菜单
       priceShow: false,
-      priceAction: [{
-        name: '免费',
-        value: '0' //避免选了之后没有结果
-      },
+      priceAction: [
       {
-        name: '1元',
-        value: 1 },
+        name: '10元',
+        value: 10 },
 
       {
         name: '38元',
@@ -370,6 +380,9 @@ var _default = {
 
   },
   computed: {
+    images: function images() {
+      return this.formdata.image ? 1 : 0;
+    },
     startDate: function startDate() {
       return this.getDate('start');
     },
@@ -423,7 +436,8 @@ var _default = {
         // 公开时间戳
         var openStamp = new Date(_this2.formdata.open_time).getTime();
         // console.log(nowTimeStamp, endStamp, openStamp, currentDate,currentDateStamp, 777,new Date(currentDate).getTime())
-        console.log(currentDate, currentDateStamp, new Date('2021-03-15 00:08').getTime(), new Date('2021/03/15 00:08').getTime(), 777, _this2.nowTime);
+        console.log(currentDate, currentDateStamp, new Date('2021-03-15 00:08').getTime(), new Date(
+        '2021/03/15 00:08').getTime(), 777, _this2.nowTime);
         if (currentDateStamp < nowTimeStamp) {
           reject('now_time');
         } else {
@@ -478,16 +492,55 @@ var _default = {
       var index = e.detail.index;
       this.fileList.splice(index, 1);
     },
+    // 上传图片
+    lookPic: function lookPic(url) {
+      uni.previewImage({
+        urls: [url] });
 
-    afterRead: function afterRead(event) {var _this4 = this;
-      // this.fileList=[]
+    },
+    uploadImg: function uploadImg() {var _this4 = this;
+      uni.chooseImage({
+        count: 1,
+        sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
+        sourceType: ['album'], //从相册选择
+        success: function success(res) {
+          console.log(res, 777);
+          uni.showLoading({ title: '上传中' });
+          var tempFilePaths = res.tempFilePaths;
+          uni.uploadFile({
+            url: _this4.public_data.host + '/api/upload/image',
+            filePath: tempFilePaths[0],
+            header: {
+              'Authori-zation': 'Bearer' + ' ' + uni.getStorageSync('TOKEN') },
+
+            name: 'image',
+            formData: {
+              filename: 'image' },
+
+            success: function success(uploadFileRes) {
+
+              var data = JSON.parse(uploadFileRes.data).data;
+              Object.assign(_this4.formdata, {
+                image: data.url });
+
+              console.log('成功', uploadFileRes, data, _this4.formdata);
+              uni.hideLoading();
+            } });
+
+        },
+        error: function error(e) {
+          console.log(e);
+        } });
+
+    },
+    afterRead: function afterRead(event) {var _this5 = this;
       var file = event.detail.file;
       uni.showLoading({});
 
 
       file.map(function (item) {
         uni.uploadFile({
-          url: _this4.public_data.host + '/api/upload/image',
+          url: _this5.public_data.host + '/api/upload/image',
           filePath: item.url,
           header: {
             'Authori-zation': 'Bearer' + ' ' + uni.getStorageSync('TOKEN') },
@@ -500,12 +553,15 @@ var _default = {
             console.log('成功', uploadFileRes);
 
             // const { fileList = [] } = this.data;
-            _this4.fileList.push(JSON.parse(uploadFileRes.data).data);
+            var data = JSON.parse(uploadFileRes.data).data;
+            _this5.fileList.push(data);
+            Object.assign(_this5.formdata, {
+              image: data.url });
 
-            Object.assign(_this4.re_list[3], {
-              value: JSON.parse(uploadFileRes.data).data.url });
+            Object.assign(_this5.re_list[3], {
+              value: data.url });
 
-            console.log(_this4.re_list);
+            console.log(_this5.re_list);
             uni.hideLoading();
           } });
 

@@ -83,7 +83,6 @@
 		},
 		onShow() {
 			console.log(this.options,'onhsow')
-			
 			this.getInfo(this.options.id,this.options.api)
 		},
 		methods: {

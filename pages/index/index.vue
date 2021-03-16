@@ -4,13 +4,22 @@
 			<view class="">
 				<view class="">
 					<text
-						v-show="item.key!=='image'">*</text>{{item.key=='image'?item.name+'(1/'+fileList.length+')':item.name}}
+						v-show="item.key!=='image'">*</text>{{item.key=='image'?item.name+'(1/'+images+')':item.name}}
 				</view>
 				<textarea v-model="formdata[item.key]" :placeholder="item.placeholder" v-if="item.key=='content'"
 					:auto-blur='true' :adjust-position='false' />
 				<view class="unload" v-else-if="item.key=='image'">
-					<van-uploader :file-list="fileList" max-count="1" accept='image' :multiple='true' :deletable='true'
-						capture="['album','camera']" @after-read="afterRead" @delete='deleteImg' />
+					<!-- <van-uploader :file-list="fileList" max-count="1" accept='image' :multiple='true' :deletable='true'
+						capture="['album','camera']" @after-read="afterRead" @delete='deleteImg' /> -->
+					<view v-if="formdata.image" class="main">
+						<image :src="formdata.image" mode="" @click.stop="lookPic(formdata.image)" class="main"></image>
+						<image src="../../static/closered.png" class="icon_44" mode="" @click="formdata.image=''">
+						</image>
+					</view>
+					<view v-else class="upload" @click="uploadImg">
+						<image src="../../static/creame.png" mode="" class="icon_44"></image>
+						<text>上传图片</text>
+					</view>
 				</view>
 
 				<view class="" v-else-if="item.name=='可选功能'">
@@ -40,8 +49,8 @@
 		</view>
 
 		<button type="warn" class="btn_round" @click="sure">发布</button>
-		<van-action-sheet :show="priceShow" :actions=" priceAction" @close="priceShow=false" @select="change($event,'price')"
-			:safe-area-inset-bottom='false' />
+		<van-action-sheet :show="priceShow" :actions=" priceAction" @close="priceShow=false"
+			@select="change($event,'price')" :safe-area-inset-bottom='false' />
 		<van-popup :show="loginShow" @close="loginShow=false">
 			<view class="pop">
 				<image src="../../static/denglutishi.png" mode="widthFix"></image>
@@ -106,13 +115,10 @@
 				loginShow: uni.getStorageSync('TOKEN') == '' ? true : false,
 				// 价格选择下拉菜单
 				priceShow: false,
-				priceAction: [{
-						name: '免费',
-						value: '0', //避免选了之后没有结果
-					},
+				priceAction: [
 					{
-						name: '1元',
-						value: 1,
+						name: '10元',
+						value: 10,
 					},
 					{
 						name: '38元',
@@ -206,6 +212,9 @@
 			})
 		},
 		computed: {
+			images(){
+				return this.formdata.image?1:0
+			},
 			startDate() {
 				return this.getDate('start');
 			},
@@ -242,24 +251,25 @@
 				this.dateTime1 = arr;
 				this.currentDate =
 					`${dateArr[0][arr[0]]}/${dateArr[1][arr[1]]}/${dateArr[2][arr[2]]} ${dateArr[3][arr[3]]}:${ dateArr[4][arr[4]]}`;
-					console.log(this.currentDate,'改变行');
+				console.log(this.currentDate, '改变行');
 			},
 			// 确定最终结果
 			changeDateTime1(e) {
 				// console.log(data.currentDate,'确定时间')
 				// this.dateTime1= e.detail.value ;
 				new Promise((resolve, reject) => {
-						// 当前时间戳
-			let nowTimeStamp = new Date(this.nowTime).getTime()
+					// 当前时间戳
+					let nowTimeStamp = new Date(this.nowTime).getTime()
 					let currentDate = this.currentDate
 					// 选中时间戳
-					let currentDateStamp =new Date(currentDate).getTime()
+					let currentDateStamp = new Date(currentDate).getTime()
 					// 截止时间戳
-					let endStamp =new Date(this.formdata.end_time).getTime()
+					let endStamp = new Date(this.formdata.end_time).getTime()
 					// 公开时间戳
-					let openStamp =new Date(this.formdata.open_time).getTime()
+					let openStamp = new Date(this.formdata.open_time).getTime()
 					// console.log(nowTimeStamp, endStamp, openStamp, currentDate,currentDateStamp, 777,new Date(currentDate).getTime())
-					console.log(currentDate,currentDateStamp, new Date('2021-03-15 00:08').getTime(),new Date('2021/03/15 00:08').getTime(),777,this.nowTime)
+					console.log(currentDate, currentDateStamp, new Date('2021-03-15 00:08').getTime(), new Date(
+						'2021/03/15 00:08').getTime(), 777, this.nowTime)
 					if (currentDateStamp < nowTimeStamp) {
 						reject('now_time')
 					} else {
@@ -286,7 +296,7 @@
 
 				})
 			},
-			
+
 			// 发布
 			sure() {
 				this.$apis.SELL(this.formdata).then(res => {
@@ -303,7 +313,7 @@
 				})
 			},
 			change(e, type) {
-				this.formdata[type]=e.detail.value
+				this.formdata[type] = e.detail.value
 			},
 			// 上拉价格菜单
 			// onSelect(e){
@@ -314,9 +324,48 @@
 				let index = e.detail.index
 				this.fileList.splice(index, 1)
 			},
+			// 上传图片
+			lookPic(url) {
+				uni.previewImage({
+					urls: [url]
+				})
+			},
+			uploadImg() {
+				uni.chooseImage({
+					count: 1,
+					sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
+					sourceType: ['album'], //从相册选择
+					success: (res) => {
+						console.log(res, 777)
+						uni.showLoading({title:'上传中'})
+						const tempFilePaths = res.tempFilePaths;
+						uni.uploadFile({
+							url: this.public_data.host + '/api/upload/image',
+							filePath: tempFilePaths[0],
+							header: {
+								'Authori-zation': 'Bearer' + ' ' + uni.getStorageSync('TOKEN')
+							},
+							name: 'image',
+							formData: {
+								filename: 'image'
+							},
+							success: (uploadFileRes) => {
 
+								let data = JSON.parse(uploadFileRes.data).data
+								Object.assign(this.formdata, {
+									image: data.url
+								})
+								console.log('成功', uploadFileRes, data, this.formdata)
+								uni.hideLoading()
+							}
+						});
+					},
+					error: function(e) {
+						console.log(e);
+					}
+				});
+			},
 			afterRead(event) {
-				// this.fileList=[]
 				const file = event.detail.file
 				uni.showLoading({
 
@@ -336,10 +385,13 @@
 							console.log('成功', uploadFileRes)
 
 							// const { fileList = [] } = this.data;
-							this.fileList.push(JSON.parse(uploadFileRes.data).data);
-
+							let data = JSON.parse(uploadFileRes.data).data
+							this.fileList.push(data);
+							Object.assign(this.formdata, {
+								image: data.url
+							})
 							Object.assign(this.re_list[3], {
-								value: JSON.parse(uploadFileRes.data).data.url
+								value: data.url
 							})
 							console.log(this.re_list)
 							uni.hideLoading()
@@ -534,5 +586,41 @@
 		height: 106rpx;
 		line-height: 106rpx;
 		background: #FF6034;
+	}
+
+	.unload {
+		>view {
+			width: 200rpx;
+			height: 200rpx;
+			text-align: center;
+			background: #fff;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			color: #999;
+			flex-flow: column nowrap;
+			font-size: 20rpx;
+			>text {
+				margin-top: 20rpx;
+			}
+		}
+
+		>.main {
+			position: relative;
+			image {
+				width: 200rpx;
+				height: 200rpx;
+			}
+			>.icon_44 {
+				width: 50rpx;
+				height: 50rpx;
+				position: absolute;
+				right: -15rpx;
+				top: -15rpx;
+			}
+
+		}
+
+		>.upload {}
 	}
 </style>

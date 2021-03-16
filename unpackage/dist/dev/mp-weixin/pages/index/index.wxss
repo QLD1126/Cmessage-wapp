@@ -185,4 +185,42 @@
   line-height: 106rpx;
   background: #FF6034;
 }
+.unload > view {
+  width: 200rpx;
+  height: 200rpx;
+  text-align: center;
+  background: #fff;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  color: #999;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+  font-size: 20rpx;
+}
+.unload > view > text {
+  margin-top: 20rpx;
+}
+.unload > .main {
+  position: relative;
+}
+.unload > .main image {
+  width: 200rpx;
+  height: 200rpx;
+}
+.unload > .main > .icon_44 {
+  width: 50rpx;
+  height: 50rpx;
+  position: absolute;
+  right: -15rpx;
+  top: -15rpx;
+}
 

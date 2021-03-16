@@ -3,6 +3,7 @@
 		<view v-if="list.length>0||loadStatus=='loading'">
 			<navigator class='item' v-for="i in list" :key="i.id" open-type="navigate" :url="i.url">
 				<!-- :url="i.status>0?i.url:null" -->
+				<!-- {{i.url}} -->
 				<view class="flex-between">
 					<view class="">
 						<image v-if="i.is_return==1" src="../../static/fan.png" mode="" class="icon_44"></image>

@@ -231,7 +231,7 @@ var _default =
     } else {
       this.$apis['BUY_SHARE_INFO'](options.id).then(function (res) {
         console.log(res, 999);
-        if (res.is_buy) {
+        if (res.is_buy || res.status == 3) {
           uni.reLaunch({
             url: "/pages/record/buyinfo?type=isbuy&id=".concat(res.id, "&api=BUY_SHARE_INFO") });
 
