@@ -13,10 +13,10 @@
     "miniprogram": {
       "list": [
         {
-          "name": "pages/index/index",
-          "pathName": "pages/index/index",
-          "query": "api=FOLLOW_SALE_INFO&id=7",
-          "scene": null
+          "name": "pages/record/buyinfo",
+          "pathName": "pages/record/buyinfo",
+          "query": "type=share&id=1",
+          "scene": 1012
         },
         {
           "name": "pages/index/index",

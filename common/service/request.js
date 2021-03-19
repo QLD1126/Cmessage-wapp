@@ -6,7 +6,7 @@ function req(obj) {
 	uni.showLoading({
 		title: '加载中...'
 	})
-	console.log(obj,'参数')
+	// console.log(obj,'参数')
 	return new Promise((resolve, reject) => {
 		const HOST = public_data.host
 		var method = obj.method || "GET";
@@ -38,9 +38,9 @@ function req(obj) {
 							icon: 'none',
 						})
 						uni.clearStorage()
-						uni.navigateTo({
-							url: '/pages/login/login'
-						})
+						// uni.navigateTo({
+						// 	url: '/pages/login/login'
+						// })
 						reject(res.data)
 					} else {
 						uni.showToast({
@@ -61,10 +61,6 @@ function req(obj) {
 						icon: 'none'
 					})
 					reject()
-					// 错误处理，返回登录页
-					// uni.reLaunch({
-					// 	url: '/pages/index/index'
-					// })
 				}
 			}),
 			fail: ((err) => {

@@ -233,6 +233,7 @@ var _default =
 
   },
   onLoad: function onLoad(options) {
+    console.log(options, 'options-bdetail');
     this.options = options;
   },
   onShow: function onShow() {

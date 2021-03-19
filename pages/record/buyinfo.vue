@@ -75,7 +75,7 @@
 			}
 		},
 		onLoad(options) {
-			// console.log(options)
+			console.log(options,'options-byinfo')
 			this.pageType = options.type
 			console.log(options,this.pageType,'onload')
 			let {

@@ -2,10 +2,12 @@
 	<view class="container_0 sell-list">
 		<!-- <image src="../../static/shareimg.png" mode=""></image> -->
 		<view class="">
-			<input type="text" v-model="formdata.keywords" placeholder="请输入搜索关键词" confirm-type="search"
-				@confirm="getList(formdata)" />
-			<text class="iconfont icon-sousuo"></text>
-			<view @click="getList(formdata)">搜索</view>
+			<view class="">
+				<text class="iconfont icon-sousuo"></text>
+				<input type="text" v-model="formdata.keywords" placeholder="请输入搜索关键词" confirm-type="search"
+					@confirm="getList(formdata)" />
+				<view @click="getList(formdata)">搜索</view>
+			</view>
 		</view>
 		<van-tabs class="sell-content" swipeable @change='tabchange' animated :active='formdata.type'>
 			<!-- <van-tab v-for='item in datalist' :key='item.id' :title="item.type">{{item.content}}</van-tab> -->
@@ -71,7 +73,7 @@
 				<van-empty description="暂无记录" v-else />
 			</van-tab>
 		</van-tabs>
-		<van-action-sheet :safe-area-inset-bottom='false' :show="shareShow" :actions="actions" @close="shareShow=false" 
+		<van-action-sheet :safe-area-inset-bottom='false' :show="shareShow" :actions="actions" @close="shareShow=false"
 			@select="onSelect" cancel-text="取消" class='s-action' />
 		<!-- 二维码弹窗 -->
 		<van-popup :show="ewmShow" @close="ewmShow=false">
@@ -92,7 +94,7 @@
 								{{item.is_return==1?'不对返还':''}}
 							</view>
 						</view>
-						<button class="btn_round_line" @click.stop="saveBase64">保存</button>
+						<button class="btn_round_line" @click.stop="getAuthorize">保存</button>
 					</view>
 				</view>
 				<image src="../../static/indexclose.png" mode="widthFix" @click.stop="ewmShow=false"></image>
@@ -211,9 +213,9 @@
 			openPop(type, i) {
 				// this.btntype=type
 				i.select = type
-				i.path= i.status == 1 ?
-							`/pages/record/buyinfo?type=share&id=${i.id}`:
-							`/pages/record/detail?id=${i.id}&api=FOLLOW_SALE_INFO`
+				i.path = i.status == 1 ?
+					`/pages/record/buyinfo?type=share&id=${i.id}` :
+					`/pages/record/detail?id=${i.id}&api=FOLLOW_SALE_INFO`
 				this.item = i //分享用
 				console.log(this.item)
 				if (i && i.result !== 0 && type == 'res') {
@@ -250,7 +252,7 @@
 						if (item.wxaCode) {
 							this.ewmShow = true
 						} else {
-							this.getToken()
+							this.getwxaCode(this.item)
 						}
 					}
 				} else {
@@ -296,7 +298,7 @@
 			saveImage() {
 				let that = this
 				wx.downloadFile({
-					url: 'https://profile.csdnimg.cn/4/0/2/0_weixin_48888726',
+					url: that.wxaCode,
 					success: function(res) {
 						wx.saveImageToPhotosAlbum({
 							filePath: res.tempFilePath,
@@ -311,82 +313,17 @@
 					}
 				})
 			},
-			// 保存base64
-			saveBase64() {
-				var that = this
-				var aa = wx.getFileSystemManager(); //获取文件管理器对象
-				// console.log('that.data.wxaCode:', that.data.wxaCode)
-				aa.writeFile({
-					filePath: wx.env.USER_DATA_PATH + '/cmessage.png',
-					data: this.wxaCode.slice(22),
-					encoding: 'base64',
-					success: res => {
-						wx.saveImageToPhotosAlbum({
-							filePath: wx.env.USER_DATA_PATH + '/cmessage.png',
-							success: function(res) {
-								wx.showToast({
-									title: '保存成功',
-								})
-							},
-							fail: function(err) {
-								console.log(err, '失败')
-							}
-						})
-						console.log(res)
-					},
-					fail: err => {
-						console.log(err)
-					}
-				})
-			},
 			// 二维码
-			//获取access_token
-			getToken() {
-				uni.showLoading({
-					title: '生成中...'
-				})
-				uni.request({
-					url: 'https://api.weixin.qq.com/cgi-bin/token',
-					method: 'GET',
-					data: {
-						grant_type: 'client_credential',
-						appid: 'wxff7578518bec0a09',
-						secret: 'c04ac48be3603ee577de3cc7a493095d'
-					},
-					header: {
-						'content-type': 'application/json' // 默认值
-					},
-					success: res => {
-						// wx.setStorageSync('access_token', res.data.access_token)
-						let access_token = res.data.access_token
-						wx.request({
-							url: 'https://api.weixin.qq.com/cgi-bin/wxaapp/createwxaqrcode?access_token=' +
-								access_token,
-							method: 'POST',
-							responseType: 'arraybuffer',
-							data: {
-								path: this.item.path,
-								width: 200
-							},
-							success: (res) => {
-								// console.log('二维码', res.data)
-								var base64 = wx.arrayBufferToBase64(res.data).replace(/\. +/g, '')
-								base64 = base64.replace(/[\r\n]/g, '')
-								// uni.setStorageSync('wxaCode', 'data:image/png;base64,' + base64)
-								let wxaCode = 'data:image/png;base64,' + base64
-								this.wxaCode = wxaCode
-								// 存入当前item避免再次生成
-								Object.assign(this.item, {
-									wxaCode: wxaCode
-								})
-								uni.hideLoading()
-								this.ewmShow = true
-							},
-						})
-					},
-					complete: res => {
-						console.log(res)
-					}
+			getwxaCode(e){
+				this.$apis.SPARED(e.id,e.status).then(res=>{
+					this.wxaCode = res.spread_qr
+					// 存入当前item避免再次生成
+					Object.assign(this.item, {
+						wxaCode: res.spread_qr
+						// wxaCode:'https://img1.baidu.com/it/u=3363295869,2467511306&fm=26&fmt=auto&gp=0.jpg'
+					})
+					uni.hideLoading()
+					this.ewmShow = true
 				})
 			},
 		},
@@ -399,7 +336,7 @@
 				imageUrl: '../../static/shareimg.png', //自定义图片路径，可以是本地文件路径、代码包文件路径或者网络图片路径。支持PNG及JPG。显示图片长宽比是 5:4。
 				path: item.path,
 				success: function(res) {
-					console.log(res, '分享',path);
+					console.log(res, '分享', path);
 				}
 			};
 		},
@@ -431,39 +368,40 @@
 
 	.sell-list {
 		width: 100vw;
-
 		>view:first-child {
 			position: relative;
 			background: #fff;
-			display: flex;
-			align-items: center;
-
-			>input {
+			>view {
+				display: flex;
+				align-items: center;
 				width: 644rpx;
 				height: 54rpx;
 				border-radius: 27rpx;
 				margin: 0 auto;
 				background: #f3f3f3;
 				padding-left: 54rpx;
-			}
+				>input {
+					flex: 0 0 80%;
+				}
 
-			>text,
-			view {
-				position: absolute;
-				color: #999;
-				z-index: 999;
-			}
+				>text,
+				view {
+					position: absolute;
+					color: #999;
+				}
 
-			>text {
-				left: 40rpx;
-			}
+				>text {
+					left: 40rpx;
+				}
 
-			>view {
-				border-left: 1rpx solid #666;
-				padding-left: 20rpx;
-				right: 50rpx;
+				>view {
+					border-left: 1rpx solid #999;
+					padding-left: 20rpx;
+					right: 50rpx;
+				}
 			}
 		}
+
 		// 按钮
 		.red {
 			color: #fff;
@@ -492,6 +430,7 @@
 			background: #fff;
 			height: 794rpx;
 			border-radius: 10rpx;
+
 			>image:first-child {
 				width: 406rpx;
 				height: 586rpx;
@@ -518,13 +457,17 @@
 						color: #F2D539;
 					}
 				}
+
 				>image {
 					height: 294rpx;
 					border-radius: 10rpx;
 					margin: 20rpx 0;
+					width: 200rpx;
 
 					+text {
 						color: #fff;
+						font-size: 40rpx;
+						font-weight: bold;
 					}
 				}
 
@@ -536,7 +479,8 @@
 					color: #E92C2A;
 					width: 326rpx;
 					border-radius: 10rpx;
-					margin: 20rpx auto 40rpx;
+					margin: 15rpx auto 30rpx;
+
 				}
 
 				>.btn_round_line {

@@ -79,6 +79,7 @@
 			}
 		},
 		onLoad(options) {
+			console.log(options,'options-bdetail')
 			this.options=options
 		},
 		onShow() {

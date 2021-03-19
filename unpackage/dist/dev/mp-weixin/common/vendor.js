@@ -822,7 +822,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"Cmessage_Wapp","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_NAME":"Cmessage_Wapp","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -1964,7 +1964,7 @@ function req(obj) {
   uni.showLoading({
     title: '加载中...' });
 
-  console.log(obj, '参数');
+  // console.log(obj,'参数')
   return new Promise(function (resolve, reject) {
     var HOST = _public_data.public_data.host;
     var method = obj.method || "GET";
@@ -1996,9 +1996,9 @@ function req(obj) {
               icon: 'none' });
 
             uni.clearStorage();
-            uni.navigateTo({
-              url: '/pages/login/login' });
-
+            // uni.navigateTo({
+            // 	url: '/pages/login/login'
+            // })
             reject(res.data);
           } else {
             uni.showToast({
@@ -2019,10 +2019,6 @@ function req(obj) {
             icon: 'none' });
 
           reject();
-          // 错误处理，返回登录页
-          // uni.reLaunch({
-          // 	url: '/pages/index/index'
-          // })
         }
       },
       fail: function fail(err) {
@@ -2461,6 +2457,11 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
         return request({
           url: '/api/home/sellDetail/' + id });
 
+      },
+      SPARED: function SPARED(id, status) {
+        return request({
+          url: '/api/sell/spared/qr/' + id + '/' + status });
+
       } });};exports.default = _default;
 
 /***/ }),
@@ -2573,7 +2574,6 @@ var store = new _vuex.default.Store({
     login: function login(_ref,
 
     data) {return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var commit, res;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:commit = _ref.commit;_context.prev = 1;_context.next = 4;return (
-
 
                   _index.default.LOGIN(data));case 4:res = _context.sent;
                 uni.setStorageSync('TOKEN', res.token);
@@ -8154,7 +8154,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"NODE_ENV":"development","VUE_APP_NAME":"Cmessage_Wapp","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"VUE_APP_NAME":"Cmessage_Wapp","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -8175,14 +8175,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"Cmessage_Wapp","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_NAME":"Cmessage_Wapp","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"Cmessage_Wapp","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_NAME":"Cmessage_Wapp","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -8268,7 +8268,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = this.$shouldDiffData === false ? data : diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"Cmessage_Wapp","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_NAME":"Cmessage_Wapp","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));

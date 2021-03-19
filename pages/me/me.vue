@@ -1,5 +1,5 @@
 <template>
-	<view class="container_0" v-show="loadOver">
+	<view class="container_0">
 
 		<view>
 			<view v-if="isLogged">
@@ -10,7 +10,11 @@
 				<image src="../../static/metop3.png" mode="" class="metop3"></image>
 			</view>
 			<navigator v-else open-type="navigate" url="/pages/login/login">
-				<text>
+				<text style="  border: 10rpx solid;
+					    width: 40vw;
+					    margin: auto;
+					    padding: 20rpx;
+						text-align: center;">
 					前往登录
 				</text>
 			</navigator>
@@ -34,8 +38,8 @@
 			</view>
 		</view>
 		<view>
-			<navigator v-for="item in meArr" :key='item.title' :url="item.url" :open-type="item.url.match(/wallet/)?'navigate':'switchTab'"
-			 @click="toPage(item)">
+			<navigator v-for="item in meArr" :key='item.title' :url="item.url"
+				:open-type="item.url.match(/wallet/)?'navigate':'switchTab'" @click="toPage(item)">
 				<image :src="item.image"></image>
 				{{item.title}}
 			</navigator>
@@ -46,7 +50,8 @@
 					<text>{{item.title}}</text>
 				</view>
 				<view class="">
-					<text v-if="item.title=='实名认证'">{{userInfo.check_status==-1?'未通过':userInfo.check_status==0?'待审核':'通过'}}</text>
+					<text
+						v-if="item.title=='实名认证'">{{userInfo.check_status==-1?'未通过':userInfo.check_status==0?'待审核':'通过'}}</text>
 					<text class="iconfont icon-fanhuizuojiantouxiangzuoshangyibuxianxing"></text>
 				</view>
 			</navigator>
@@ -172,6 +177,7 @@
 				navigator {
 					font-weight: bold;
 					font-size: 36rpx;
+
 				}
 
 				>.bg-txt {

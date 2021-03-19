@@ -63,4 +63,9 @@ export default ({
 			url:'/api/home/sellDetail/'+id
 		})
 	},
+	SPARED(id,status){
+		return request({
+			url:'/api/sell/spared/qr/'+id+'/'+status
+		})
+	}
 })

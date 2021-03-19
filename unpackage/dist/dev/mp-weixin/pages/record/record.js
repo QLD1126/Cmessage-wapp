@@ -271,6 +271,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
 var _vuex = __webpack_require__(/*! vuex */ 22);function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}function _unsupportedIterableToArray(o, minLen) {if (!o) return;if (typeof o === "string") return _arrayLikeToArray(o, minLen);var n = Object.prototype.toString.call(o).slice(8, -1);if (n === "Object" && o.constructor) n = o.constructor.name;if (n === "Map" || n === "Set") return Array.from(o);if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);}function _iterableToArray(iter) {if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) return _arrayLikeToArray(arr);}function _arrayLikeToArray(arr, len) {if (len == null || len > arr.length) len = arr.length;for (var i = 0, arr2 = new Array(len); i < len; i++) {arr2[i] = arr[i];}return arr2;}var _default =
 
 
@@ -419,7 +421,7 @@ var _vuex = __webpack_require__(/*! vuex */ 22);function _toConsumableArray(arr)
           if (item.wxaCode) {
             this.ewmShow = true;
           } else {
-            this.getToken();
+            this.getwxaCode(this.item);
           }
         }
       } else {
@@ -465,7 +467,7 @@ var _vuex = __webpack_require__(/*! vuex */ 22);function _toConsumableArray(arr)
     saveImage: function saveImage() {
       var that = this;
       wx.downloadFile({
-        url: 'https://profile.csdnimg.cn/4/0/2/0_weixin_48888726',
+        url: that.wxaCode,
         success: function success(res) {
           wx.saveImageToPhotosAlbum({
             filePath: res.tempFilePath,
@@ -480,83 +482,18 @@ var _vuex = __webpack_require__(/*! vuex */ 22);function _toConsumableArray(arr)
         } });
 
     },
-    // 保存base64
-    saveBase64: function saveBase64() {
-      var that = this;
-      var aa = wx.getFileSystemManager(); //获取文件管理器对象
-      // console.log('that.data.wxaCode:', that.data.wxaCode)
-      aa.writeFile({
-        filePath: wx.env.USER_DATA_PATH + '/cmessage.png',
-        data: this.wxaCode.slice(22),
-        encoding: 'base64',
-        success: function success(res) {
-          wx.saveImageToPhotosAlbum({
-            filePath: wx.env.USER_DATA_PATH + '/cmessage.png',
-            success: function success(res) {
-              wx.showToast({
-                title: '保存成功' });
-
-            },
-            fail: function fail(err) {
-              console.log(err, '失败');
-            } });
-
-          console.log(res);
-        },
-        fail: function fail(err) {
-          console.log(err);
-        } });
-
-    },
     // 二维码
-    //获取access_token
-    getToken: function getToken() {var _this5 = this;
-      uni.showLoading({
-        title: '生成中...' });
-
-      uni.request({
-        url: 'https://api.weixin.qq.com/cgi-bin/token',
-        method: 'GET',
-        data: {
-          grant_type: 'client_credential',
-          appid: 'wxff7578518bec0a09',
-          secret: 'c04ac48be3603ee577de3cc7a493095d' },
-
-        header: {
-          'content-type': 'application/json' // 默认值
-        },
-        success: function success(res) {
-          // wx.setStorageSync('access_token', res.data.access_token)
-          var access_token = res.data.access_token;
-          wx.request({
-            url: 'https://api.weixin.qq.com/cgi-bin/wxaapp/createwxaqrcode?access_token=' +
-            access_token,
-            method: 'POST',
-            responseType: 'arraybuffer',
-            data: {
-              path: _this5.item.path,
-              width: 200 },
-
-            success: function success(res) {
-              // console.log('二维码', res.data)
-              var base64 = wx.arrayBufferToBase64(res.data).replace(/\. +/g, '');
-              base64 = base64.replace(/[\r\n]/g, '');
-              // uni.setStorageSync('wxaCode', 'data:image/png;base64,' + base64)
-              var wxaCode = 'data:image/png;base64,' + base64;
-              _this5.wxaCode = wxaCode;
-              // 存入当前item避免再次生成
-              Object.assign(_this5.item, {
-                wxaCode: wxaCode });
-
-              uni.hideLoading();
-              _this5.ewmShow = true;
-            } });
-
-        },
-        complete: function complete(res) {
-          console.log(res);
-        } });
-
+    getwxaCode: function getwxaCode(e) {var _this5 = this;
+      this.$apis.SPARED(e.id, e.status).then(function (res) {
+        _this5.wxaCode = res.spread_qr;
+        // 存入当前item避免再次生成
+        Object.assign(_this5.item, {
+          wxaCode: res.spread_qr
+          // wxaCode:'https://img1.baidu.com/it/u=3363295869,2467511306&fm=26&fmt=auto&gp=0.jpg'
+        });
+        uni.hideLoading();
+        _this5.ewmShow = true;
+      });
     } },
 
   onShareAppMessage: function onShareAppMessage() {

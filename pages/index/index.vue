@@ -615,8 +615,8 @@
 				width: 50rpx;
 				height: 50rpx;
 				position: absolute;
-				right: -15rpx;
-				top: -15rpx;
+				right: -25rpx;
+				top: -25rpx;
 			}
 
 		}
