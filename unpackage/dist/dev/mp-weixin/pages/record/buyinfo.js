@@ -188,10 +188,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 var _default =
 {
   data: function data() {
     return {
+      url: '',
       is_follow: false,
       pageType: 'isbuy',
       loadOver: false,
@@ -207,29 +212,36 @@ var _default =
 
   },
   onLoad: function onLoad(options) {var _this = this;
-    console.log(options, 'options-byinfo');
-    this.pageType = options.type;
-    console.log(options, this.pageType, 'onload');var
+    var params = {};
+    if (options.scene) {
+      //扫描小程序码进入 -- 解析携带参数
+      var scene = decodeURIComponent(options.scene);
+      Object.assign(params, { type: this.getUrlParam(scene, 'type'), id: this.getUrlParam(scene, 'id') });
 
-    api =
-    options.api;
+    } else {
+      params = options;
+    }
+    this.pageType = params.type;var _params =
 
+
+    params,api = _params.api;
+    console.log(api, params, this.pageType, 'onload');
     // 刷新页面用
-    if (options.type == 'isbuy') {
-      this.$apis[api || 'BUY_INFO'](options.id).then(function (res) {
+    if (params.type == 'isbuy') {
+      this.$apis[api || 'BUY_INFO'](params.id).then(function (res) {
         res.goods = api ? _objectSpread({},
         res) :
         res.goods;
         if (res.user) {
           res.mch_user = res.user;
         }
-        Object.assign(_this.info, options, res);
+        Object.assign(_this.info, params, res);
         console.log(_this.info);
         _this.is_follow = api ? true : res.mch_user.is_follow;
         _this.loadOver = true;
       });
     } else {
-      this.$apis['BUY_SHARE_INFO'](options.id).then(function (res) {
+      this.$apis['BUY_SHARE_INFO'](params.id).then(function (res) {
         console.log(res, 999);
         if (res.is_buy || res.status == 3) {
           uni.reLaunch({
@@ -239,7 +251,7 @@ var _default =
           var goods = _objectSpread({},
           res);
 
-          Object.assign(_this.info, options, {
+          Object.assign(_this.info, params, {
             mch_user: res.user,
             goods: goods });
 
@@ -250,6 +262,24 @@ var _default =
     }
   },
   methods: {
+    getUrlParam: function getUrlParam(url, paraName) {
+      var arrObj = url.split("?");
+      if (arrObj.length > 1) {
+        var arrPara = arrObj[1].split("&");
+        var arr;
+
+        for (var i = 0; i < arrPara.length; i++) {
+          arr = arrPara[i].split("=");
+          // console.log(arr, 111)
+          if (arr != null && arr[0] == paraName) {
+            return arr[1];
+          }
+        }
+        return "";
+      } else {
+        return "";
+      }
+    },
     lookImg: function lookImg(url) {
       uni.previewImage({
         urls: [url] });

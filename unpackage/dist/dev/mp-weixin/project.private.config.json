@@ -13,9 +13,9 @@
     "miniprogram": {
       "list": [
         {
-          "name": "pages/record/buyinfo",
-          "pathName": "pages/record/buyinfo",
-          "query": "type=share&id=1",
+          "name": "pages/index/index",
+          "pathName": "pages/index/index",
+          "query": "id=2&type=share",
           "scene": 1012
         },
         {

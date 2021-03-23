@@ -64,6 +64,7 @@
 	export default {
 		data() {
 			return {
+				url:'',
 				loadOver: false,
 				info: {},
 				resShow: false,
@@ -79,8 +80,17 @@
 			}
 		},
 		onLoad(options) {
-			console.log(options,'options-bdetail')
-			this.options=options
+			let params={}
+			if (options.scene) {
+			      //扫描小程序码进入 -- 解析携带参数
+			      let scene = decodeURIComponent(options.scene);
+				  Object.assign(params,{type:this.getUrlParam(scene,'type'),id:this.getUrlParam(scene,'id')})
+				  
+			    }else{
+					params=options
+				}
+			this.options=params
+			console.log(this.options,'onload')
 		},
 		onShow() {
 			console.log(this.options,'onhsow')

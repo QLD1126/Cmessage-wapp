@@ -1,65 +1,70 @@
 <template>
-	<view class="container sell_info" v-show="loadOver">
-		<view>
+	<!-- <view class=""> -->
+		<!-- {{JSON.stringify(url)}}info页 -->
+		<view class="container sell_info" v-show="loadOver">
 			<view>
-				<view class="">
-					<text class="t_32_333">{{info.goods.title}}</text>
-					<view>{{info.goods.title}}</view>
+				<view>
+					<view class="">
+						<text class="t_32_333">{{info.goods.title}}</text>
+						<view>{{info.goods.title}}</view>
 
+					</view>
+					<text :style="{color:info.goods.status>2?'#999':'#FE4543'}">{{info.goods._status}}</text>
 				</view>
-				<text :style="{color:info.goods.status>2?'#999':'#FE4543'}">{{info.goods._status}}</text>
-			</view>
-			<view class="user" v-if="info.api!=='FOLLOW_SALE_INFO'">
-				<view class="">
-					<image :src="info.mch_user.avatar" mode=""></image>
-					{{info.mch_user.nickname}}
+				<view class="user" v-if="info.api!=='FOLLOW_SALE_INFO'">
+					<view class="">
+						<image :src="info.mch_user.avatar" mode=""></image>
+						{{info.mch_user.nickname}}
+					</view>
+					<button type="warn" class="btn_squre"
+						@click="follow(info.mch_user)">{{is_follow? '已关注':'+关注'}}</button>
 				</view>
-				<button type="warn" class="btn_squre" @click="follow(info.mch_user)">{{is_follow? '已关注':'+关注'}}</button>
+				<view v-if="pageType=='isbuy'">
+					<text>内容：</text>
+					<text>{{info.goods.content}}</text>
+				</view>
+				<view v-if="info.goods.image!==''&&pageType=='isbuy'">
+					<text>图片：</text>
+					<image :src="info.goods.image" mode="widthFix" @click="lookImg(info.goods.image)"></image>
+				</view>
+				<view class="nobuy" v-if="pageType=='share'">
+					购买后可查看详情
+				</view>
 			</view>
-			<view v-if="pageType=='isbuy'">
-				<text>内容：</text>
-				<text>{{info.goods.content}}</text>
+			<view class="list_between_106">
+				<view>
+					<text>价格</text>
+					<text>¥ {{info.goods.price}}</text>
+				</view>
+				<view v-if="pageType=='isbuy'">
+					<text>不对返还</text>
+					<text>{{info.goods.is_return==1?'开':'关'}}</text>
+				</view>
+				<view>
+					<text>销售截止时间</text>
+					<text>{{info.goods.end_time}}</text>
+				</view>
+				<view v-if="pageType=='isbuy'">
+					<text>内容公开时间</text>
+					<text>{{info.goods.open_time}}</text>
+				</view>
+				<view v-if="info.goods.status==3&&pageType=='isbuy'">
+					<text>结果</text>
+					<text>{{info.status==-1?'结果错误':'结果正确'}}</text>
+				</view>
 			</view>
-			<view v-if="info.goods.image!==''&&pageType=='isbuy'">
-				<text>图片：</text>
-				<image :src="info.goods.image" mode="widthFix" @click="lookImg(info.goods.image)"></image>
-			</view>
-			<view class="nobuy" v-if="pageType=='share'">
-				购买后可查看详情
-			</view>
+			<button type="warn" class="btn_round" @click="buy(info.goods.id,info.goods.price)"
+				v-if="pageType=='share'">购买</button>
+			<!-- <button type="warn" class="btn_round" @click="buy(info.goods.id)">购买</button> -->
 		</view>
-		<view class="list_between_106">
-			<view>
-				<text>价格</text>
-				<text>¥ {{info.goods.price}}</text>
-			</view>
-			<view v-if="pageType=='isbuy'">
-				<text>不对返还</text>
-				<text>{{info.goods.is_return==1?'开':'关'}}</text>
-			</view>
-			<view>
-				<text>销售截止时间</text>
-				<text>{{info.goods.end_time}}</text>
-			</view>
-			<view v-if="pageType=='isbuy'">
-				<text>内容公开时间</text>
-				<text>{{info.goods.open_time}}</text>
-			</view>
-			<view v-if="info.goods.status==3&&pageType=='isbuy'">
-				<text>结果</text>
-				<text>{{info.status==-1?'结果错误':'结果正确'}}</text>
-			</view>
-		</view>
-		<button type="warn" class="btn_round" @click="buy(info.goods.id,info.goods.price)"
-			v-if="pageType=='share'">购买</button>
-		<!-- <button type="warn" class="btn_round" @click="buy(info.goods.id)">购买</button> -->
-	</view>
+	<!-- </view> -->
 </template>
 
 <script>
 	export default {
 		data() {
 			return {
+				url: '',
 				is_follow: false,
 				pageType: 'isbuy',
 				loadOver: false,
@@ -75,31 +80,38 @@
 			}
 		},
 		onLoad(options) {
-			console.log(options,'options-byinfo')
-			this.pageType = options.type
-			console.log(options,this.pageType,'onload')
+			let params={}
+			if (options.scene) {
+			      //扫描小程序码进入 -- 解析携带参数
+			      let scene = decodeURIComponent(options.scene);
+				  Object.assign(params,{type:this.getUrlParam(scene,'type'),id:this.getUrlParam(scene,'id')})
+				  
+			    }else{
+					params=options
+				}
+			this.pageType = params.type
 			let {
 				api
-			} = options
-
+			} = params
+			console.log(api, params,this.pageType, 'onload')
 			// 刷新页面用
-			if (options.type == 'isbuy') {
-				this.$apis[api || 'BUY_INFO'](options.id).then(res => {
+			if (params.type == 'isbuy') {
+				this.$apis[api || 'BUY_INFO'](params.id).then(res => {
 					res.goods = api ? {
 						...res
 					} : res.goods
-					if(res.user){
-						res.mch_user=res.user
+					if (res.user) {
+						res.mch_user = res.user
 					}
-					Object.assign(this.info, options, res)
+					Object.assign(this.info, params, res)
 					console.log(this.info)
 					this.is_follow = api ? true : res.mch_user.is_follow
 					this.loadOver = true
 				})
 			} else {
-				this.$apis['BUY_SHARE_INFO'](options.id).then(res => {
-					console.log(res,999)
-					if (res.is_buy||res.status==3) {
+				this.$apis['BUY_SHARE_INFO'](params.id).then(res => {
+					console.log(res, 999)
+					if (res.is_buy || res.status == 3) {
 						uni.reLaunch({
 							url: `/pages/record/buyinfo?type=isbuy&id=${res.id}&api=BUY_SHARE_INFO`
 						})
@@ -107,7 +119,7 @@
 						let goods = {
 							...res
 						}
-						Object.assign(this.info, options, {
+						Object.assign(this.info, params, {
 							mch_user: res.user,
 							goods: goods,
 						})
@@ -118,6 +130,24 @@
 			}
 		},
 		methods: {
+			getUrlParam(url,paraName) {
+				var arrObj = url.split("?");
+				if (arrObj.length > 1) {
+					var arrPara = arrObj[1].split("&");
+					var arr;
+
+					for (var i = 0; i < arrPara.length; i++) {
+						arr = arrPara[i].split("=");
+						// console.log(arr, 111)
+						if (arr != null && arr[0] == paraName) {
+							return arr[1];
+						}
+					}
+					return "";
+				} else {
+					return "";
+				}
+			},
 			lookImg(url) {
 				uni.previewImage({
 					urls: [url]

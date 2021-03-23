@@ -218,6 +218,7 @@ var _default =
 {
   data: function data() {
     return {
+      url: '',
       loadOver: false,
       info: {},
       resShow: false,
@@ -233,8 +234,17 @@ var _default =
 
   },
   onLoad: function onLoad(options) {
-    console.log(options, 'options-bdetail');
-    this.options = options;
+    var params = {};
+    if (options.scene) {
+      //扫描小程序码进入 -- 解析携带参数
+      var scene = decodeURIComponent(options.scene);
+      Object.assign(params, { type: this.getUrlParam(scene, 'type'), id: this.getUrlParam(scene, 'id') });
+
+    } else {
+      params = options;
+    }
+    this.options = params;
+    console.log(this.options, 'onload');
   },
   onShow: function onShow() {
     console.log(this.options, 'onhsow');
